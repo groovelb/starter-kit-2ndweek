@@ -71,11 +71,11 @@ TimelineProvider로 감싸야 합니다.
 };
 
 /**
- * 기본 사용법
+ * 기본 사용법 - 전체 제품
  */
 export const Default = {
   args: {
-    products: products.slice(0, 6),
+    products: products,
     title: content.products.sectionTitle,
     subtitle: content.products.sectionSubtitle,
     columns: 3,

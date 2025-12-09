@@ -7,16 +7,17 @@ import { TimeBlendImage } from '../media/TimeBlendImage';
 /**
  * ProductCard 컴포넌트
  *
- * Lumenstate 제품 카드. 썸네일(4개 시간대 기반 낮/밤 블렌딩), 제품명, 타입 태그, 상태 라벨을 표시한다.
+ * Lumenstate 제품 카드. 썸네일(12시간 주기 기반 낮/밤 블렌딩), 제품명, 타입 태그, 상태 라벨을 표시한다.
  *
  * 동작 방식:
- * 1. timeline 값(0-1)에 따라 4개 시간대 기반으로 낮/밤 이미지 opacity 블렌딩
- *    - 0.00 ~ 0.25: 낮 (순수 낮 이미지)
- *    - 0.25 ~ 0.50: 저녁 (낮→밤 전환)
- *    - 0.50 ~ 0.75: 밤 (순수 밤 이미지)
- *    - 0.75 ~ 1.00: 새벽 (밤→낮 전환)
- * 2. 상태 라벨에 조도(lux)·색온도(K) 실시간 표시
- * 3. 카드 클릭 시 onClick 콜백 호출
+ * 1. timeline 값(0-1)에 따라 12시간 주기 기반으로 낮/밤 이미지 opacity 블렌딩
+ *    - timeline 0.0 = 12pm (정오) → 완전 낮 이미지
+ *    - timeline 0.33 = 4pm (오후) → 낮 67% + 밤 33%
+ *    - timeline 0.67 = 8pm (저녁) → 낮 33% + 밤 67%
+ *    - timeline 1.0 = 12am (자정) → 완전 밤 이미지
+ * 2. 시간이 지날수록 점점 어두워짐 (선형 블렌딩)
+ * 3. 상태 라벨에 조도(lux)·색온도(K) 실시간 표시
+ * 4. 카드 클릭 시 onClick 콜백 호출
  *
  * Props:
  * @param {object} product - 제품 데이터 { id, title, type, lux, kelvin, images, video } [Required]
@@ -113,12 +114,12 @@ const ProductCard = forwardRef(function ProductCard({
       mediaRatio="1/1"
       mediaSlot={ renderMediaSlot() }
       contentPadding="sm"
-      variant="outlined"
+      variant="ghost"
       isInteractive
       onClick={ onClick }
       sx={ {
-        border: isSelected ? '2px solid' : '1px solid',
-        borderColor: isSelected ? 'primary.main' : 'divider',
+        border: isSelected ? '2px solid' : 'none',
+        borderColor: isSelected ? 'primary.main' : 'transparent',
         ...sx,
       } }
       { ...props }

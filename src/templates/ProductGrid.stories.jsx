@@ -53,11 +53,11 @@ ProductCard들을 반응형 그리드로 배치하는 템플릿.
 };
 
 /**
- * 기본 사용법
+ * 기본 사용법 - 전체 제품
  */
 export const Default = {
   args: {
-    products: products.slice(0, 6),
+    products: products,
     timeline: 0,
     columns: 3,
     spacing: 2,
@@ -90,7 +90,7 @@ export const WithTimeline = {
           />
         </Box>
         <ProductGrid
-          products={products.slice(0, 6)}
+          products={products}
           timeline={timeline}
           columns={3}
         />

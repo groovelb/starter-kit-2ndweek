@@ -4,23 +4,23 @@ import Box from '@mui/material/Box';
 /**
  * TimeBlendImage 컴포넌트
  *
- * 4개 시간대(낮→저녁→밤→새벽)에 따라 낮/밤 이미지의 opacity를 블렌딩하는 컴포넌트.
+ * 12시간 주기(12pm→12am)에 따라 낮/밤 이미지의 opacity를 블렌딩하는 컴포넌트.
  * 두 이미지를 스택으로 렌더링하고 timeline 값에 따라 opacity를 조절한다.
  *
  * 동작 방식:
- * 1. timeline 0-1 값을 4개 시간대로 매핑
- *    - 0.00 ~ 0.25: 낮 (dayOpacity: 1, nightOpacity: 0)
- *    - 0.25 ~ 0.50: 저녁 (낮→밤 전환, dayOpacity: 1→0, nightOpacity: 0→1)
- *    - 0.50 ~ 0.75: 밤 (dayOpacity: 0, nightOpacity: 1)
- *    - 0.75 ~ 1.00: 새벽 (밤→낮 전환, dayOpacity: 0→1, nightOpacity: 1→0)
- * 2. 두 이미지를 absolute 포지션으로 스택 렌더링
- * 3. 계산된 opacity 값으로 CSS transition 없이 즉시 블렌딩
+ * 1. timeline 0-1 값을 12시간 주기로 매핑 (시간이 지날수록 어두워짐)
+ *    - timeline 0.00 = 12pm (정오) → 완전 낮 이미지
+ *    - timeline 0.33 = 4pm (오후) → 낮 67% + 밤 33%
+ *    - timeline 0.67 = 8pm (저녁) → 낮 33% + 밤 67%
+ *    - timeline 1.00 = 12am (자정) → 완전 밤 이미지
+ * 2. 선형 블렌딩: timeline 값이 증가할수록 밤 이미지 opacity 증가
+ * 3. 두 이미지를 absolute 포지션으로 스택 렌더링
  * 4. 사용자가 타임라인 스크러버를 움직이면 실시간으로 블렌딩 반영
  *
  * Props:
- * @param {string} dayImage - 낮 이미지 소스 [Required]
- * @param {string} nightImage - 밤 이미지 소스 [Required]
- * @param {number} timeline - 시간대 값 (0-1) [Optional, 기본값: 0]
+ * @param {string} dayImage - 낮 이미지 소스 (12pm) [Required]
+ * @param {string} nightImage - 밤 이미지 소스 (12am) [Required]
+ * @param {number} timeline - 시간대 값 (0-1, 0=12pm, 1=12am) [Optional, 기본값: 0]
  * @param {string} alt - 이미지 대체 텍스트 [Optional, 기본값: '']
  * @param {string} aspectRatio - 컨테이너 종횡비 [Optional, 기본값: '1/1']
  * @param {string} objectFit - 이미지 맞춤 방식 [Optional, 기본값: 'cover']
@@ -45,44 +45,21 @@ export function TimeBlendImage({
   ...props
 }) {
   /**
-   * timeline 값(0-1)을 4개 시간대에 따른 opacity 값으로 변환
+   * timeline 값(0-1)을 12시간 주기에 따른 opacity 값으로 변환
    *
-   * 시간대 구간:
-   * - 0.00 ~ 0.25: 낮 (순수 낮 이미지)
-   * - 0.25 ~ 0.50: 저녁 (낮→밤 전환)
-   * - 0.50 ~ 0.75: 밤 (순수 밤 이미지)
-   * - 0.75 ~ 1.00: 새벽 (밤→낮 전환)
+   * 시간 매핑 (선형 블렌딩):
+   * - timeline 0.0 = 12pm (정오) → dayOpacity: 1, nightOpacity: 0
+   * - timeline 0.5 = 8pm (저녁) → dayOpacity: 0.5, nightOpacity: 0.5
+   * - timeline 1.0 = 12am (자정) → dayOpacity: 0, nightOpacity: 1
+   *
+   * 시간이 지날수록 점점 어두워짐 (낮→밤 단방향 전환)
    */
   const { dayOpacity, nightOpacity } = useMemo(() => {
-    // 구간 경계값
-    const DAY_END = 0.25;
-    const EVENING_END = 0.5;
-    const NIGHT_END = 0.75;
-
-    let day = 1;
-    let night = 0;
-
-    if (timeline <= DAY_END) {
-      // 낮 구간: 순수 낮 이미지
-      day = 1;
-      night = 0;
-    } else if (timeline <= EVENING_END) {
-      // 저녁 구간: 낮→밤 전환
-      const progress = (timeline - DAY_END) / (EVENING_END - DAY_END);
-      day = 1 - progress;
-      night = progress;
-    } else if (timeline <= NIGHT_END) {
-      // 밤 구간: 순수 밤 이미지
-      day = 0;
-      night = 1;
-    } else {
-      // 새벽 구간: 밤→낮 전환
-      const progress = (timeline - NIGHT_END) / (1 - NIGHT_END);
-      day = progress;
-      night = 1 - progress;
-    }
-
-    return { dayOpacity: day, nightOpacity: night };
+    // 선형 블렌딩: timeline이 증가할수록 밤 이미지 opacity 증가
+    return {
+      dayOpacity: 1 - timeline,
+      nightOpacity: timeline,
+    };
   }, [timeline]);
 
   // 이미지가 없는 경우 빈 박스 렌더링
@@ -127,6 +104,7 @@ export function TimeBlendImage({
             height: '100%',
             objectFit,
             opacity: dayOpacity,
+            transition: 'opacity 600ms ease-out',
             // z-index로 레이어 순서 고정 (낮이 항상 아래)
             zIndex: 0,
           } }
@@ -147,6 +125,7 @@ export function TimeBlendImage({
             height: '100%',
             objectFit,
             opacity: nightOpacity,
+            transition: 'opacity 600ms ease-out',
             // z-index로 레이어 순서 고정 (밤이 항상 위)
             zIndex: 1,
           } }

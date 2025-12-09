@@ -65,9 +65,21 @@ pnpm lint             # ESLint 검사
    - 타이포그래피: MUI Typography 컴포넌트 사용
    - 기본 컴포넌트: 기존 `src/components/` 내 컴포넌트 우선 활용
    - 커스텀 SVG/아이콘 생성 금지 (Material Symbols에 없는 경우만 예외)
-4. 구현 (MUI 기반, sx prop 사용)
-5. Storybook 스토리 작성
-6. 린트 확인
+4. **frontend-design 스킬 사용 (MUST)**: 디자인 관련 작업 시 반드시 `use frontend skill` 호출
+5. 구현 (MUI 기반, sx prop 사용)
+6. Storybook 스토리 작성
+7. 린트 확인
+
+### 디자인 관련 작업 (CRITICAL)
+**디자인 작업 시 반드시 `use frontend skill`을 사용해야 합니다.**
+
+해당 작업 예시:
+- UI 컴포넌트 스타일링 (색상, 크기, 간격, 레이아웃)
+- 새로운 UI 컴포넌트 생성
+- 기존 컴포넌트 디자인 수정
+- 애니메이션/트랜지션 구현
+- 반응형 디자인 작업
+- 시각적 요소 조정 (아이콘, 타이포그래피, 그리드)
 
 ### 컴포넌트 수정
 1. 현재 동작 파악
