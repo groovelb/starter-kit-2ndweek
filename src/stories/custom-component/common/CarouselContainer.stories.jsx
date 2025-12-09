@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CarouselContainer } from '../../../components/container/CarouselContainer';
+import { GridContent } from '../../../components/storybookDocumentation';
 
 /**
  * 데모용 샘플 아이템 생성
@@ -10,136 +11,21 @@ import { CarouselContainer } from '../../../components/container/CarouselContain
 const createSampleItems = (count) =>
   Array.from({ length: count }, (_, i) => ({
     id: i + 1,
-    title: `Item ${i + 1}`,
-    color: [
-      '#E3F2FD', '#FCE4EC', '#E8F5E9', '#FFF3E0',
-      '#F3E5F5', '#E0F7FA', '#FFF8E1', '#EFEBE9',
-    ][i % 8],
+    label: `Item ${i + 1}`,
   }));
 
 const sampleItems = createSampleItems(8);
 
 /**
- * 기본 아이템 렌더러
+ * GridContent 기반 아이템 렌더러
  */
 const DefaultItemRenderer = (item) => (
-  <Box
-    sx={{
-      backgroundColor: item.color,
-      p: 3,
-      height: 180,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
-    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-      {item.title}
-    </Typography>
-    <Typography variant="caption" color="text.secondary">
-      ID: {item.id}
-    </Typography>
-  </Box>
+  <GridContent
+    label={ item.label }
+    variant="default"
+    height={ 180 }
+  />
 );
-
-/**
- * 카드 스타일 아이템 렌더러
- */
-const CardItemRenderer = (item) => (
-  <Box
-    sx={{
-      backgroundColor: 'background.paper',
-      border: '1px solid',
-      borderColor: 'divider',
-      height: 200,
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
-    <Box
-      sx={{
-        backgroundColor: item.color,
-        height: 120,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Typography variant="h4" sx={{ fontWeight: 700, opacity: 0.5 }}>
-        {item.id}
-      </Typography>
-    </Box>
-    <Box sx={{ p: 2 }}>
-      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-        {item.title}
-      </Typography>
-      <Typography variant="caption" color="text.secondary">
-        Sample description
-      </Typography>
-    </Box>
-  </Box>
-);
-
-/**
- * Story 컴포넌트: ResponsiveDemo
- */
-function ResponsiveDemo() {
-  return (
-    <Box sx={{ width: '100%', maxWidth: 1200 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        화면 크기에 따라 보이는 아이템 수가 변경됩니다. (xs:1, sm:2, md:3, lg:4)
-      </Typography>
-      <CarouselContainer
-        items={sampleItems}
-        renderItem={DefaultItemRenderer}
-        visible={{ xs: 1, sm: 2, md: 3, lg: 4 }}
-        gap={16}
-      />
-    </Box>
-  );
-}
-
-/**
- * Story 컴포넌트: WithDividerDemo
- */
-function WithDividerDemo() {
-  return (
-    <Box sx={{ width: '100%', maxWidth: 1000 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        아이템 사이에 구분선이 표시됩니다.
-      </Typography>
-      <CarouselContainer
-        items={sampleItems}
-        renderItem={CardItemRenderer}
-        visible={{ xs: 1, sm: 2, md: 3 }}
-        gap={24}
-        hasDivider
-        dividerColor="rgba(0,0,0,0.12)"
-      />
-    </Box>
-  );
-}
-
-/**
- * Story 컴포넌트: OutsideNavigationDemo
- */
-function OutsideNavigationDemo() {
-  return (
-    <Box sx={{ width: '100%', maxWidth: 900, px: 8 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        네비게이션 버튼이 컨테이너 바깥에 위치합니다.
-      </Typography>
-      <CarouselContainer
-        items={sampleItems}
-        renderItem={DefaultItemRenderer}
-        visible={{ xs: 1, sm: 2, md: 3 }}
-        gap={16}
-        navPosition="outside"
-      />
-    </Box>
-  );
-}
 
 /**
  * Story 컴포넌트: IndexChangeDemo
@@ -148,61 +34,21 @@ function IndexChangeDemo() {
   const [index, setIndex] = useState(0);
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 1000 }}>
-      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+    <Box sx={ { width: '100%', maxWidth: 1000 } }>
+      <Stack direction="row" spacing={ 2 } alignItems="center" sx={ { mb: 2 } }>
         <Typography variant="body2" color="text.secondary">
           현재 인덱스:
         </Typography>
-        <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
-          {index}
+        <Typography variant="h6" sx={ { fontWeight: 600, color: 'primary.main' } }>
+          { index }
         </Typography>
       </Stack>
       <CarouselContainer
-        items={sampleItems}
-        renderItem={CardItemRenderer}
-        visible={{ xs: 1, sm: 2, md: 3 }}
-        gap={20}
-        onIndexChange={setIndex}
-      />
-    </Box>
-  );
-}
-
-/**
- * Story 컴포넌트: StepDemo
- */
-function StepDemo() {
-  return (
-    <Box sx={{ width: '100%', maxWidth: 1000 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        step=2: 한 번에 2개씩 이동합니다.
-      </Typography>
-      <CarouselContainer
-        items={createSampleItems(12)}
-        renderItem={DefaultItemRenderer}
-        visible={{ xs: 2, sm: 3, md: 4 }}
-        gap={16}
-        step={2}
-      />
-    </Box>
-  );
-}
-
-/**
- * Story 컴포넌트: NoNavigationDemo
- */
-function NoNavigationDemo() {
-  return (
-    <Box sx={{ width: '100%', maxWidth: 1000 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        네비게이션 버튼이 숨겨진 상태입니다. 터치 스와이프 등 다른 방식으로 제어할 때 사용합니다.
-      </Typography>
-      <CarouselContainer
-        items={sampleItems.slice(0, 4)}
-        renderItem={CardItemRenderer}
-        visible={{ xs: 1, sm: 2, md: 4 }}
-        gap={16}
-        hasNavigation={false}
+        items={ sampleItems }
+        renderItem={ DefaultItemRenderer }
+        visible={ { xs: 1, sm: 2, md: 3 } }
+        gap={ 20 }
+        onIndexChange={ setIndex }
       />
     </Box>
   );
@@ -311,7 +157,7 @@ export default {
 };
 
 /**
- * 기본 캐러셀 - 반응형 아이템 노출
+ * 기본 캐러셀 - Controls에서 모든 Props 조작 가능
  */
 export const Default = {
   args: {
@@ -327,43 +173,8 @@ export const Default = {
 };
 
 /**
- * 반응형 데모 - 화면 크기에 따른 변화
- */
-export const Responsive = {
-  render: () => <ResponsiveDemo />,
-};
-
-/**
- * 구분선이 있는 캐러셀
- */
-export const WithDivider = {
-  render: () => <WithDividerDemo />,
-};
-
-/**
- * 외부 네비게이션 버튼
- */
-export const OutsideNavigation = {
-  render: () => <OutsideNavigationDemo />,
-};
-
-/**
- * 인덱스 변경 콜백 데모
+ * 인덱스 변경 콜백 - 상태 연동 예시
  */
 export const WithIndexChange = {
   render: () => <IndexChangeDemo />,
-};
-
-/**
- * Step 설정 데모 - 한 번에 여러 개 이동
- */
-export const StepMovement = {
-  render: () => <StepDemo />,
-};
-
-/**
- * 네비게이션 숨김
- */
-export const NoNavigation = {
-  render: () => <NoNavigationDemo />,
 };

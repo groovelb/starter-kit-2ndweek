@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { FitText } from '../../../components/typography';
@@ -90,51 +89,20 @@ export default {
   },
 };
 
-/** 기본 사용 */
+/** 기본 사용 - Controls에서 모든 Props 조작 가능 */
 export const Default = {
   args: {
     text: 'Hello World',
     variant: 'body',
     minFontSize: 16,
     maxFontSize: 200,
-  },
-  render: (args) => (
-    <Box sx={ { width: 400, border: '1px dashed grey', p: 2 } }>
-      <FitText { ...args } />
-    </Box>
-  ),
-};
-
-/** Headline 변형 */
-export const Headline = {
-  args: {
-    text: 'HEADLINE',
-    variant: 'headline',
-    minFontSize: 24,
-    maxFontSize: 300,
+    letterSpacing: 1,
+    wordSpacing: 1,
   },
   render: (args) => (
     <Box sx={ { width: 500, border: '1px dashed grey', p: 2 } }>
       <FitText { ...args } />
     </Box>
-  ),
-};
-
-/** 다양한 컨테이너 너비 */
-export const ResponsiveWidths = {
-  render: () => (
-    <Stack spacing={ 3 } sx={ { width: 600 } }>
-      { [200, 300, 400, 500].map((width) => (
-        <Box key={ width }>
-          <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-            width: { width }px
-          </Typography>
-          <Box sx={ { width, border: '1px dashed grey', p: 1 } }>
-            <FitText text="Responsive Text" variant="body" />
-          </Box>
-        </Box>
-      )) }
-    </Stack>
   ),
 };
 
@@ -144,7 +112,7 @@ export const VariantComparison = {
     <Stack spacing={ 4 } sx={ { width: 500 } }>
       <Box>
         <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-          variant: body (Inter)
+          variant: body
         </Typography>
         <Box sx={ { border: '1px dashed grey', p: 2 } }>
           <FitText text="Body Text Style" variant="body" />
@@ -152,105 +120,12 @@ export const VariantComparison = {
       </Box>
       <Box>
         <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-          variant: headline (Chillax)
+          variant: headline
         </Typography>
         <Box sx={ { border: '1px dashed grey', p: 2 } }>
           <FitText text="Headline Style" variant="headline" />
         </Box>
       </Box>
     </Stack>
-  ),
-};
-
-/** Min/Max 폰트 크기 제한 */
-export const FontSizeLimits = {
-  render: () => (
-    <Grid container spacing={ 3 } sx={ { width: 600 } }>
-      <Grid size={ { xs: 6 } }>
-        <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-          maxFontSize: 48px
-        </Typography>
-        <Box sx={ { border: '1px dashed grey', p: 2 } }>
-          <FitText text="Limited" variant="headline" maxFontSize={ 48 } />
-        </Box>
-      </Grid>
-      <Grid size={ { xs: 6 } }>
-        <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-          maxFontSize: 120px
-        </Typography>
-        <Box sx={ { border: '1px dashed grey', p: 2 } }>
-          <FitText text="Limited" variant="headline" maxFontSize={ 120 } />
-        </Box>
-      </Grid>
-    </Grid>
-  ),
-};
-
-/** 간격 조절 */
-export const SpacingOptions = {
-  render: () => (
-    <Stack spacing={ 3 } sx={ { width: 500 } }>
-      { [
-        { letterSpacing: 1, wordSpacing: 1, label: 'Default' },
-        { letterSpacing: 2, wordSpacing: 1, label: 'Wide Letters' },
-        { letterSpacing: 1, wordSpacing: 2, label: 'Wide Words' },
-        { letterSpacing: 0.5, wordSpacing: 0.5, label: 'Tight' },
-      ].map((config) => (
-        <Box key={ config.label }>
-          <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
-            { config.label } (letter: { config.letterSpacing }, word: { config.wordSpacing })
-          </Typography>
-          <Box sx={ { border: '1px dashed grey', p: 2 } }>
-            <FitText
-              text="Spacing Test"
-              variant="body"
-              letterSpacing={ config.letterSpacing }
-              wordSpacing={ config.wordSpacing }
-            />
-          </Box>
-        </Box>
-      )) }
-    </Stack>
-  ),
-};
-
-/**
- * 히어로 섹션 활용 예시
- *
- * 극도로 미니멀한 풀스크린 타이포그래피.
- * 오직 텍스트만으로 강렬한 메시지를 전달.
- */
-export const HeroSectionUsage = {
-  parameters: {
-    layout: 'fullscreen',
-  },
-  render: () => (
-    <Box
-      sx={ {
-        width: '100%',
-        height: '100vh',
-        backgroundColor: '#000000',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        px: { xs: 2, md: 4 },
-      } }
-    >
-      <FitText
-        text="RETHINK"
-        variant="headline"
-        sx={ { color: '#ffffff' } }
-      />
-      <FitText
-        text="REVERSE"
-        variant="headline"
-        sx={ { color: '#ffffff' } }
-      />
-      <FitText
-        text="REPEAT"
-        variant="headline"
-        sx={ { color: '#ffffff' } }
-      />
-    </Box>
   ),
 };
