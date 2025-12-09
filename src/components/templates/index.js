@@ -1,3 +1,2 @@
-export { MediaGridGallery } from './MediaGridGallery.jsx';
-export { UploadModal } from './UploadModal.jsx';
-export { FilterBar } from './FilterBar.jsx';
+// Templates - 템플릿 컴포넌트
+// (현재 비어있음 - 필요시 추가)
