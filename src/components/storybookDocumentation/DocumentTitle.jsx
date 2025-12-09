@@ -73,13 +73,13 @@ export function DocumentTitle({
 
   const renderLabel = (label) =>
     label ? (
-      <Typography variant="caption" sx={ { color: theme.palette.text.secondary } }>
+      <Typography variant="caption" sx={ { color: theme.palette.text.secondary, fontFamily: '"Pretendard Variable", Pretendard, sans-serif' } }>
         { label }
       </Typography>
     ) : null;
 
   const renderValue = (value) => (
-    <Typography variant="body2" sx={ { fontWeight: 700, wordBreak: 'keep-all' } }>
+    <Typography variant="body2" sx={ { fontWeight: 600, wordBreak: 'keep-all', fontFamily: '"Pretendard Variable", Pretendard, sans-serif' } }>
       { value ?? '' }
     </Typography>
   );

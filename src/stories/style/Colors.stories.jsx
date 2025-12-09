@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,20 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useTheme } from '@mui/material/styles';
 import {
-  blue,
-  blueGrey,
-  grey,
-  red,
-  orange,
-  green,
-  lightBlue,
-} from '@mui/material/colors';
-import {
   DocumentTitle,
   PageContainer,
   SectionTitle,
   TreeNode,
 } from '../../components/storybookDocumentation';
+import { BRAND_COLORS } from '../../styles/themes/theme';
 
 export default {
   title: 'Style/Colors',
@@ -31,145 +22,68 @@ export default {
   },
 };
 
-/** 팔레트 스케일 컴포넌트 - 큰 블록 형태 */
-const PaletteScale = ({ name, colorObj, description }) => (
-  <Box sx={ { mb: 6 } }>
-    <Typography variant="h6" sx={ { fontWeight: 600, mb: 0.5 } }>{ name }</Typography>
-    <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>{ description }</Typography>
-    <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 1 } }>
-      { [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((shade) => (
-        <Box
-          key={ shade }
-          sx={ {
-            width: 80,
-            height: 80,
-            backgroundColor: colorObj[shade],
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 1,
-          } }
-        >
-          <Typography
-            variant="caption"
-            sx={ {
-              color: shade >= 400 ? 'white' : 'rgba(0,0,0,0.7)',
-              fontSize: 12,
-              fontWeight: 700,
-            } }
-          >
-            { shade }
-          </Typography>
-          <Typography
-            variant="caption"
-            sx={ {
-              color: shade >= 400 ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)',
-              fontSize: 10,
-              fontFamily: 'monospace',
-            } }
-          >
-            { colorObj[shade] }
-          </Typography>
-        </Box>
-      )) }
-    </Box>
-  </Box>
-);
-
-/** 시멘틱 토큰 블록 컴포넌트 */
-const SemanticColorBlock = ({ name, colorObj, description }) => {
-  const shades = ['light', 'main', 'dark'];
-  return (
-    <Box sx={ { mb: 6 } }>
-      <Typography variant="h6" sx={ { fontWeight: 600, mb: 0.5 } }>{ name }</Typography>
-      <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>{ description }</Typography>
-      <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 1 } }>
-        { shades.map((shade) => {
-          const color = colorObj[shade];
-          const isLight = shade === 'light';
-          return (
-            <Box
-              key={ shade }
-              sx={ {
-                width: 120,
-                height: 80,
-                backgroundColor: color,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 1,
-                border: isLight ? '1px solid rgba(0,0,0,0.1)' : 'none',
-              } }
-            >
-              <Typography
-                variant="caption"
-                sx={ {
-                  color: isLight ? 'rgba(0,0,0,0.7)' : 'white',
-                  fontSize: 12,
-                  fontWeight: 700,
-                } }
-              >
-                { shade }
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={ {
-                  color: isLight ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.7)',
-                  fontSize: 10,
-                  fontFamily: 'monospace',
-                } }
-              >
-                { color }
-              </Typography>
-            </Box>
-          );
-        }) }
-      </Box>
-    </Box>
-  );
-};
-
-/** 단일 색상 블록 컴포넌트 */
-const SingleColorBlock = ({ name, color, hasBorder = false }) => (
+/** 브랜드 컬러 블록 컴포넌트 */
+const BrandColorBlock = ({ name, hex, description, isDark = false }) => (
   <Box
     sx={ {
-      width: 120,
-      height: 80,
-      backgroundColor: color,
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 1,
-      border: hasBorder ? '1px solid rgba(0,0,0,0.1)' : 'none',
+      width: 200,
+      border: '1px solid',
+      borderColor: 'divider',
     } }
   >
-    <Typography
-      variant="caption"
+    <Box
       sx={ {
-        color: hasBorder ? 'rgba(0,0,0,0.7)' : 'white',
-        fontSize: 12,
-        fontWeight: 700,
+        height: 120,
+        backgroundColor: hex,
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        p: 2,
       } }
     >
-      { name }
-    </Typography>
-    <Typography
-      variant="caption"
-      sx={ {
-        color: hasBorder ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.7)',
-        fontSize: 10,
-        fontFamily: 'monospace',
-      } }
-    >
-      { color }
-    </Typography>
+      <Typography
+        variant="h6"
+        sx={ {
+          color: isDark ? '#F5F2EE' : '#12100E',
+          fontWeight: 600,
+        } }
+      >
+        { name }
+      </Typography>
+    </Box>
+    <Box sx={ { p: 2 } }>
+      <Typography
+        variant="body2"
+        sx={ { fontFamily: 'monospace', fontWeight: 600, mb: 0.5 } }
+      >
+        { hex }
+      </Typography>
+      <Typography variant="caption" color="text.secondary">
+        { description }
+      </Typography>
+    </Box>
   </Box>
 );
 
-/** Docs - 색상 시스템 문서 (첫 번째 스토리) */
+/** 시멘틱 컬러 행 컴포넌트 */
+const SemanticColorRow = ({ name, light, main, dark, description }) => (
+  <TableRow>
+    <TableCell sx={ { fontWeight: 600 } }>{ name }</TableCell>
+    <TableCell>
+      <Box sx={ { display: 'flex', gap: 0.5 } }>
+        <Box sx={ { width: 24, height: 24, backgroundColor: light, border: '1px solid', borderColor: 'divider' } } />
+        <Box sx={ { width: 24, height: 24, backgroundColor: main, border: '1px solid', borderColor: 'divider' } } />
+        <Box sx={ { width: 24, height: 24, backgroundColor: dark, border: '1px solid', borderColor: 'divider' } } />
+      </Box>
+    </TableCell>
+    <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>{ main }</TableCell>
+    <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>{ description }</TableCell>
+  </TableRow>
+);
+
+/** Docs - Lumenstate 색상 시스템 문서 */
 export const Docs = {
   render: () => {
     const theme = useTheme();
@@ -177,33 +91,20 @@ export const Docs = {
     // 토큰 구조 (트리 뷰용)
     const tokenStructure = {
       palette: {
+        brand: theme.palette.brand,
         primary: theme.palette.primary,
         secondary: theme.palette.secondary,
-        error: theme.palette.error,
-        warning: theme.palette.warning,
-        success: theme.palette.success,
-        info: theme.palette.info,
         text: theme.palette.text,
         background: theme.palette.background,
-        divider: theme.palette.divider,
       },
     };
 
-    // 토큰 값 (테이블용)
-    const tokenValues = [
-      { token: 'primary.main', value: theme.palette.primary.main, description: '주요 브랜드 색상, CTA 버튼' },
-      { token: 'primary.light', value: theme.palette.primary.light, description: 'hover 상태, 배경 강조' },
-      { token: 'primary.dark', value: theme.palette.primary.dark, description: 'active 상태, 텍스트 강조' },
-      { token: 'secondary.main', value: theme.palette.secondary.main, description: '보조 액션, 태그' },
-      { token: 'error.main', value: theme.palette.error.main, description: '오류, 삭제, 위험' },
-      { token: 'warning.main', value: theme.palette.warning.main, description: '주의, 경고' },
-      { token: 'success.main', value: theme.palette.success.main, description: '성공, 완료, 활성' },
-      { token: 'info.main', value: theme.palette.info.main, description: '정보, 안내' },
-      { token: 'text.primary', value: theme.palette.text.primary, description: '주요 텍스트' },
-      { token: 'text.secondary', value: theme.palette.text.secondary, description: '보조 텍스트, 캡션' },
-      { token: 'background.default', value: theme.palette.background.default, description: '페이지 배경' },
-      { token: 'background.paper', value: theme.palette.background.paper, description: '카드, 모달 배경' },
-      { token: 'divider', value: theme.palette.divider, description: '구분선, 보더' },
+    // 브랜드 컬러 토큰 값
+    const brandTokens = [
+      { token: 'brand.wallTintWhite', value: BRAND_COLORS.wallTintWhite, description: '라이트 배경' },
+      { token: 'brand.warmWhite', value: BRAND_COLORS.warmWhite, description: '다크 모드 텍스트' },
+      { token: 'brand.warmBlack', value: BRAND_COLORS.warmBlack, description: '라이트 모드 텍스트 / 다크 배경' },
+      { token: 'brand.accent', value: BRAND_COLORS.accent, description: '액센트 (링크, CTA, 포커스)' },
     ];
 
     return (
@@ -211,9 +112,9 @@ export const Docs = {
         <DocumentTitle
           title="Color System"
           status="Available"
-          note="Color palette and semantic color tokens"
-          brandName="Design System"
-          systemName="Starter Kit"
+          note="Lumenstate 4-color brand palette"
+          brandName="Lumenstate"
+          systemName="Design System"
           version="1.0"
         />
         <PageContainer>
@@ -222,19 +123,48 @@ export const Docs = {
             Color System
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-            프로젝트에서 사용하는 색상 팔레트와 시멘틱 컬러 토큰입니다.
+            3800K 색온도 기반의 4색 제한 팔레트입니다. 그래디언트/글로우/블러를 금지합니다.
           </Typography>
+
+          {/* 브랜드 컬러 (4색) */}
+          <SectionTitle
+            title="Brand Colors"
+            description="Lumenstate 4색 시스템 - 이 색상만 사용합니다"
+          />
+          <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 2, mb: 6 } }>
+            <BrandColorBlock
+              name="Wall Tint White"
+              hex={ BRAND_COLORS.wallTintWhite }
+              description="라이트 배경"
+            />
+            <BrandColorBlock
+              name="3800K White"
+              hex={ BRAND_COLORS.warmWhite }
+              description="다크 모드 텍스트"
+            />
+            <BrandColorBlock
+              name="Warm Black"
+              hex={ BRAND_COLORS.warmBlack }
+              description="다크 배경 / 라이트 텍스트"
+              isDark
+            />
+            <BrandColorBlock
+              name="3800K Accent"
+              hex={ BRAND_COLORS.accent }
+              description="액센트 (CTA, 링크)"
+            />
+          </Box>
 
           {/* 토큰 구조 (트리 뷰) */}
           <SectionTitle title="토큰 구조" description="theme.palette 계층 구조" />
-          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1, mb: 4 } }>
+          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', mb: 4 } }>
             { Object.entries(tokenStructure).map(([key, value]) => (
               <TreeNode key={ key } keyName={ key } value={ value } defaultOpen />
             )) }
           </Box>
 
           {/* 토큰 값 (테이블) */}
-          <SectionTitle title="토큰 값" description="주요 색상 토큰의 실제 값" />
+          <SectionTitle title="토큰 값" description="브랜드 컬러 토큰" />
           <TableContainer sx={ { mb: 4 } }>
             <Table size="small">
               <TableHead>
@@ -242,11 +172,11 @@ export const Docs = {
                   <TableCell sx={ { fontWeight: 600 } }>Token</TableCell>
                   <TableCell sx={ { fontWeight: 600 } }>Value</TableCell>
                   <TableCell sx={ { fontWeight: 600 } }>Preview</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>설명</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                { tokenValues.map((row) => (
+                { brandTokens.map((row) => (
                   <TableRow key={ row.token }>
                     <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.token }</TableCell>
                     <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.value }</TableCell>
@@ -258,7 +188,6 @@ export const Docs = {
                           backgroundColor: row.value,
                           border: '1px solid',
                           borderColor: 'divider',
-                          borderRadius: '4px',
                         } }
                       />
                     </TableCell>
@@ -269,8 +198,44 @@ export const Docs = {
             </Table>
           </TableContainer>
 
+          {/* 라이트/다크 모드 */}
+          <SectionTitle title="모드별 적용" description="라이트 모드와 다크 모드 색상 배치" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>요소</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>라이트 모드</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>다크 모드</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>배경</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#F5F2EE (Wall Tint White)</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#12100E (Warm Black)</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>본문 텍스트</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#12100E (Warm Black)</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#F2E9DA (3800K White)</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>보조 텍스트</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#12100E 80%</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#F2E9DA 80%</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>액센트</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#FFC66E</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>#FFC66E</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
           {/* 사용 예시 */}
-          <SectionTitle title="사용 예시" description="MUI sx prop에서의 색상 토큰 활용" />
+          <SectionTitle title="사용 예시" description="MUI sx prop에서의 브랜드 컬러 활용" />
           <Box
             component="pre"
             sx={ {
@@ -279,30 +244,28 @@ export const Docs = {
               fontSize: 12,
               fontFamily: 'monospace',
               overflow: 'auto',
-              borderRadius: 1,
               mb: 4,
             } }
           >
-{ `// 배경색 적용
-<Box sx={{ backgroundColor: 'primary.main' }} />
-<Box sx={{ backgroundColor: 'background.paper' }} />
+{ `// 브랜드 컬러 직접 사용
+<Box sx={{ backgroundColor: 'primary.main' }} />  // #FFC66E (Accent)
+<Box sx={{ backgroundColor: 'secondary.main' }} />  // #12100E (Warm Black)
 
-// 텍스트 색상
-<Typography sx={{ color: 'text.primary' }}>주요 텍스트</Typography>
-<Typography sx={{ color: 'text.secondary' }}>보조 텍스트</Typography>
+// 배경/텍스트
+<Box sx={{ backgroundColor: 'background.default' }} />  // #F5F2EE
+<Typography sx={{ color: 'text.primary' }}>본문</Typography>  // #12100E
+<Typography sx={{ color: 'text.secondary' }}>보조</Typography>  // #12100ECC
 
-// 보더 색상
-<Box sx={{ border: '1px solid', borderColor: 'divider' }} />
-
-// 상태별 색상
-<Button color="primary">Primary</Button>
-<Button color="error">Error</Button>
-
-// hover 상태
-<Box sx={{
-  backgroundColor: 'primary.main',
-  '&:hover': { backgroundColor: 'primary.dark' }
-}} />` }
+// CTA 버튼
+<Button
+  sx={{
+    backgroundColor: 'primary.main',  // #FFC66E
+    color: 'secondary.main',          // #12100E
+    '&:hover': { backgroundColor: 'primary.dark' }
+  }}
+>
+  제품 보기
+</Button>` }
           </Box>
 
           {/* Vibe Coding Prompt */}
@@ -319,22 +282,21 @@ export const Docs = {
               fontSize: 12,
               fontFamily: 'monospace',
               overflow: 'auto',
-              borderRadius: 1,
             } }
           >
-{ `/* 색상 토큰 활용 프롬프트 예시 */
+{ `/* Lumenstate 4색 팔레트 프롬프트 */
 
-"primary.main (${theme.palette.primary.main})을 사용해서 CTA 버튼을 만들어줘.
-hover 시 primary.dark로 변경되도록 해줘."
+"배경은 #F5F2EE (Wall Tint White), 텍스트는 #12100E (Warm Black)로
+조명 제품 카드를 만들어줘. 그래디언트 금지."
 
-"text.primary와 text.secondary를 사용해서
-카드 컴포넌트의 제목과 설명 텍스트 색상을 구분해줘."
+"CTA 버튼은 #FFC66E (3800K Accent) 배경에
+#12100E 텍스트로 만들어줘. hover 시 약간 어둡게."
 
-"background.paper 배경에 primary.main 보더를 가진
-선택된 상태의 카드를 만들어줘."
+"다크 모드에서는 배경 #12100E, 텍스트 #F2E9DA로
+전환해줘. 액센트 #FFC66E는 동일하게 유지."
 
-"error.main 색상으로 삭제 버튼을 만들고,
-hover 시 error.dark로 어두워지게 해줘."` }
+"히어로 섹션의 헤드라인은 #12100E, 서브텍스트는
+#12100E 80% opacity로 구분해줘. 글로우/블러 금지."` }
           </Box>
         </PageContainer>
       </>
@@ -342,73 +304,9 @@ hover 시 error.dark로 어두워지게 해줘."` }
   },
 };
 
-/** 1. Color Palette - 원시 색상 */
-export const Palette = {
-  name: '1. Color Palette',
-  render: () => (
-    <>
-      <DocumentTitle
-        title="Color Palette"
-        status="Available"
-        note="MUI default color palette"
-        brandName="Design System"
-        systemName="Starter Kit"
-        version="1.0"
-      />
-      <PageContainer>
-        <Typography variant="h4" sx={ { fontWeight: 700, mb: 1 } }>
-          Color Palette (원시 색상)
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-          MUI에서 제공하는 기본 색상 팔레트입니다. 이 색상들을 조합하여 테마를 구성합니다.
-        </Typography>
-
-        <Divider sx={ { mb: 4 } } />
-
-        <PaletteScale name="Blue" colorObj={ blue } description="Primary 색상의 기반" />
-        <PaletteScale name="Blue Grey" colorObj={ blueGrey } description="Secondary 색상의 기반" />
-        <PaletteScale name="Grey" colorObj={ grey } description="텍스트, 배경, 보더" />
-        <PaletteScale name="Red" colorObj={ red } description="Error 상태" />
-        <PaletteScale name="Orange" colorObj={ orange } description="Warning 상태" />
-        <PaletteScale name="Green" colorObj={ green } description="Success 상태" />
-        <PaletteScale name="Light Blue" colorObj={ lightBlue } description="Info 상태" />
-
-        <SectionTitle title="명도 가이드" />
-
-        <TableContainer>
-          <Table size="small">
-            <TableBody>
-              <TableRow>
-                <TableCell sx={ { fontWeight: 600, width: '20%' } }>50-100</TableCell>
-                <TableCell>매우 밝음 - 배경색</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={ { fontWeight: 600 } }>200-300</TableCell>
-                <TableCell>밝음 - hover, 보더</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={ { fontWeight: 600 } }>400-500</TableCell>
-                <TableCell>기본 - main 색상</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={ { fontWeight: 600 } }>600-700</TableCell>
-                <TableCell>어두움 - active, dark</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={ { fontWeight: 600 } }>800-900</TableCell>
-                <TableCell>매우 어두움 - 텍스트</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </PageContainer>
-    </>
-  ),
-};
-
-/** 2. Semantic Tokens - 역할별 색상 */
+/** 시멘틱 토큰 - 역할별 색상 */
 export const SemanticTokens = {
-  name: '2. Semantic Tokens',
+  name: 'Semantic Tokens',
   render: () => {
     const theme = useTheme();
     return (
@@ -417,149 +315,110 @@ export const SemanticTokens = {
           title="Semantic Tokens"
           status="Available"
           note="Role-based semantic colors"
-          brandName="Design System"
-          systemName="Starter Kit"
+          brandName="Lumenstate"
+          systemName="Design System"
           version="1.0"
         />
         <PageContainer>
           <Typography variant="h4" sx={ { fontWeight: 700, mb: 1 } }>
-            Semantic Tokens (역할별 색상)
+            Semantic Tokens
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-            색상에 의미와 역할을 부여한 토큰입니다. 컴포넌트에서 이 토큰을 참조합니다.
+            색상에 의미와 역할을 부여한 토큰입니다.
           </Typography>
 
-          <SectionTitle title="브랜드 색상" />
+          <SectionTitle title="브랜드 및 상태 색상" />
 
-          <SemanticColorBlock
-            name="Primary"
-            colorObj={ theme.palette.primary }
-            description="CTA 버튼, 링크, 선택된 상태"
-          />
-          <SemanticColorBlock
-            name="Secondary"
-            colorObj={ theme.palette.secondary }
-            description="보조 버튼, 태그"
-          />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Role</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Shades</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Main Value</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <SemanticColorRow
+                  name="Primary"
+                  light={ theme.palette.primary.light }
+                  main={ theme.palette.primary.main }
+                  dark={ theme.palette.primary.dark }
+                  description="CTA 버튼, 링크, 액센트"
+                />
+                <SemanticColorRow
+                  name="Secondary"
+                  light={ theme.palette.secondary.light }
+                  main={ theme.palette.secondary.main }
+                  dark={ theme.palette.secondary.dark }
+                  description="보조 버튼, 태그"
+                />
+                <SemanticColorRow
+                  name="Error"
+                  light={ theme.palette.error.light }
+                  main={ theme.palette.error.main }
+                  dark={ theme.palette.error.dark }
+                  description="오류, 삭제, 위험"
+                />
+                <SemanticColorRow
+                  name="Warning"
+                  light={ theme.palette.warning.light }
+                  main={ theme.palette.warning.main }
+                  dark={ theme.palette.warning.dark }
+                  description="주의, 경고"
+                />
+                <SemanticColorRow
+                  name="Success"
+                  light={ theme.palette.success.light }
+                  main={ theme.palette.success.main }
+                  dark={ theme.palette.success.dark }
+                  description="성공, 완료"
+                />
+                <SemanticColorRow
+                  name="Info"
+                  light={ theme.palette.info.light }
+                  main={ theme.palette.info.main }
+                  dark={ theme.palette.info.dark }
+                  description="정보, 안내"
+                />
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-          <SectionTitle
-            title="상태 색상 (Feedback Colors)"
-            description="사용자에게 시스템 상태를 전달하는 색상입니다."
-          />
+          <SectionTitle title="Grey Scale (Warm Tone)" />
 
-          <SemanticColorBlock
-            name="Error"
-            colorObj={ theme.palette.error }
-            description="오류, 삭제, 위험"
-          />
-          <SemanticColorBlock
-            name="Warning"
-            colorObj={ theme.palette.warning }
-            description="주의, 경고"
-          />
-          <SemanticColorBlock
-            name="Success"
-            colorObj={ theme.palette.success }
-            description="성공, 완료, 활성"
-          />
-          <SemanticColorBlock
-            name="Info"
-            colorObj={ theme.palette.info }
-            description="정보, 안내"
-          />
-
-          <SectionTitle title="텍스트 및 배경 색상" />
-
-          <Box sx={ { mb: 6 } }>
-            <Typography variant="h6" sx={ { fontWeight: 600, mb: 0.5 } }>Text</Typography>
-            <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>텍스트 색상</Typography>
-            <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 1 } }>
-              <SingleColorBlock name="primary" color={ theme.palette.text.primary } />
-              <SingleColorBlock name="secondary" color={ theme.palette.text.secondary } />
-              <SingleColorBlock name="disabled" color={ theme.palette.text.disabled } />
-            </Box>
-          </Box>
-
-          <Box sx={ { mb: 6 } }>
-            <Typography variant="h6" sx={ { fontWeight: 600, mb: 0.5 } }>Background</Typography>
-            <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>배경 색상</Typography>
-            <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 1 } }>
-              <SingleColorBlock name="default" color={ theme.palette.background.default } hasBorder />
-              <SingleColorBlock name="paper" color={ theme.palette.background.paper } hasBorder />
-            </Box>
+          <Box sx={ { display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 4 } }>
+            { Object.entries(theme.palette.grey)
+              .filter(([key]) => !key.startsWith('A'))
+              .map(([shade, color]) => (
+                <Box
+                  key={ shade }
+                  sx={ {
+                    width: 60,
+                    height: 60,
+                    backgroundColor: color,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  } }
+                >
+                  <Typography
+                    variant="caption"
+                    sx={ {
+                      color: parseInt(shade) >= 500 ? '#F5F2EE' : '#12100E',
+                      fontSize: 10,
+                      fontWeight: 600,
+                    } }
+                  >
+                    { shade }
+                  </Typography>
+                </Box>
+              )) }
           </Box>
         </PageContainer>
       </>
     );
   },
-};
-
-/** 3. Usage - 컴포넌트에서의 활용 */
-export const Usage = {
-  name: '3. Usage',
-  render: () => (
-    <>
-      <DocumentTitle
-        title="Color Usage"
-        status="Available"
-        note="Color application in components"
-        brandName="Design System"
-        systemName="Starter Kit"
-        version="1.0"
-      />
-      <PageContainer>
-        <Typography variant="h4" sx={ { fontWeight: 700, mb: 1 } }>
-          컴포넌트 적용 예시
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-          Semantic Token이 실제 컴포넌트에 어떻게 적용되는지 확인합니다.
-        </Typography>
-
-        <SectionTitle
-          title="Button 컴포넌트"
-          description="Button의 color prop에 Semantic Token 이름을 전달하면 해당 색상이 적용됩니다."
-        />
-
-        <Box
-          component="pre"
-          sx={ {
-            backgroundColor: '#f5f5f5',
-            p: 2,
-            fontSize: 12,
-            fontFamily: 'monospace',
-            overflow: 'auto',
-            mb: 4,
-          } }
-        >
-{ `<Button variant="contained" color="primary">Primary</Button>
-<Button variant="contained" color="error">Error</Button>
-<Button variant="contained" color="success">Success</Button>` }
-        </Box>
-
-        <SectionTitle
-          title="sx prop으로 직접 사용"
-          description="sx prop에서 theme 값을 직접 참조할 수 있습니다."
-        />
-
-        <Box
-          component="pre"
-          sx={ {
-            backgroundColor: '#f5f5f5',
-            p: 2,
-            fontSize: 12,
-            fontFamily: 'monospace',
-            overflow: 'auto',
-          } }
-        >
-{ `// 문자열로 참조 (권장)
-<Box sx={{ backgroundColor: 'primary.main' }} />
-<Box sx={{ color: 'text.secondary' }} />
-<Box sx={{ borderColor: 'divider' }} />
-
-// 함수로 참조 (복잡한 계산 필요시)
-<Box sx={{ backgroundColor: (theme) => theme.palette.primary.light }} />` }
-        </Box>
-      </PageContainer>
-    </>
-  ),
 };

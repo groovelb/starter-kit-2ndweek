@@ -13,6 +13,7 @@ import {
   SectionTitle,
   TreeNode,
 } from '../../components/storybookDocumentation';
+import { displayFontFamily, bodyFontFamily } from '../../styles/themes/theme';
 
 export default {
   title: 'Style/Typography',
@@ -53,19 +54,19 @@ export const Docs = {
 
     // 토큰 값 (테이블용)
     const tokenValues = [
-      { variant: 'h1', fontSize: theme.typography.h1?.fontSize, fontWeight: theme.typography.h1?.fontWeight, usage: '페이지 메인 타이틀' },
-      { variant: 'h2', fontSize: theme.typography.h2?.fontSize, fontWeight: theme.typography.h2?.fontWeight, usage: '섹션 타이틀' },
-      { variant: 'h3', fontSize: theme.typography.h3?.fontSize, fontWeight: theme.typography.h3?.fontWeight, usage: '서브섹션 타이틀' },
-      { variant: 'h4', fontSize: theme.typography.h4?.fontSize, fontWeight: theme.typography.h4?.fontWeight, usage: '카드 타이틀' },
-      { variant: 'h5', fontSize: theme.typography.h5?.fontSize, fontWeight: theme.typography.h5?.fontWeight, usage: '작은 타이틀' },
-      { variant: 'h6', fontSize: theme.typography.h6?.fontSize, fontWeight: theme.typography.h6?.fontWeight, usage: '라벨 타이틀' },
-      { variant: 'subtitle1', fontSize: theme.typography.subtitle1?.fontSize, fontWeight: theme.typography.subtitle1?.fontWeight, usage: '서브타이틀' },
-      { variant: 'subtitle2', fontSize: theme.typography.subtitle2?.fontSize, fontWeight: theme.typography.subtitle2?.fontWeight, usage: '작은 서브타이틀' },
-      { variant: 'body1', fontSize: theme.typography.body1?.fontSize, fontWeight: theme.typography.body1?.fontWeight, usage: '본문 텍스트' },
-      { variant: 'body2', fontSize: theme.typography.body2?.fontSize, fontWeight: theme.typography.body2?.fontWeight, usage: '보조 본문' },
-      { variant: 'button', fontSize: theme.typography.button?.fontSize, fontWeight: theme.typography.button?.fontWeight, usage: '버튼 텍스트' },
-      { variant: 'caption', fontSize: theme.typography.caption?.fontSize, fontWeight: theme.typography.caption?.fontWeight, usage: '캡션, 주석' },
-      { variant: 'overline', fontSize: theme.typography.overline?.fontSize, fontWeight: theme.typography.overline?.fontWeight, usage: '라벨, 카테고리' },
+      { variant: 'h1', fontSize: theme.typography.h1?.fontSize, fontWeight: theme.typography.h1?.fontWeight, font: 'Display', usage: '히어로 헤드라인' },
+      { variant: 'h2', fontSize: theme.typography.h2?.fontSize, fontWeight: theme.typography.h2?.fontWeight, font: 'Display', usage: '섹션 타이틀' },
+      { variant: 'h3', fontSize: theme.typography.h3?.fontSize, fontWeight: theme.typography.h3?.fontWeight, font: 'Display', usage: '서브섹션 타이틀' },
+      { variant: 'h4', fontSize: theme.typography.h4?.fontSize, fontWeight: theme.typography.h4?.fontWeight, font: 'Display', usage: '카드 타이틀' },
+      { variant: 'h5', fontSize: theme.typography.h5?.fontSize, fontWeight: theme.typography.h5?.fontWeight, font: 'Display', usage: '작은 타이틀' },
+      { variant: 'h6', fontSize: theme.typography.h6?.fontSize, fontWeight: theme.typography.h6?.fontWeight, font: 'Display', usage: '라벨 타이틀' },
+      { variant: 'subtitle1', fontSize: theme.typography.subtitle1?.fontSize, fontWeight: theme.typography.subtitle1?.fontWeight, font: 'Body', usage: '서브타이틀' },
+      { variant: 'subtitle2', fontSize: theme.typography.subtitle2?.fontSize, fontWeight: theme.typography.subtitle2?.fontWeight, font: 'Body', usage: '작은 서브타이틀' },
+      { variant: 'body1', fontSize: theme.typography.body1?.fontSize, fontWeight: theme.typography.body1?.fontWeight, font: 'Body', usage: '본문 텍스트' },
+      { variant: 'body2', fontSize: theme.typography.body2?.fontSize, fontWeight: theme.typography.body2?.fontWeight, font: 'Body', usage: '보조 본문' },
+      { variant: 'button', fontSize: theme.typography.button?.fontSize, fontWeight: theme.typography.button?.fontWeight, font: 'Body', usage: '버튼 텍스트' },
+      { variant: 'caption', fontSize: theme.typography.caption?.fontSize, fontWeight: theme.typography.caption?.fontWeight, font: 'Body', usage: '캡션, 상태 라벨' },
+      { variant: 'overline', fontSize: theme.typography.overline?.fontSize, fontWeight: theme.typography.overline?.fontWeight, font: 'Body', usage: '카테고리, 태그' },
     ];
 
     // Font Weight 데이터
@@ -81,9 +82,9 @@ export const Docs = {
         <DocumentTitle
           title="Typography"
           status="Available"
-          note="Font and text style system"
-          brandName="Design System"
-          systemName="Starter Kit"
+          note="Cormorant Garamond + Pretendard"
+          brandName="Lumenstate"
+          systemName="Design System"
           version="1.0"
         />
         <PageContainer>
@@ -92,12 +93,66 @@ export const Docs = {
             Typography System
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-            프로젝트에서 사용하는 타이포그래피 스케일과 폰트 설정입니다.
+            세리프 Display 폰트와 산세리프 Body 폰트의 조합으로 빛의 부드러움을 표현합니다.
           </Typography>
+
+          {/* 폰트 패밀리 */}
+          <SectionTitle title="Font Family" description="Lumenstate 타이포그래피 시스템" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Role</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Font</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Sample</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Display</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>Cormorant Garamond</TableCell>
+                  <TableCell>
+                    <Typography sx={ { fontFamily: displayFontFamily, fontSize: 24, fontWeight: 500 } }>
+                      Light is the state
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>
+                    h1-h6 헤딩, 히어로 텍스트
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Body</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>Pretendard Variable</TableCell>
+                  <TableCell>
+                    <Typography sx={ { fontFamily: bodyFontFamily, fontSize: 16 } }>
+                      하루의 곡선을 따라 조도를 조율합니다
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>
+                    본문, 버튼, 캡션
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* 폰트 선택 이유 */}
+          <Box sx={ { p: 3, border: '1px solid', borderColor: 'divider', mb: 4 } }>
+            <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+              폰트 선택 이유
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={ { mb: 1 } }>
+              <strong>Cormorant Garamond:</strong> 세리프 곡선이 빛의 확산을 연상시키며, 기하학적 우아함을 제공합니다.
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Pretendard:</strong> 한글/영문 혼용에 최적화되어 있으며, 가변 폰트를 지원합니다.
+            </Typography>
+          </Box>
 
           {/* 토큰 구조 (트리 뷰) */}
           <SectionTitle title="토큰 구조" description="theme.typography 계층 구조" />
-          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1, mb: 4 } }>
+          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', mb: 4 } }>
             { Object.entries(tokenStructure).map(([key, value]) => (
               <TreeNode key={ key } keyName={ key } value={ value } defaultOpen />
             )) }
@@ -106,28 +161,30 @@ export const Docs = {
           {/* 토큰 값 (테이블) - Typography Scale */}
           <SectionTitle title="토큰 값" description="Typography variant별 설정" />
           <TableContainer sx={ { mb: 4 } }>
-            <Table size="small">
+            <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={ { fontWeight: 600 } }>Variant</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Size</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Weight</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Sample</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Variant</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Font</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Size</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Weight</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Sample</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>용도</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 { tokenValues.map((row) => (
                   <TableRow key={ row.variant }>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.variant }</TableCell>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.fontSize || '-' }</TableCell>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.fontWeight || '-' }</TableCell>
-                    <TableCell>
-                      <Typography variant={ row.variant } sx={ { maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }>
-                        Typography
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13, py: 2.5 } }>{ row.variant }</TableCell>
+                    <TableCell sx={ { fontSize: 12, py: 2.5 } }>{ row.font }</TableCell>
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13, py: 2.5 } }>{ row.fontSize || '-' }</TableCell>
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13, py: 2.5 } }>{ row.fontWeight || '-' }</TableCell>
+                    <TableCell sx={ { py: 2.5 } }>
+                      <Typography variant={ row.variant }>
+                        { row.font === 'Display' ? 'Light is the state of space.' : '하루의 곡선을 따라 조율합니다.' }
                       </Typography>
                     </TableCell>
-                    <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>{ row.usage }</TableCell>
+                    <TableCell sx={ { color: 'text.secondary', fontSize: 13, py: 2.5 } }>{ row.usage }</TableCell>
                   </TableRow>
                 )) }
               </TableBody>
@@ -137,22 +194,22 @@ export const Docs = {
           {/* Font Weight 테이블 */}
           <SectionTitle title="Font Weight" description="사용 가능한 폰트 굵기" />
           <TableContainer sx={ { mb: 4 } }>
-            <Table size="small">
+            <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={ { fontWeight: 600 } }>Name</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Token</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Value</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>Sample</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Name</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Token</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Value</TableCell>
+                  <TableCell sx={ { fontWeight: 600, py: 2 } }>Sample</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 { fontWeights.map((row) => (
                   <TableRow key={ row.token }>
-                    <TableCell>{ row.name }</TableCell>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.token }</TableCell>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.value }</TableCell>
-                    <TableCell>
+                    <TableCell sx={ { py: 2 } }>{ row.name }</TableCell>
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13, py: 2 } }>{ row.token }</TableCell>
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13, py: 2 } }>{ row.value }</TableCell>
+                    <TableCell sx={ { py: 2 } }>
                       <Box component="span" sx={ { fontWeight: row.value } }>
                         The quick brown fox
                       </Box>
@@ -173,26 +230,25 @@ export const Docs = {
               fontSize: 12,
               fontFamily: 'monospace',
               overflow: 'auto',
-              borderRadius: 1,
               mb: 4,
             } }
           >
-{ `// Typography variant 사용
-<Typography variant="h1">페이지 타이틀</Typography>
-<Typography variant="body1">본문 텍스트</Typography>
-<Typography variant="caption">캡션 텍스트</Typography>
+{ `// Display Typography (Cormorant Garamond)
+<Typography variant="h1">빛은 공간의 상태다.</Typography>
+<Typography variant="h2">Light is the state of space.</Typography>
 
-// sx prop으로 커스텀
-<Typography sx={{ fontWeight: 700 }}>볼드 텍스트</Typography>
-<Typography sx={{ fontSize: '1.5rem' }}>커스텀 크기</Typography>
+// Body Typography (Pretendard)
+<Typography variant="body1">하루의 곡선을 따라 조도·색온도를 부드럽게 조율합니다.</Typography>
+<Typography variant="caption">260 lx · 3200 K</Typography>
+
+// 상태 라벨 (조도·색온도)
+<Typography variant="caption" sx={{ fontFamily: 'monospace' }}>
+  480 lx · 4400 K
+</Typography>
 
 // color와 함께 사용
-<Typography variant="h4" color="primary">Primary 컬러 제목</Typography>
-<Typography variant="body2" color="text.secondary">보조 텍스트</Typography>
-
-// fontWeight 토큰 사용
-<Box sx={{ fontWeight: 'fontWeightBold' }}>볼드 텍스트</Box>
-<Box sx={{ fontWeight: 'fontWeightLight' }}>라이트 텍스트</Box>` }
+<Typography variant="h4" color="primary">3800K Accent 컬러</Typography>
+<Typography variant="body2" color="text.secondary">보조 설명 텍스트</Typography>` }
           </Box>
 
           {/* Vibe Coding Prompt */}
@@ -209,29 +265,70 @@ export const Docs = {
               fontSize: 12,
               fontFamily: 'monospace',
               overflow: 'auto',
-              borderRadius: 1,
             } }
           >
-{ `/* 타이포그래피 토큰 활용 프롬프트 예시 */
+{ `/* Lumenstate 타이포그래피 프롬프트 예시 */
 
-"Typography variant='h4'를 사용해서 카드 제목을 만들어줘.
-fontWeight: 700으로 볼드 처리해줘."
+"히어로 헤드라인은 Typography variant='h1'으로 만들어줘.
+Cormorant Garamond 세리프 폰트가 적용되어 있어."
 
-"body1으로 본문, caption으로 날짜를 표시하는
-블로그 포스트 카드를 만들어줘."
+"서브 카피는 body1으로, 상태 라벨(조도·색온도)은
+caption + monospace로 만들어줘."
 
-"h2는 섹션 제목, body2는 설명으로 사용해서
-가격표 컴포넌트를 만들어줘."
+"제품명은 h4, 마감 태그는 overline으로 표시해줘.
+h4는 Cormorant Garamond, overline은 Pretendard야."
 
-"overline variant로 카테고리 라벨을 만들고,
-h5로 아이템 이름을 표시해줘."
-
-"fontWeightLight (${theme.typography.fontWeightLight})와
-fontWeightBold (${theme.typography.fontWeightBold})를 사용해서
-강조 텍스트와 일반 텍스트를 구분해줘."` }
+"CTA 버튼 텍스트는 button variant 사용해줘.
+fontWeight: 500, Pretendard 폰트가 적용돼."` }
           </Box>
         </PageContainer>
       </>
     );
   },
+};
+
+/** Display vs Body 비교 */
+export const FontComparison = {
+  name: 'Font Comparison',
+  render: () => (
+    <>
+      <DocumentTitle
+        title="Font Comparison"
+        status="Available"
+        note="Display vs Body fonts"
+        brandName="Lumenstate"
+        systemName="Design System"
+        version="1.0"
+      />
+      <PageContainer>
+        <Typography variant="h4" sx={ { fontWeight: 700, mb: 1 } }>
+          Font Comparison
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
+          Display 폰트와 Body 폰트의 시각적 차이를 비교합니다.
+        </Typography>
+
+        <SectionTitle title="Display (Cormorant Garamond)" description="영문 세리프 - 헤딩용" />
+        <Box sx={ { mb: 4 } }>
+          <Typography variant="h2" sx={ { mb: 2 } }>
+            Light is the state of space.
+          </Typography>
+          <Typography variant="h4">
+            The rhythm of your day, softly illuminated.
+          </Typography>
+        </Box>
+
+        <SectionTitle title="Body (Pretendard)" description="한글/영문 본문용" />
+        <Box sx={ { mb: 4 } }>
+          <Typography variant="body1" sx={ { mb: 2 } }>
+            하루의 곡선을 따라 조도·색온도를 부드럽게 조율합니다.
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Lumenstate adjusts brightness and color temperature throughout your day.
+          </Typography>
+        </Box>
+
+      </PageContainer>
+    </>
+  ),
 };

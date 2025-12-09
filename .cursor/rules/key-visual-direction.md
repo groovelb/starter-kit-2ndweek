@@ -1,0 +1,52 @@
+# Lumenstate Key Visual Direction
+
+> "빛은 공간의 상태다."
+
+---
+
+## Visual Concept
+
+조명 제품의 선과 면으로 구성된 기하학적 형태를 UI에 계승합니다.
+곡선 세리프 서체로 빛의 부드러운 확산을 표현하고,
+라인 그리드와 충분한 여백으로 공간의 품격을 유지합니다.
+
+---
+
+## Color
+
+4색만 사용. 그래디언트/글로우/블러 금지.
+
+| Token | Hex | 용도 |
+|-------|-----|------|
+| Wall Tint White | `#F5F2EE` | 라이트 배경 |
+| 3800K White | `#F2E9DA` | 다크 모드 텍스트 |
+| Warm Black | `#12100E` | 다크 배경 / 라이트 모드 텍스트 |
+| 3800K Accent | `#FFC66E` | 액센트 |
+
+선택 이유:
+- 3800K 색온도 기반으로 조명 제품의 따뜻한 빛을 반영
+- 순백/순흑 대신 틴트된 색상으로 실제 벽면과 조명 환경 재현
+
+---
+
+## Typography
+
+| Role | Font |
+|------|------|
+| Display | Cormorant Garamond |
+| Body | Pretendard Variable |
+
+선택 이유:
+- Cormorant Garamond: 세리프 곡선이 빛의 확산을 연상, 기하학적 우아함
+- Pretendard: 한글/영문 혼용 최적화, 가변 폰트 지원
+
+---
+
+## Icon
+
+Library: `lucide-react`
+
+선택 이유:
+- 1.5px 스트로크로 브랜드 라인 스타일과 일치
+- 경량, 트리쉐이킹 지원
+- Feather Icons 계승으로 미니멀 미감 보장

@@ -3,21 +3,15 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import theme from '../src/styles/themes/theme.js';
 
-// Google Fonts 로드 (Material Symbols + Outfit)
-const googleFonts = [
-  // Material Symbols
-  'Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
-  'Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
-  'Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200',
-  // Outfit (헤딩용)
-  'Outfit:wght@300;400;500;600;700;800;900',
-];
+// Tiempos Headline 로컬 폰트 로드
+import tiemposHeadline from '../src/assets/font/test-tiempos-headline-vf-roman.woff2';
 
-googleFonts.forEach((font) => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = `https://fonts.googleapis.com/css2?family=${font}&display=swap`;
-  document.head.appendChild(link);
+const fontFace = new FontFace('Tiempos Headline', `url(${tiemposHeadline})`, {
+  style: 'normal',
+  weight: '100 900',
+});
+fontFace.load().then((font) => {
+  document.fonts.add(font);
 });
 
 /** @type { import('@storybook/react-vite').Preview } */

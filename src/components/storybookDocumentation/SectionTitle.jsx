@@ -33,6 +33,7 @@ export function SectionTitle({ title, description, children }) {
           mb: 1.5,
           borderBottom: '2px solid',
           borderColor: 'text.primary',
+          fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
         } }
       >
         { title }
@@ -41,7 +42,7 @@ export function SectionTitle({ title, description, children }) {
         <Typography
           variant="body1"
           color="text.secondary"
-          sx={ { whiteSpace: 'pre-line', mb: children ? 3 : 0 } }
+          sx={ { whiteSpace: 'pre-line', mb: children ? 3 : 0, fontFamily: '"Pretendard Variable", Pretendard, sans-serif' } }
         >
           { description }
         </Typography>
