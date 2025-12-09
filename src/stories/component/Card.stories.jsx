@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
 
 export default {
   title: 'MUI Component/Card/Card',
@@ -39,34 +38,66 @@ export default {
     },
   },
   argTypes: {
+    variant: {
+      control: 'select',
+      options: ['elevation', 'outlined'],
+      description: '카드 스타일. elevation은 그림자, outlined는 테두리로 구분합니다.',
+      table: {
+        type: { summary: "'elevation' | 'outlined'" },
+        defaultValue: { summary: 'elevation' },
+      },
+    },
     elevation: {
       control: { type: 'range', min: 0, max: 24 },
-      description: '카드의 그림자 깊이를 설정합니다.',
+      description: '그림자 깊이 (0-24). variant="elevation"일 때만 적용됩니다.',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
       },
+      if: { arg: 'variant', eq: 'elevation' },
     },
-    variant: {
-      control: 'select',
-      options: ['elevation', 'outlined'],
-      description: '카드의 스타일 변형을 설정합니다.',
+    raised: {
+      control: 'boolean',
+      description: 'true 시 elevation=8 고정. variant="elevation"일 때만 적용됩니다.',
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'elevation' },
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+      if: { arg: 'variant', eq: 'elevation' },
+    },
+    square: {
+      control: 'boolean',
+      description: 'true 시 borderRadius=0으로 설정합니다.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
       },
     },
   },
 };
 
-/** 기본 카드 */
+/** 기본 카드 - Controls에서 elevation, variant 등을 조작해보세요 */
 export const Default = {
   args: {
     elevation: 1,
     variant: 'elevation',
+    raised: false,
+    square: false,
   },
   render: (args) => (
-    <Card sx={ { maxWidth: 345 } } elevation={ args.elevation } variant={ args.variant }>
+    <Card
+      sx={ { maxWidth: 345 } }
+      elevation={ args.elevation }
+      variant={ args.variant }
+      raised={ args.raised }
+      square={ args.square }
+    >
+      <CardMedia
+        component="img"
+        height="140"
+        image="https://picsum.photos/seed/card1/345/140"
+        alt="카드 이미지"
+      />
       <CardContent>
         <Typography variant="h5" component="div" gutterBottom>
           카드 제목
@@ -84,313 +115,155 @@ export const Default = {
   ),
 };
 
-/** 이미지가 있는 카드 */
-export const WithMedia = {
+/** Variant 비교 - elevation vs outlined */
+export const Variants = {
   render: () => (
-    <Card sx={ { maxWidth: 345 } }>
-      <CardMedia
-        component="img"
-        height="140"
-        image="https://picsum.photos/seed/card1/345/140"
-        alt="카드 이미지"
-      />
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          이미지 카드
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          CardMedia 컴포넌트를 사용하여 이미지를 표시할 수 있습니다.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary">
-          자세히 보기
-        </Button>
-      </CardActions>
-    </Card>
+    <Stack direction="row" spacing={ 3 }>
+      <Card variant="elevation" elevation={ 2 } sx={ { width: 200 } }>
+        <CardContent>
+          <Typography variant="caption" color="text.secondary">
+            variant
+          </Typography>
+          <Typography variant="h6">elevation</Typography>
+          <Typography variant="body2" color="text.secondary">
+            그림자로 영역 구분
+          </Typography>
+        </CardContent>
+      </Card>
+      <Card variant="outlined" sx={ { width: 200 } }>
+        <CardContent>
+          <Typography variant="caption" color="text.secondary">
+            variant
+          </Typography>
+          <Typography variant="h6">outlined</Typography>
+          <Typography variant="body2" color="text.secondary">
+            테두리로 영역 구분
+          </Typography>
+        </CardContent>
+      </Card>
+    </Stack>
   ),
 };
 
-/** 헤더가 있는 카드 */
-export const WithHeader = {
+/** 구성 요소별 활용법 */
+export const Composition = {
   render: () => (
-    <Card sx={ { maxWidth: 345 } }>
-      <CardHeader
-        avatar={
-          <Avatar sx={ { bgcolor: 'primary.main' } }>
-            K
-          </Avatar>
-        }
-        action={
-          <IconButton>
-            <Box component="span" sx={ { fontSize: 20 } }>⋮</Box>
-          </IconButton>
-        }
-        title="김철수"
-        subheader="2024년 1월 15일"
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://picsum.photos/seed/card2/345/194"
-        alt="게시물 이미지"
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          오늘 멋진 경험을 했습니다. 새로운 프로젝트를 시작하게 되어 정말 기쁩니다.
+    <Stack spacing={ 4 }>
+      {/* CardHeader */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { mb: 1, fontWeight: 600 } }>
+          CardHeader - 제목, 부제목, 아바타, 액션 버튼
         </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton>
-          <Box component="span" sx={ { fontSize: 20 } }>♡</Box>
-        </IconButton>
-        <IconButton>
-          <Box component="span" sx={ { fontSize: 20 } }>💬</Box>
-        </IconButton>
-        <IconButton>
-          <Box component="span" sx={ { fontSize: 20 } }>↗</Box>
-        </IconButton>
-      </CardActions>
-    </Card>
-  ),
-};
+        <Card sx={ { maxWidth: 345 } }>
+          <CardHeader
+            avatar={
+              <Avatar sx={ { bgcolor: 'primary.main' } }>K</Avatar>
+            }
+            action={
+              <IconButton>
+                <Box component="span" sx={ { fontSize: 20 } }>⋮</Box>
+              </IconButton>
+            }
+            title="김철수"
+            subheader="2024년 1월 15일"
+          />
+        </Card>
+      </Box>
 
-/** Outlined 카드 */
-export const Outlined = {
-  render: () => (
-    <Card variant="outlined" sx={ { maxWidth: 345 } }>
-      <CardContent>
-        <Typography variant="overline" color="text.secondary">
-          OUTLINED
+      {/* CardMedia */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { mb: 1, fontWeight: 600 } }>
+          CardMedia - 이미지, 비디오 썸네일
         </Typography>
-        <Typography variant="h5" component="div" sx={ { mb: 1.5 } }>
-          Outlined 카드
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          variant="outlined"를 사용하면 테두리만 있는 카드를 만들 수 있습니다.
-          그림자 대신 보더로 영역을 구분합니다.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">확인</Button>
-      </CardActions>
-    </Card>
-  ),
-};
+        <Card sx={ { maxWidth: 345 } }>
+          <CardMedia
+            component="img"
+            height="160"
+            image="https://picsum.photos/seed/card2/345/160"
+            alt="카드 이미지"
+          />
+        </Card>
+      </Box>
 
-/** Elevation 비교 */
-export const Elevations = {
-  render: () => (
-    <Stack direction="row" spacing={ 2 } flexWrap="wrap" useFlexGap>
-      { [0, 1, 2, 3, 4].map((elevation) => (
-        <Card key={ elevation } elevation={ elevation } sx={ { width: 120, height: 80 } }>
+      {/* CardContent */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { mb: 1, fontWeight: 600 } }>
+          CardContent - 주요 콘텐츠 (텍스트, 설명, 태그 등)
+        </Typography>
+        <Card sx={ { maxWidth: 345 } }>
           <CardContent>
-            <Typography variant="caption" color="text.secondary">
-              elevation
+            <Typography variant="h6" gutterBottom>
+              콘텐츠 제목
             </Typography>
-            <Typography variant="h6">{ elevation }</Typography>
+            <Typography variant="body2" color="text.secondary" sx={ { mb: 1.5 } }>
+              카드의 주요 내용을 담는 영역입니다. 텍스트, 가격, 태그 등 다양한 정보를 배치합니다.
+            </Typography>
+            <Stack direction="row" spacing={ 1 }>
+              <Chip label="React" size="small" />
+              <Chip label="MUI" size="small" />
+            </Stack>
           </CardContent>
         </Card>
-      )) }
-    </Stack>
-  ),
-};
-
-/** 상품 카드 */
-export const ProductCard = {
-  render: () => (
-    <Card sx={ { maxWidth: 280 } }>
-      <CardMedia
-        component="img"
-        height="200"
-        image="https://picsum.photos/seed/product1/280/200"
-        alt="상품 이미지"
-      />
-      <CardContent>
-        <Box sx={ { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 } }>
-          <Typography variant="subtitle1" sx={ { fontWeight: 600 } }>
-            프리미엄 무선 이어폰
-          </Typography>
-          <Chip label="NEW" size="small" color="primary" />
-        </Box>
-        <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>
-          고품질 사운드와 편안한 착용감
-        </Typography>
-        <Box sx={ { display: 'flex', alignItems: 'baseline', gap: 1 } }>
-          <Typography variant="h6" color="primary" sx={ { fontWeight: 700 } }>
-            ₩89,000
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={ { textDecoration: 'line-through' } }
-          >
-            ₩120,000
-          </Typography>
-        </Box>
-      </CardContent>
-      <CardActions>
-        <Button variant="contained" fullWidth>
-          장바구니 담기
-        </Button>
-      </CardActions>
-    </Card>
-  ),
-};
-
-/** 블로그 포스트 카드 */
-export const BlogPostCard = {
-  render: () => (
-    <Card sx={ { maxWidth: 400 } }>
-      <CardMedia
-        component="img"
-        height="180"
-        image="https://picsum.photos/seed/blog1/400/180"
-        alt="블로그 썸네일"
-      />
-      <CardContent>
-        <Stack direction="row" spacing={ 1 } sx={ { mb: 1 } }>
-          <Chip label="React" size="small" variant="outlined" />
-          <Chip label="TypeScript" size="small" variant="outlined" />
-        </Stack>
-        <Typography variant="h6" gutterBottom sx={ { fontWeight: 600 } }>
-          React 19의 새로운 기능 살펴보기
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={ { mb: 2 } }>
-          React 19에서 추가된 새로운 기능들과 성능 개선 사항에 대해 알아봅니다.
-          Actions, use(), 그리고 새로운 훅들...
-        </Typography>
-        <Box sx={ { display: 'flex', alignItems: 'center', gap: 2 } }>
-          <Avatar sx={ { width: 32, height: 32, bgcolor: 'secondary.main' } }>D</Avatar>
-          <Box>
-            <Typography variant="caption" sx={ { fontWeight: 500 } }>
-              개발자 김
-            </Typography>
-            <Typography variant="caption" color="text.secondary" display="block">
-              2024.01.15 · 5분 읽기
-            </Typography>
-          </Box>
-        </Box>
-      </CardContent>
-    </Card>
-  ),
-};
-
-/** 프로필 카드 */
-export const ProfileCard = {
-  render: () => (
-    <Card sx={ { maxWidth: 300, textAlign: 'center' } }>
-      <Box sx={ { pt: 3 } }>
-        <Avatar
-          sx={ {
-            width: 80,
-            height: 80,
-            mx: 'auto',
-            bgcolor: 'primary.main',
-            fontSize: '2rem',
-          } }
-        >
-          JS
-        </Avatar>
       </Box>
-      <CardContent>
-        <Typography variant="h6" sx={ { fontWeight: 600 } }>
-          정수민
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Frontend Developer
-        </Typography>
-        <Stack direction="row" spacing={ 1 } justifyContent="center" sx={ { mt: 2 } }>
-          <Chip label="React" size="small" />
-          <Chip label="TypeScript" size="small" />
-          <Chip label="MUI" size="small" />
-        </Stack>
-      </CardContent>
-      <CardActions sx={ { justifyContent: 'center', pb: 2 } }>
-        <Button variant="outlined" size="small">
-          프로필 보기
-        </Button>
-        <Button variant="contained" size="small">
-          팔로우
-        </Button>
-      </CardActions>
-    </Card>
-  ),
-};
 
-/** 통계 카드 */
-export const StatCard = {
-  render: () => (
-    <Stack direction="row" spacing={ 2 }>
-      <Card sx={ { minWidth: 180 } }>
-        <CardContent>
-          <Typography variant="overline" color="text.secondary">
-            총 방문자
-          </Typography>
-          <Typography variant="h4" sx={ { fontWeight: 700 } }>
-            12,543
-          </Typography>
-          <Typography variant="caption" color="success.main">
-            +12.5% 지난 주 대비
-          </Typography>
-        </CardContent>
-      </Card>
-      <Card sx={ { minWidth: 180 } }>
-        <CardContent>
-          <Typography variant="overline" color="text.secondary">
-            신규 가입
-          </Typography>
-          <Typography variant="h4" sx={ { fontWeight: 700 } }>
-            847
-          </Typography>
-          <Typography variant="caption" color="error.main">
-            -3.2% 지난 주 대비
-          </Typography>
-        </CardContent>
-      </Card>
-      <Card sx={ { minWidth: 180 } }>
-        <CardContent>
-          <Typography variant="overline" color="text.secondary">
-            전환율
-          </Typography>
-          <Typography variant="h4" sx={ { fontWeight: 700 } }>
-            4.8%
-          </Typography>
-          <Typography variant="caption" color="success.main">
-            +0.8% 지난 주 대비
-          </Typography>
-        </CardContent>
-      </Card>
+      {/* CardActions */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { mb: 1, fontWeight: 600 } }>
+          CardActions - 액션 버튼 영역
+        </Typography>
+        <Card sx={ { maxWidth: 345 } }>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              하단에 버튼을 배치할 때 사용합니다.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">자세히 보기</Button>
+            <Button size="small" variant="contained">액션</Button>
+          </CardActions>
+        </Card>
+      </Box>
+
+      {/* 전체 조합 */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { mb: 1, fontWeight: 600 } }>
+          전체 조합 예시
+        </Typography>
+        <Card sx={ { maxWidth: 345 } }>
+          <CardHeader
+            avatar={<Avatar sx={ { bgcolor: 'secondary.main' } }>D</Avatar>}
+            action={
+              <IconButton>
+                <Box component="span" sx={ { fontSize: 20 } }>⋮</Box>
+              </IconButton>
+            }
+            title="개발자 김"
+            subheader="2024.01.15"
+          />
+          <CardMedia
+            component="img"
+            height="160"
+            image="https://picsum.photos/seed/card3/345/160"
+            alt="게시물 이미지"
+          />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              CardHeader, CardMedia, CardContent, CardActions를 모두 조합한 예시입니다.
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton>
+              <Box component="span" sx={ { fontSize: 20 } }>♡</Box>
+            </IconButton>
+            <IconButton>
+              <Box component="span" sx={ { fontSize: 20 } }>💬</Box>
+            </IconButton>
+            <IconButton>
+              <Box component="span" sx={ { fontSize: 20 } }>↗</Box>
+            </IconButton>
+          </CardActions>
+        </Card>
+      </Box>
     </Stack>
-  ),
-};
-
-/** 카드 그리드 */
-export const CardGrid = {
-  render: () => (
-    <Box sx={ { width: 800 } }>
-      <Grid container spacing={ 3 }>
-        { [1, 2, 3, 4, 5, 6].map((item) => (
-          <Grid size={ { xs: 12, sm: 6, md: 4 } } key={ item }>
-            <Card>
-              <CardMedia
-                component="img"
-                height="120"
-                image={ `https://picsum.photos/seed/grid${item}/300/120` }
-                alt={ `이미지 ${item}` }
-              />
-              <CardContent>
-                <Typography variant="subtitle1" sx={ { fontWeight: 600 } }>
-                  카드 제목 { item }
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  카드 설명 텍스트입니다.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        )) }
-      </Grid>
-    </Box>
   ),
 };
