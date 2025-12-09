@@ -6,7 +6,7 @@ import { GNB } from './GNB';
  * AppShell 컴포넌트
  *
  * 반응형 레이아웃 쉘. GNB(헤더)와 메인 영역으로 구성된다.
- * GNB가 반응형 네비게이션(Header + Drawer)을 처리한다.
+ * GNB가 반응형 네비게이션(Header + 전체화면 Drawer)을 처리한다.
  *
  * Props:
  * @param {node} logo - 로고 영역 (항상 표시) [Optional]
@@ -17,7 +17,6 @@ import { GNB } from './GNB';
  * @param {node} children - 메인 콘텐츠 영역 [Required]
  * @param {string} breakpoint - 반응형 전환 브레이크포인트 ('sm' | 'md' | 'lg') [Optional, 기본값: 'md']
  * @param {number} headerHeight - 헤더 높이 (px) [Optional, 기본값: 64]
- * @param {number} drawerWidth - 드로어 너비 (px) [Optional, 기본값: 280]
  * @param {boolean} hasHeaderBorder - 헤더 하단 보더 [Optional, 기본값: true]
  * @param {boolean} isHeaderSticky - 헤더 고정 [Optional, 기본값: true]
  * @param {boolean} isHeaderTransparent - 헤더 투명 배경 [Optional, 기본값: false]
@@ -42,7 +41,6 @@ const AppShell = forwardRef(function AppShell({
   children,
   breakpoint = 'md',
   headerHeight = 64,
-  drawerWidth = 280,
   hasHeaderBorder = true,
   isHeaderSticky = true,
   isHeaderTransparent = false,
@@ -69,7 +67,6 @@ const AppShell = forwardRef(function AppShell({
         drawerFooter={drawerFooter}
         breakpoint={breakpoint}
         height={headerHeight}
-        drawerWidth={drawerWidth}
         hasBorder={hasHeaderBorder}
         isSticky={isHeaderSticky}
         isTransparent={isHeaderTransparent}

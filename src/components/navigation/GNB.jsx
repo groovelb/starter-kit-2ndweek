@@ -24,7 +24,7 @@ export const useGNB = () => useContext(GNBContext);
  *
  * 반응형 GNB (Global Navigation Bar).
  * 데스크탑에서는 헤더에 네비게이션을 표시하고,
- * 모바일에서는 햄버거 메뉴 + 드로어로 전환된다.
+ * 모바일에서는 햄버거 메뉴 + 전체화면 드로어로 전환된다.
  *
  * Props:
  * @param {node} logo - 로고 영역 (항상 표시) [Optional]
@@ -34,7 +34,6 @@ export const useGNB = () => useContext(GNBContext);
  * @param {node} drawerFooter - 드로어 하단 커스텀 요소 [Optional]
  * @param {string} breakpoint - 반응형 전환 브레이크포인트 ('sm' | 'md' | 'lg') [Optional, 기본값: 'md']
  * @param {number} height - 헤더 높이 (px) [Optional, 기본값: 64]
- * @param {number} drawerWidth - 드로어 너비 (px) [Optional, 기본값: 280]
  * @param {boolean} hasBorder - 헤더 하단 보더 [Optional, 기본값: true]
  * @param {boolean} isSticky - 헤더 고정 [Optional, 기본값: true]
  * @param {boolean} isTransparent - 헤더 투명 배경 [Optional, 기본값: false]
@@ -55,7 +54,6 @@ const GNB = forwardRef(function GNB({
   drawerFooter,
   breakpoint = 'md',
   height = 64,
-  drawerWidth = 280,
   hasBorder = true,
   isSticky = true,
   isTransparent = false,
@@ -92,6 +90,8 @@ const GNB = forwardRef(function GNB({
 
   /**
    * 드로어 콘텐츠
+   * - 전체 화면 채우기
+   * - 세로 레이아웃, 큰 메뉴 사이즈
    */
   const renderDrawerContent = () => (
     <Box
@@ -99,7 +99,7 @@ const GNB = forwardRef(function GNB({
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        width: drawerWidth,
+        width: '100vw',
       }}
     >
       {/* Drawer Header */}
@@ -109,7 +109,7 @@ const GNB = forwardRef(function GNB({
           alignItems: 'center',
           justifyContent: 'space-between',
           height,
-          px: 2,
+          px: 3,
           borderBottom: '1px solid',
           borderColor: 'divider',
           flexShrink: 0,
@@ -118,20 +118,35 @@ const GNB = forwardRef(function GNB({
         {drawerHeader || logo}
         <IconButton
           onClick={closeDrawer}
-          size="small"
+          size="medium"
           aria-label="Close menu"
         >
           <CloseIcon />
         </IconButton>
       </Box>
 
-      {/* Drawer Content */}
+      {/* Drawer Content - 세로 레이아웃, 큰 메뉴 */}
       <Box
         sx={{
           flex: 1,
           overflow: 'auto',
-          py: 2,
-          px: 2,
+          py: 4,
+          px: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+          '& nav': {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 0.5,
+          },
+          '& button, & a': {
+            fontSize: '1.5rem',
+            fontWeight: 600,
+            py: 2,
+            px: 2,
+            justifyContent: 'flex-start',
+          },
         }}
       >
         {navContent}
@@ -141,7 +156,7 @@ const GNB = forwardRef(function GNB({
       {drawerFooter && (
         <Box
           sx={{
-            p: 2,
+            p: 3,
             borderTop: '1px solid',
             borderColor: 'divider',
             flexShrink: 0,
@@ -184,14 +199,14 @@ const GNB = forwardRef(function GNB({
         </Box>
       </Box>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer - 전체 화면 */}
       <Drawer
         anchor="right"
         open={isDrawerOpen}
         onClose={closeDrawer}
         sx={{
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: '100vw',
             boxSizing: 'border-box',
           },
         }}

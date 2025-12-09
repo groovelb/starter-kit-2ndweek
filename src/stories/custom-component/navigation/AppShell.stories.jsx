@@ -1,29 +1,11 @@
-import { useState } from 'react';
+import { MemoryRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Stack from '@mui/material/Stack';
 import { AppShell } from '../../../components/navigation/AppShell';
 import { NavMenu } from '../../../components/navigation/NavMenu';
-import { DocumentTitle, PageContainer } from '../../../components/storybookDocumentation';
-import { SectionContainer } from '../../../components/container/SectionContainer';
-
-// Navigation Items (MUSE Style)
-const museNavItems = [
-  { id: 'archive', label: 'Archive' },
-  { id: 'moodboards', label: 'Moodboards' },
-  { id: 'settings', label: 'Settings' },
-];
-
-// Navigation Items (기본)
-const basicNavItems = [
-  { id: 'home', label: 'Home' },
-  { id: 'products', label: 'Products' },
-  { id: 'about', label: 'About' },
-  { id: 'contact', label: 'Contact' },
-];
+import { useGNB } from '../../../components/navigation/GNB';
+import { Page1, Page2, Page3 } from '../../../pages';
 
 export default {
   title: 'Custom Component/Navigation/AppShell',
@@ -31,204 +13,220 @@ export default {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      description: {
+        component: `
+## AppShell
+
+반응형 애플리케이션 쉘 컴포넌트.
+
+### 특징
+- GNB(헤더) + 메인 콘텐츠 영역 구성
+- 모바일에서 자동으로 드로어 메뉴 전환
+- react-router-dom 연동 지원
+        `,
+      },
+    },
+  },
+  argTypes: {
+    breakpoint: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '반응형 전환 브레이크포인트',
+    },
+    headerHeight: {
+      control: { type: 'number', min: 48, max: 96 },
+      description: '헤더 높이 (px)',
+    },
+    hasHeaderBorder: {
+      control: 'boolean',
+      description: '헤더 하단 보더',
+    },
+    isHeaderSticky: {
+      control: 'boolean',
+      description: '헤더 고정 여부',
+    },
+    isHeaderTransparent: {
+      control: 'boolean',
+      description: '헤더 투명 배경',
+    },
   },
 };
 
-/**
- * ## 기본 사용법
- * 
- * 반응형 애플리케이션 쉘입니다.
- * 모바일에서는 자동으로 드로어 메뉴로 전환됩니다.
- */
+const menuItems = [
+  { id: 'page1', label: 'Page 1' },
+  { id: 'page2', label: 'Page 2' },
+  { id: 'page3', label: 'Page 3' },
+];
+
+const Logo = () => (
+  <Typography variant="h6" fontWeight={ 700 }>
+    Logo
+  </Typography>
+);
+
+/** 기본 AppShell - Controls에서 Props 조작 가능 */
 export const Default = {
-  render: () => (
-    <PageContainer>
-      <DocumentTitle
-        title="AppShell"
-        status="Ready"
-        note="반응형 애플리케이션 쉘 컴포넌트"
-        brandName="Navigation"
-        systemName="AppShell"
-        version="1.0"
-      />
-      <SectionContainer>
-        <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, overflow: 'hidden', height: 400 }}>
-          <AppShell
-            logo={
-              <Typography variant="h6" fontWeight={700} sx={{ letterSpacing: '-0.5px' }}>
-                MUSE.
-              </Typography>
-            }
-            headerPersistent={
-              <IconButton size="small">
-                <AccountCircleIcon />
-              </IconButton>
-            }
-            headerCollapsible={
-              <NavMenu
-                items={museNavItems}
-                activeId="archive"
-                variant="underline"
-              />
-            }
-          >
-            <Box sx={{ p: 4 }}>
-              <Typography variant="h4" fontWeight={700} gutterBottom>
-                Welcome to Dashboard
-              </Typography>
-              <Typography color="text.secondary">
-                화면 크기를 조절해보세요. 모바일에서는 네비게이션이 드로어 메뉴로 전환됩니다.
-              </Typography>
-            </Box>
-          </AppShell>
+  args: {
+    breakpoint: 'md',
+    headerHeight: 64,
+    hasHeaderBorder: true,
+    isHeaderSticky: true,
+    isHeaderTransparent: false,
+  },
+  render: (args) => (
+    <Box sx={ { height: 400, border: '1px solid', borderColor: 'divider' } }>
+      <AppShell
+        { ...args }
+        logo={ <Logo /> }
+        headerCollapsible={
+          <NavMenu
+            items={ menuItems }
+            activeId="page1"
+          />
+        }
+      >
+        <Box
+          sx={ {
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: 'grey.50',
+          } }
+        >
+          <Box sx={ { textAlign: 'center', p: 4 } }>
+            <Typography variant="h4" fontWeight={ 700 } gutterBottom>
+              Main Content
+            </Typography>
+            <Typography color="text.secondary">
+              화면 크기를 조절해보세요. 모바일에서는 드로어 메뉴로 전환됩니다.
+            </Typography>
+          </Box>
         </Box>
-      </SectionContainer>
-    </PageContainer>
+      </AppShell>
+    </Box>
   ),
 };
 
 /**
- * ## 다양한 기능 조합
- * 
- * 검색, CTA 버튼, 드로어 푸터 등을 포함한 전체 기능 예시입니다.
+ * 라우터 연동 네비게이션 컴포넌트
  */
-export const FullFeatured = {
+function RouterNavMenu() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { closeDrawer } = useGNB();
+
+  const routerMenuItems = [
+    { id: 'page1', label: 'Page 1', path: '/page1' },
+    { id: 'page2', label: 'Page 2', path: '/page2' },
+    { id: 'page3', label: 'Page 3', path: '/page3' },
+  ];
+
+  // 현재 경로에서 activeId 추출
+  const activeId = routerMenuItems.find((item) => item.path === location.pathname)?.id || 'page1';
+
+  const handleItemClick = (item) => {
+    navigate(item.path);
+    closeDrawer(); // 모바일 드로어 닫기
+  };
+
+  return (
+    <NavMenu
+      items={ routerMenuItems }
+      activeId={ activeId }
+      onItemClick={ handleItemClick }
+    />
+  );
+}
+
+/**
+ * 라우터 연동 AppShell
+ */
+function RouterAppShell() {
+  return (
+    <AppShell
+      logo={ <Logo /> }
+      headerCollapsible={ <RouterNavMenu /> }
+    >
+      <Routes>
+        <Route path="/" element={ <Page1 /> } />
+        <Route path="/page1" element={ <Page1 /> } />
+        <Route path="/page2" element={ <Page2 /> } />
+        <Route path="/page3" element={ <Page3 /> } />
+        <Route path="*" element={ <Page1 /> } />
+      </Routes>
+    </AppShell>
+  );
+}
+
+/** 라우터 연동 예시 - 메뉴 클릭 시 페이지 전환 */
+export const WithRouter = {
   render: () => (
-    <PageContainer>
-      <DocumentTitle
-        title="AppShell - Full Featured"
-        status="Ready"
-        note="다양한 기능이 포함된 전체 구성 예시"
-        brandName="Navigation"
-        systemName="AppShell"
-        version="1.0"
-      />
-      <SectionContainer>
-        <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, overflow: 'hidden', height: 500 }}>
-          <AppShell
-            logo={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Box
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 1,
-                    backgroundColor: 'primary.main',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontWeight: 700,
-                    fontSize: 14,
-                  }}
-                >
-                  SK
-                </Box>
-                <Typography variant="subtitle1" fontWeight={600}>
-                  Starter Kit
-                </Typography>
-              </Box>
-            }
-            headerPersistent={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <IconButton size="small">
-                  <SearchIcon />
-                </IconButton>
-                <Button variant="contained" size="small" sx={{ display: { xs: 'none', sm: 'flex' } }}>
-                  Get Started
-                </Button>
-              </Box>
-            }
-            headerCollapsible={
-              <NavMenu
-                items={basicNavItems}
-                activeId="home"
-                variant="underline"
-              />
-            }
-            drawerFooter={
-              <Button variant="contained" fullWidth>
-                Get Started
-              </Button>
-            }
-            breakpoint="lg"
-          >
-            <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'grey.50',
-              }}
-            >
-              <Box sx={{ textAlign: 'center', p: 4 }}>
-                <Typography variant="h3" fontWeight={700} gutterBottom>
-                  Home Page
-                </Typography>
-                <Typography color="text.secondary" sx={{ maxWidth: 400 }}>
-                  메인 콘텐츠 영역입니다. AppShell이 반응형 헤더와 자동 드로어 변환을 제공합니다.
-                </Typography>
-              </Box>
-            </Box>
-          </AppShell>
-        </Box>
-      </SectionContainer>
-    </PageContainer>
+    <MemoryRouter initialEntries={ ['/page1'] }>
+      <Box sx={ { height: 500, border: '1px solid', borderColor: 'divider' } }>
+        <RouterAppShell />
+      </Box>
+    </MemoryRouter>
   ),
 };
 
-/**
- * ## 투명 헤더
- * 
- * Hero 섹션에 적합한 투명 헤더 모드입니다.
- */
-export const TransparentHeader = {
+/** 레이아웃 변형 비교 */
+export const LayoutVariants = {
   render: () => (
-    <PageContainer>
-      <DocumentTitle
-        title="AppShell - Transparent Header"
-        status="Ready"
-        note="Hero 섹션에 적합한 투명 헤더 모드"
-        brandName="Navigation"
-        systemName="AppShell"
-        version="1.0"
-      />
-      <SectionContainer>
-        <Box sx={{ borderRadius: 2, overflow: 'hidden', height: 400 }}>
+    <Stack spacing={ 4 }>
+      <Box>
+        <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
+          기본 레이아웃
+        </Typography>
+        <Box sx={ { height: 300, border: '1px solid', borderColor: 'divider' } }>
+          <AppShell
+            logo={ <Logo /> }
+            headerCollapsible={ <NavMenu items={ menuItems } activeId="page1" /> }
+          >
+            <Box sx={ { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50' } }>
+              <Typography variant="h5" fontWeight={ 600 }>Content Area</Typography>
+            </Box>
+          </AppShell>
+        </Box>
+      </Box>
+      <Box>
+        <Typography variant="caption" sx={ { fontFamily: 'monospace', mb: 1, display: 'block' } }>
+          투명 헤더 (Hero 섹션)
+        </Typography>
+        <Box sx={ { height: 300 } }>
           <AppShell
             logo={
-              <Typography variant="h6" fontWeight={700} sx={{ color: 'white' }}>
-                Brand
+              <Typography variant="h6" fontWeight={ 700 } sx={ { color: 'white' } }>
+                Logo
               </Typography>
             }
             headerCollapsible={
               <NavMenu
-                items={basicNavItems}
-                activeId="home"
-                sx={{ '& button': { color: 'white' } }}
+                items={ menuItems }
+                activeId="page1"
+                sx={ { '& button': { color: 'white' } } }
               />
             }
             isHeaderTransparent
-            hasHeaderBorder={false}
+            hasHeaderBorder={ false }
           >
             <Box
-              sx={{
+              sx={ {
                 flex: 1,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                color: 'white',
-              }}
+              } }
             >
-              <Typography variant="h2" fontWeight={700}>
+              <Typography variant="h3" fontWeight={ 700 } color="white">
                 Hero Section
               </Typography>
             </Box>
           </AppShell>
         </Box>
-      </SectionContainer>
-    </PageContainer>
+      </Box>
+    </Stack>
   ),
 };
