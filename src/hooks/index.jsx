@@ -9,6 +9,9 @@
 export { useSnackbar } from './useSnackbar';
 export { useAssetDetailModal } from './useAssetDetailModal';
 
+// Lumenstate 타임라인 훅
+export { useTimeline, TimelineProvider, TIME_PRESETS, getTimeInfo } from './useTimeline';
+
 // Archive 페이지 훅
 export { useArchiveData } from './useArchiveData';
 

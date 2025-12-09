@@ -2,22 +2,25 @@ import { forwardRef, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { CustomCard } from '../card/CustomCard';
-import { ImageTransition } from '../media/ImageTransition';
+import { TimeBlendImage } from '../media/TimeBlendImage';
 
 /**
  * ProductCard 컴포넌트
  *
- * Lumenstate 제품 카드. 썸네일(낮/밤 크로스페이드), 제품명, 타입 태그, 상태 라벨을 표시한다.
+ * Lumenstate 제품 카드. 썸네일(4개 시간대 기반 낮/밤 블렌딩), 제품명, 타입 태그, 상태 라벨을 표시한다.
  *
  * 동작 방식:
- * 1. timeline 값(0-1)에 따라 낮/밤 이미지 간 크로스페이드
- * 2. timeline 0 = 낮 이미지, timeline 1 = 밤 이미지
- * 3. 상태 라벨에 조도(lux)·색온도(K) 실시간 표시
- * 4. 카드 클릭 시 onClick 콜백 호출
+ * 1. timeline 값(0-1)에 따라 4개 시간대 기반으로 낮/밤 이미지 opacity 블렌딩
+ *    - 0.00 ~ 0.25: 낮 (순수 낮 이미지)
+ *    - 0.25 ~ 0.50: 저녁 (낮→밤 전환)
+ *    - 0.50 ~ 0.75: 밤 (순수 밤 이미지)
+ *    - 0.75 ~ 1.00: 새벽 (밤→낮 전환)
+ * 2. 상태 라벨에 조도(lux)·색온도(K) 실시간 표시
+ * 3. 카드 클릭 시 onClick 콜백 호출
  *
  * Props:
  * @param {object} product - 제품 데이터 { id, title, type, lux, kelvin, images, video } [Required]
- * @param {number} timeline - 시간대 값 (0-1, 0=낮, 1=밤) [Optional, 기본값: 0]
+ * @param {number} timeline - 시간대 값 (0-1) [Optional, 기본값: 0]
  * @param {function} onClick - 카드 클릭 핸들러 [Optional]
  * @param {boolean} isSelected - 선택 상태 [Optional, 기본값: false]
  * @param {object} sx - 추가 스타일 [Optional]
@@ -40,24 +43,19 @@ const ProductCard = forwardRef(function ProductCard({
   const { title, type, lux, kelvin, images } = product;
 
   /**
-   * timeline 값에 따른 이미지 인덱스 결정
-   * 0-0.5: 낮 이미지 (index 0)
-   * 0.5-1: 밤 이미지 (index 1)
+   * 낮/밤 이미지 추출
+   * images[0]: 낮 이미지
+   * images[1]: 밤 이미지
    */
-  const activeImageIndex = useMemo(() => {
-    return timeline >= 0.5 ? 1 : 0;
-  }, [timeline]);
-
-  /**
-   * 이미지 배열 정규화
-   */
-  const normalizedImages = useMemo(() => {
-    if (!images || images.length === 0) return [];
-    return images.map((src, idx) => ({
-      src,
-      alt: `${title} - ${idx === 0 ? 'Day' : 'Night'}`,
-    }));
-  }, [images, title]);
+  const { dayImage, nightImage } = useMemo(() => {
+    if (!images || images.length === 0) {
+      return { dayImage: null, nightImage: null };
+    }
+    return {
+      dayImage: images[0] || null,
+      nightImage: images[1] || images[0] || null,
+    };
+  }, [images]);
 
   /**
    * 타입 태그 라벨
@@ -73,10 +71,10 @@ const ProductCard = forwardRef(function ProductCard({
   }, [type]);
 
   /**
-   * 미디어 슬롯 - ImageTransition으로 낮/밤 크로스페이드
+   * 미디어 슬롯 - TimeBlendImage로 4개 시간대 기반 낮/밤 블렌딩
    */
   const renderMediaSlot = () => {
-    if (normalizedImages.length === 0) {
+    if (!dayImage && !nightImage) {
       return (
         <Box
           sx={ {
@@ -96,12 +94,11 @@ const ProductCard = forwardRef(function ProductCard({
     }
 
     return (
-      <ImageTransition
-        images={ normalizedImages }
-        activeIndex={ activeImageIndex }
-        transition="fade"
-        duration={ 600 }
-        easing="cubic-bezier(0.37, 0, 0.63, 1)"
+      <TimeBlendImage
+        dayImage={ dayImage }
+        nightImage={ nightImage }
+        timeline={ timeline }
+        alt={ title }
         aspectRatio="1/1"
         objectFit="cover"
         sx={ { width: '100%', height: '100%' } }

@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 
-import theme from './styles/themes/theme.js';
+import { TimelineProvider } from './hooks/useTimeline';
 import { AppShell } from './components/navigation/AppShell';
 import { NavMenu } from './components/navigation/NavMenu';
 import { useGNB } from './components/navigation/GNB';
@@ -67,12 +65,11 @@ function AppLayout() {
 
 function App() {
   return (
-    <ThemeProvider theme={ theme }>
-      <CssBaseline />
+    <TimelineProvider initialTimeline={ 0 }>
       <BrowserRouter>
         <AppLayout />
       </BrowserRouter>
-    </ThemeProvider>
+    </TimelineProvider>
   );
 }
 

@@ -16,25 +16,32 @@
 
 4색만 사용. 그래디언트/글로우/블러 금지.
 
-| Token | Hex | 용도 |
-|-------|-----|------|
-| Wall Tint White | `#F5F2EE` | 라이트 배경 |
-| 3800K White | `#F2E9DA` | 다크 모드 텍스트 |
-| Warm Black | `#12100E` | 다크 배경 / 라이트 모드 텍스트 |
-| 3800K Accent | `#FFC66E` | 액센트 |
+- Wall Tint White `#F5F2EE`: 라이트 배경, 카드 배경
+- 3800K White `#F2E9DA`: 다크 모드 텍스트
+- Warm Black `#12100E`: 다크 배경, 라이트 모드 텍스트
+- 3800K Accent `#FFC66E`: 액센트 (CTA, 링크, 포커스)
 
 선택 이유:
 - 3800K 색온도 기반으로 조명 제품의 따뜻한 빛을 반영
 - 순백/순흑 대신 틴트된 색상으로 실제 벽면과 조명 환경 재현
 
+### 시간대별 배경색 전환
+
+12:00pm → 12:00am 사이를 4단계로 나눠 배경색이 점진적으로 전환됩니다.
+
+- 12:00pm (정오): `#F5F2EE` - 가장 밝음
+- 4:00pm (오후): `#F5F2EE` - 밝음 유지
+- 8:00pm (저녁): `#12100E` - 어두움 전환
+- 12:00am (자정): `#12100E` - 가장 어두움
+
+4:00pm → 8:00pm 구간에서 밝은색에서 어두운색으로 자연스럽게 보간됩니다.
+
 ---
 
 ## Typography
 
-| Role | Font |
-|------|------|
-| Display | Cormorant Garamond |
-| Body | Pretendard Variable |
+- Display: Cormorant Garamond
+- Body: Pretendard Variable
 
 선택 이유:
 - Cormorant Garamond: 세리프 곡선이 빛의 확산을 연상, 기하학적 우아함
