@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import { defaultTheme as theme } from './styles/themes';
+import theme from './styles/themes/theme.js';
 import MainLayout from './layouts/MainLayout';
 import LandingPage from './pages/LandingPage.jsx';
 import { ArchivePage } from './pages/ArchivePage';

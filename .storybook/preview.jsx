@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import defaultTheme from '../src/styles/themes/default.js';
+import theme from '../src/styles/themes/theme.js';
 
 // Google Fonts 로드 (Material Symbols + Outfit)
 const googleFonts = [
@@ -49,7 +49,7 @@ const preview = {
   },
   decorators: [
     (Story, context) => (
-      <ThemeProvider theme={ defaultTheme }>
+      <ThemeProvider theme={ theme }>
         <CssBaseline />
         <div style={ { width: '100%', paddingTop: '40px' } }>
           { Story(context) }

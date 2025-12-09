@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { ArchivePage } from '../../pages/ArchivePage';
 import { MoodboardsPage } from '../../pages/MoodboardsPage';
 import LandingPage from '../../pages/LandingPage.jsx';
-import { defaultTheme as theme } from '../../styles/themes';
+import theme from '../../styles/themes/theme.js';
 
 /**
  * ThemeWrapper 컴포넌트
