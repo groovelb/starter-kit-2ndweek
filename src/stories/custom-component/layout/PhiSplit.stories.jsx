@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { DocumentTitle, PageContainer, SectionTitle } from '../../../components/storybookDocumentation';
+import { DocumentTitle, PageContainer, SectionTitle, GridContent } from '../../../components/storybookDocumentation';
 import { PhiSplit, PHI } from '../../../components/layout/PhiSplit';
 
 export default {
@@ -53,26 +53,6 @@ export default {
   },
 };
 
-// 데모용 박스 컴포넌트
-const DemoBox = ({ children, color = 'primary.main', height = 200, ...props }) => (
-  <Box
-    sx={ {
-      height,
-      backgroundColor: color,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontWeight: 600,
-      fontSize: 18,
-      p: 3,
-    } }
-    { ...props }
-  >
-    { children }
-  </Box>
-);
-
 /** 기본 사용 */
 export const Default = {
   args: {
@@ -85,14 +65,10 @@ export const Default = {
     <PhiSplit
       { ...args }
       primary={
-        <DemoBox color="#667eea">
-          Primary (61.8%)
-        </DemoBox>
+        <GridContent label="Primary (61.8%)" variant="primary" height={ 200 } />
       }
       secondary={
-        <DemoBox color="#764ba2">
-          Secondary (38.2%)
-        </DemoBox>
+        <GridContent label="Secondary (38.2%)" variant="secondary" height={ 200 } />
       }
     />
   ),
@@ -214,14 +190,10 @@ export const Documentation = {
               gap={ 2 }
               stackAt="none"
               primary={
-                <DemoBox color="#667eea" height={ 150 }>
-                  Primary (61.8%)
-                </DemoBox>
+                <GridContent label="Primary (61.8%)" variant="primary" height={ 150 } />
               }
               secondary={
-                <DemoBox color="#764ba2" height={ 150 }>
-                  Secondary (38.2%)
-                </DemoBox>
+                <GridContent label="Secondary (38.2%)" variant="secondary" height={ 150 } />
               }
             />
           </Box>
@@ -234,14 +206,10 @@ export const Documentation = {
               isReversed
               stackAt="none"
               primary={
-                <DemoBox color="#667eea" height={ 150 }>
-                  Primary (61.8%)
-                </DemoBox>
+                <GridContent label="Primary (61.8%)" variant="primary" height={ 150 } />
               }
               secondary={
-                <DemoBox color="#764ba2" height={ 150 }>
-                  Secondary (38.2%)
-                </DemoBox>
+                <GridContent label="Secondary (38.2%)" variant="secondary" height={ 150 } />
               }
             />
           </Box>
@@ -254,14 +222,10 @@ export const Documentation = {
             gap={ 2 }
             stackAt="none"
             primary={
-              <DemoBox color="#f093fb" height={ 180 }>
-                Primary (61.8%)
-              </DemoBox>
+              <GridContent label="Primary (61.8%)" variant="primary" height={ 180 } />
             }
             secondary={
-              <DemoBox color="#f5576c" height={ 110 }>
-                Secondary (38.2%)
-              </DemoBox>
+              <GridContent label="Secondary (38.2%)" variant="secondary" height={ 110 } />
             }
           />
         </Box>

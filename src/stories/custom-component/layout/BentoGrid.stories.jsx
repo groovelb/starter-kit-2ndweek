@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { DocumentTitle, PageContainer, SectionTitle } from '../../../components/storybookDocumentation';
+import { DocumentTitle, PageContainer, SectionTitle, GridContent } from '../../../components/storybookDocumentation';
 import { BentoGrid, BentoItem } from '../../../components/layout/BentoGrid';
 import { BENTO_PRESETS } from '../../../components/layout/bentoPresets';
 
@@ -48,28 +48,6 @@ Apple 스타일의 벤토 박스 그리드 레이아웃.
   },
 };
 
-// 데모용 셀 컴포넌트
-const DemoCell = ({ label, color = '#667eea', icon }) => (
-  <Box
-    sx={ {
-      height: '100%',
-      minHeight: 100,
-      backgroundColor: color,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontWeight: 600,
-      fontSize: 18,
-      p: 2,
-    } }
-  >
-    { icon && <Box sx={ { fontSize: 40, mb: 1 } }>{ icon }</Box> }
-    { label }
-  </Box>
-);
-
 /** 기본 사용 */
 export const Default = {
   args: {
@@ -79,17 +57,17 @@ export const Default = {
   },
   render: (args) => (
     <BentoGrid { ...args }>
-      <BentoItem colSpan={ 2 } rowSpan={ 2 } background="#667eea">
-        <DemoCell label="Featured" color="transparent" />
+      <BentoItem colSpan={ 2 } rowSpan={ 2 }>
+        <GridContent label="2x2" variant="primary" height="100%" />
       </BentoItem>
-      <BentoItem background="#764ba2">
-        <DemoCell label="Item 2" color="transparent" />
+      <BentoItem>
+        <GridContent label="1x1" variant="secondary" height="100%" />
       </BentoItem>
-      <BentoItem background="#f093fb">
-        <DemoCell label="Item 3" color="transparent" />
+      <BentoItem>
+        <GridContent label="1x1" height="100%" />
       </BentoItem>
-      <BentoItem colSpan={ 2 } background="#4facfe">
-        <DemoCell label="Wide" color="transparent" />
+      <BentoItem colSpan={ 2 }>
+        <GridContent label="2x1" variant="primary" height="100%" />
       </BentoItem>
     </BentoGrid>
   ),
@@ -215,17 +193,17 @@ export const Documentation = {
               </Typography>
             </Box>
           </BentoItem>
-          <BentoItem background="#1a1a2e">
-            <DemoCell label="Quick Stats" color="transparent" icon="📊" />
+          <BentoItem>
+            <GridContent label="1x1" variant="primary" height="100%" />
           </BentoItem>
-          <BentoItem background="#16213e">
-            <DemoCell label="Updates" color="transparent" icon="🔔" />
+          <BentoItem>
+            <GridContent label="1x1" variant="secondary" height="100%" />
           </BentoItem>
-          <BentoItem background="#0f3460">
-            <DemoCell label="Settings" color="transparent" icon="⚙️" />
+          <BentoItem>
+            <GridContent label="1x1" height="100%" />
           </BentoItem>
-          <BentoItem background="#533483">
-            <DemoCell label="Profile" color="transparent" icon="👤" />
+          <BentoItem>
+            <GridContent label="1x1" variant="primary" height="100%" />
           </BentoItem>
         </BentoGrid>
 
@@ -306,9 +284,12 @@ export const Documentation = {
                   key={ i }
                   colSpan={ preset.colSpan }
                   rowSpan={ preset.rowSpan }
-                  background={ i === 0 ? '#667eea' : '#764ba2' }
                 >
-                  <DemoCell label={ `${preset.colSpan}x${preset.rowSpan}` } color="transparent" />
+                  <GridContent
+                    label={ `${preset.colSpan}x${preset.rowSpan}` }
+                    variant={ i === 0 ? 'primary' : 'secondary' }
+                    height="100%"
+                  />
                 </BentoItem>
               )) }
             </BentoGrid>
@@ -324,9 +305,12 @@ export const Documentation = {
                   key={ i }
                   colSpan={ preset.colSpan }
                   rowSpan={ preset.rowSpan }
-                  background={ ['#f093fb', '#f5576c', '#4facfe', '#00f2fe'][i] }
                 >
-                  <DemoCell label={ `${preset.colSpan}x${preset.rowSpan}` } color="transparent" />
+                  <GridContent
+                    label={ `${preset.colSpan}x${preset.rowSpan}` }
+                    variant={ i % 2 === 0 ? 'primary' : 'secondary' }
+                    height="100%"
+                  />
                 </BentoItem>
               )) }
             </BentoGrid>

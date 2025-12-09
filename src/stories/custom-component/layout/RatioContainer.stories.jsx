@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Grid from '@mui/material/Grid';
-import { DocumentTitle, PageContainer, SectionTitle } from '../../../components/storybookDocumentation';
+import { DocumentTitle, PageContainer, SectionTitle, GridContent } from '../../../components/storybookDocumentation';
 import { RatioContainer, PHI } from '../../../components/layout/RatioContainer';
 
 export default {
@@ -156,32 +156,32 @@ export const Documentation = {
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               16:9 - 영상, 와이드스크린
             </Typography>
-            <RatioContainer ratio="16:9" background="#1a1a2e">
-              <Typography sx={ { color: 'white' } }>16:9</Typography>
+            <RatioContainer ratio="16:9">
+              <GridContent label="16:9" variant="primary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Grid>
           <Grid size={ { xs: 12, md: 6 } }>
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               4:3 - 클래식, 문서
             </Typography>
-            <RatioContainer ratio="4:3" background="#16213e">
-              <Typography sx={ { color: 'white' } }>4:3</Typography>
+            <RatioContainer ratio="4:3">
+              <GridContent label="4:3" variant="secondary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Grid>
           <Grid size={ { xs: 12, md: 6 } }>
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               1:1 - 정사각형, 프로필
             </Typography>
-            <RatioContainer ratio="1:1" background="#0f3460" maxWidth="300px">
-              <Typography sx={ { color: 'white' } }>1:1</Typography>
+            <RatioContainer ratio="1:1" maxWidth="300px">
+              <GridContent label="1:1" variant="primary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Grid>
           <Grid size={ { xs: 12, md: 6 } }>
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               21:9 - 울트라와이드, 시네마
             </Typography>
-            <RatioContainer ratio="21:9" background="#533483">
-              <Typography sx={ { color: 'white' } }>21:9</Typography>
+            <RatioContainer ratio="21:9">
+              <GridContent label="21:9" variant="secondary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Grid>
         </Grid>
@@ -192,27 +192,16 @@ export const Documentation = {
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               phi - 가로로 긴 황금비율 (1.618:1)
             </Typography>
-            <RatioContainer
-              ratio="phi"
-              background="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-            >
-              <Typography sx={ { color: 'white', fontWeight: 600 } }>
-                φ (Golden Ratio)
-              </Typography>
+            <RatioContainer ratio="phi">
+              <GridContent label="φ (Golden Ratio)" variant="primary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Box>
           <Box>
             <Typography variant="subtitle2" sx={ { mb: 1, color: 'text.secondary' } }>
               phi-vertical - 세로로 긴 황금비율 (1:1.618)
             </Typography>
-            <RatioContainer
-              ratio="phi-vertical"
-              background="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-              maxWidth="400px"
-            >
-              <Typography sx={ { color: 'white', fontWeight: 600 } }>
-                1/φ (Vertical Golden)
-              </Typography>
+            <RatioContainer ratio="phi-vertical" maxWidth="400px">
+              <GridContent label="1/φ (Vertical Golden)" variant="secondary" height="100%" minHeight={ 0 } />
             </RatioContainer>
           </Box>
         </Stack>

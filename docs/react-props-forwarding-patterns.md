@@ -12,17 +12,13 @@
 
 ```jsx
 function CustomCard({
-  // CustomCard 전용 props
-  layout,
-  mediaRatio,
-  // 나머지는 CardContainer로 전달
-  ...containerProps
+	// CustomCard 전용 props
+	layout,
+	mediaRatio,
+	// 나머지는 CardContainer로 전달
+	...containerProps
 }) {
-  return (
-    <CardContainer {...containerProps}>
-      {/* 내용 */}
-    </CardContainer>
-  );
+	return <CardContainer {...containerProps}>{/* 내용 */}</CardContainer>;
 }
 ```
 
@@ -30,11 +26,11 @@ function CustomCard({
 
 ```jsx
 <CustomCard
-  layout="vertical"           // CustomCard가 사용
-  mediaRatio="16/9"           // CustomCard가 사용
-  variant="elevation"         // CardContainer로 전달
-  padding="lg"                // CardContainer로 전달
-  isInteractive               // CardContainer로 전달
+	layout="vertical" // CustomCard가 사용
+	mediaRatio="16/9" // CustomCard가 사용
+	variant="elevation" // CardContainer로 전달
+	padding="lg" // CardContainer로 전달
+	isInteractive // CardContainer로 전달
 />
 ```
 
@@ -59,16 +55,12 @@ function CustomCard({
 
 ```jsx
 function CustomCard({
-  layout,
-  mediaRatio,
-  containerProps,  // CardContainer props를 객체로
-  children
+	layout,
+	mediaRatio,
+	containerProps, // CardContainer props를 객체로
+	children,
 }) {
-  return (
-    <CardContainer {...containerProps}>
-      {/* 내용 */}
-    </CardContainer>
-  );
+	return <CardContainer {...containerProps}>{/* 내용 */}</CardContainer>;
 }
 ```
 
@@ -76,13 +68,13 @@ function CustomCard({
 
 ```jsx
 <CustomCard
-  layout="vertical"
-  mediaRatio="16/9"
-  containerProps={{
-    variant: 'elevation',
-    padding: 'lg',
-    isSelected: true
-  }}
+	layout="vertical"
+	mediaRatio="16/9"
+	containerProps={{
+		variant: "elevation",
+		padding: "lg",
+		isSelected: true,
+	}}
 />
 ```
 
@@ -105,21 +97,16 @@ MUI v6에서 사용하는 공식 패턴입니다. 내부 요소(slot)별로 prop
 ### 코드 예시
 
 ```jsx
-function CustomCard({
-  slots = {},
-  slotProps = {},
-  children,
-  ...props
-}) {
-  const RootSlot = slots.root || CardContainer;
-  const MediaSlot = slots.media || 'img';
+function CustomCard({ slots = {}, slotProps = {}, children, ...props }) {
+	const RootSlot = slots.root || CardContainer;
+	const MediaSlot = slots.media || "img";
 
-  return (
-    <RootSlot {...slotProps.root} {...props}>
-      <MediaSlot {...slotProps.media} />
-      {children}
-    </RootSlot>
-  );
+	return (
+		<RootSlot {...slotProps.root} {...props}>
+			<MediaSlot {...slotProps.media} />
+			{children}
+		</RootSlot>
+	);
 }
 ```
 
@@ -127,10 +114,10 @@ function CustomCard({
 
 ```jsx
 <CustomCard
-  slotProps={{
-    root: { variant: 'elevation', isSelected: true },
-    media: { loading: 'lazy' }
-  }}
+	slotProps={{
+		root: { variant: "elevation", isSelected: true },
+		media: { loading: "lazy" },
+	}}
 />
 ```
 
@@ -154,11 +141,8 @@ function CustomCard({
 ### 코드 예시
 
 ```jsx
-function CustomCard({
-  as: Component = CardContainer,
-  ...props
-}) {
-  return <Component {...props} />;
+function CustomCard({ as: Component = CardContainer, ...props }) {
+	return <Component {...props} />;
 }
 ```
 
@@ -192,14 +176,14 @@ function CustomCard({
 ### 코드 예시
 
 ```jsx
-import { cloneElement } from 'react';
+import { cloneElement } from "react";
 
 function CustomCard({ asChild, children, ...props }) {
-  if (asChild) {
-    // 자식에게 props를 병합
-    return cloneElement(children, props);
-  }
-  return <CardContainer {...props}>{children}</CardContainer>;
+	if (asChild) {
+		// 자식에게 props를 병합
+		return cloneElement(children, props);
+	}
+	return <CardContainer {...props}>{children}</CardContainer>;
 }
 ```
 
@@ -238,38 +222,36 @@ CustomCard -> CardContainer 관계에서는 1번 패턴이 가장 적합합니�
 ### 적용 예시
 
 ```jsx
-const CustomCard = forwardRef(function CustomCard({
-  // === CustomCard 전용 props ===
-  layout = 'vertical',
-  mediaPosition = 'start',
-  mediaRatio = '16/9',
-  mediaSrc,
-  mediaAlt = '',
-  mediaSlot,
-  overlaySlot,
-  contentPadding = 'md',
-  contentAlign = 'start',
-  children,
+const CustomCard = forwardRef(function CustomCard(
+	{
+		// === CustomCard 전용 props ===
+		layout = "vertical",
+		mediaPosition = "start",
+		mediaRatio = "16/9",
+		mediaSrc,
+		mediaAlt = "",
+		mediaSlot,
+		overlaySlot,
+		contentPadding = "md",
+		contentAlign = "start",
+		children,
 
-  // === CardContainer로 전달될 props ===
-  // variant, elevation, isInteractive, isSelected, onClick, sx 등
-  ...containerProps
-}, ref) {
-
-  return (
-    <CardContainer
-      ref={ref}
-      padding="none"      // 콘텐츠 영역에서 별도 관리
-      {...containerProps} // 나머지 전부 전달
-    >
-      {renderMedia()}
-      {children && (
-        <Box sx={getContentStyles()}>
-          {children}
-        </Box>
-      )}
-    </CardContainer>
-  );
+		// === CardContainer로 전달될 props ===
+		// variant, elevation, isInteractive, isSelected, onClick, sx 등
+		...containerProps
+	},
+	ref
+) {
+	return (
+		<CardContainer
+			ref={ref}
+			padding="none" // 콘텐츠 영역에서 별도 관리
+			{...containerProps} // 나머지 전부 전달
+		>
+			{renderMedia()}
+			{children && <Box sx={getContentStyles()}>{children}</Box>}
+		</CardContainer>
+	);
 });
 ```
 
@@ -278,22 +260,21 @@ const CustomCard = forwardRef(function CustomCard({
 ```jsx
 // CardContainer의 모든 props 사용 가능
 <CustomCard
-  // CustomCard props
-  layout="horizontal"
-  mediaSrc="/image.jpg"
-  mediaRatio="4/3"
-  contentPadding="lg"
-
-  // CardContainer props (자동 전달)
-  variant="elevation"
-  elevation={4}
-  isInteractive
-  isSelected
-  onClick={() => console.log('clicked')}
-  sx={{ maxWidth: 400 }}
+	// CustomCard props
+	layout="horizontal"
+	mediaSrc="/image.jpg"
+	mediaRatio="4/3"
+	contentPadding="lg"
+	// CardContainer props (자동 전달)
+	variant="elevation"
+	elevation={4}
+	isInteractive
+	isSelected
+	onClick={() => console.log("clicked")}
+	sx={{ maxWidth: 400 }}
 >
-  <Typography variant="h6">제목</Typography>
-  <Typography>설명</Typography>
+	<Typography variant="h6">제목</Typography>
+	<Typography>설명</Typography>
 </CustomCard>
 ```
 

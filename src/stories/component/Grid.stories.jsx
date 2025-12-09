@@ -1,27 +1,6 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[100],
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  border: `1px solid ${theme.palette.grey[300]}`,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-    borderColor: theme.palette.grey[700],
-  }),
-}));
-
-const ColoredItem = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  backgroundColor: theme.palette.primary.main,
-  color: '#fff',
-}));
+import { GridContent } from '../../components/storybookDocumentation';
 
 export default {
   title: 'MUI Component/Layout/Grid',
@@ -86,16 +65,16 @@ export const Default = {
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ spacing }>
         <Grid size={ 8 }>
-          <Item>size=8</Item>
+          <GridContent label="size=8" variant="primary" />
         </Grid>
         <Grid size={ 4 }>
-          <Item>size=4</Item>
+          <GridContent label="size=4" variant="secondary" />
         </Grid>
         <Grid size={ 4 }>
-          <Item>size=4</Item>
+          <GridContent label="size=4" />
         </Grid>
         <Grid size={ 8 }>
-          <Item>size=8</Item>
+          <GridContent label="size=8" variant="primary" />
         </Grid>
       </Grid>
     </Box>
@@ -111,13 +90,13 @@ export const EqualColumns = {
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ spacing }>
         <Grid size={ 4 }>
-          <Item>size=4</Item>
+          <GridContent label="size=4" variant="primary" />
         </Grid>
         <Grid size={ 4 }>
-          <Item>size=4</Item>
+          <GridContent label="size=4" variant="secondary" />
         </Grid>
         <Grid size={ 4 }>
-          <Item>size=4</Item>
+          <GridContent label="size=4" />
         </Grid>
       </Grid>
     </Box>
@@ -133,13 +112,13 @@ export const Responsive = {
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ spacing }>
         <Grid size={ { xs: 12, sm: 6, md: 4 } }>
-          <ColoredItem>xs=12 sm=6 md=4</ColoredItem>
+          <GridContent label="xs=12 sm=6 md=4" variant="primary" />
         </Grid>
         <Grid size={ { xs: 12, sm: 6, md: 4 } }>
-          <ColoredItem>xs=12 sm=6 md=4</ColoredItem>
+          <GridContent label="xs=12 sm=6 md=4" variant="secondary" />
         </Grid>
         <Grid size={ { xs: 12, sm: 6, md: 4 } }>
-          <ColoredItem>xs=12 sm=6 md=4</ColoredItem>
+          <GridContent label="xs=12 sm=6 md=4" variant="primary" />
         </Grid>
       </Grid>
     </Box>
@@ -155,13 +134,13 @@ export const AutoLayout = {
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ spacing }>
         <Grid size="grow">
-          <Item>grow</Item>
+          <GridContent label="grow" />
         </Grid>
         <Grid size={ 6 }>
-          <Item>size=6</Item>
+          <GridContent label="size=6" variant="primary" />
         </Grid>
         <Grid size="grow">
-          <Item>grow</Item>
+          <GridContent label="grow" />
         </Grid>
       </Grid>
     </Box>
@@ -176,16 +155,41 @@ export const NestedGrid = {
   render: ({ spacing }) => (
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ spacing }>
-        <Grid size={ 12 }>
-          <Item>size=12 (Parent)</Item>
+        <Grid size={ 8 }>
+          <Box sx={ { border: '2px dashed', borderColor: 'grey.400', p: 1 } }>
+            <Grid container spacing={ 1 }>
+              <Grid size={ 12 }>
+                <GridContent label="Nested 12" variant="primary" />
+              </Grid>
+              <Grid size={ 6 }>
+                <GridContent label="Nested 6" variant="primary" />
+              </Grid>
+              <Grid size={ 6 }>
+                <GridContent label="Nested 6" variant="primary" />
+              </Grid>
+              <Grid size={ 4 }>
+                <GridContent label="Nested 4" variant="primary" />
+              </Grid>
+              <Grid size={ 4 }>
+                <GridContent label="Nested 4" variant="primary" />
+              </Grid>
+              <Grid size={ 4 }>
+                <GridContent label="Nested 4" variant="primary" />
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
-        <Grid container size={ 12 } spacing={ spacing }>
-          <Grid size={ 6 }>
-            <ColoredItem>Nested size=6</ColoredItem>
-          </Grid>
-          <Grid size={ 6 }>
-            <ColoredItem>Nested size=6</ColoredItem>
-          </Grid>
+        <Grid size={ 4 }>
+          <Box sx={ { border: '2px dashed', borderColor: 'grey.400', p: 1, height: '100%' } }>
+            <Grid container spacing={ 1 } sx={ { height: '100%' } }>
+              <Grid size={ 12 }>
+                <GridContent label="Nested 12" variant="secondary" />
+              </Grid>
+              <Grid size={ 12 }>
+                <GridContent label="Nested 12" variant="secondary" />
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
       </Grid>
     </Box>
@@ -197,19 +201,19 @@ export const SpacingComparison = {
   render: () => (
     <Box sx={ { flexGrow: 1 } }>
       <Grid container spacing={ 1 } sx={ { mb: 2 } }>
-        <Grid size={ 4 }><Item>spacing=1</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=1</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=1</Item></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=1" variant="primary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=1" variant="secondary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=1" /></Grid>
       </Grid>
       <Grid container spacing={ 2 } sx={ { mb: 2 } }>
-        <Grid size={ 4 }><Item>spacing=2</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=2</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=2</Item></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=2" variant="primary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=2" variant="secondary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=2" /></Grid>
       </Grid>
       <Grid container spacing={ 4 }>
-        <Grid size={ 4 }><Item>spacing=4</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=4</Item></Grid>
-        <Grid size={ 4 }><Item>spacing=4</Item></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=4" variant="primary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=4" variant="secondary" /></Grid>
+        <Grid size={ 4 }><GridContent label="spacing=4" /></Grid>
       </Grid>
     </Box>
   ),

@@ -2,46 +2,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import LineGrid from '../../../components/layout/LineGrid';
-
-/**
- * DemoItem 컴포넌트
- * LineGrid 예시를 위한 스타일링된 아이템
- */
-const DemoItem = ({ children, variant = 'default', height = 'auto' }) => {
-  const variants = {
-    default: {
-      backgroundColor: 'grey.100',
-      color: 'text.secondary',
-    },
-    primary: {
-      backgroundColor: 'primary.main',
-      color: 'primary.contrastText',
-    },
-    secondary: {
-      backgroundColor: 'secondary.main',
-      color: 'secondary.contrastText',
-    },
-  };
-
-  const style = variants[variant] || variants.default;
-
-  return (
-    <Box
-      sx={ {
-        p: 2,
-        height,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...style,
-      } }
-    >
-      <Typography variant="body2" fontWeight={ 600 } sx={ { fontFamily: 'monospace' } }>
-        { children }
-      </Typography>
-    </Box>
-  );
-};
+import { GridContent } from '../../../components/storybookDocumentation';
 
 export default {
   title: 'Custom Component/Layout/LineGrid',
@@ -128,19 +89,19 @@ export const Default = {
     <Box sx={ { width: '100%', maxWidth: 600 } }>
       <LineGrid container={ container } gap={ gap } borderColor={ borderColor }>
         <Grid size={ { xs: 6 } }>
-          <DemoItem variant="primary" height={ 80 }>xs=6</DemoItem>
+          <GridContent label="xs=6" variant="primary" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 6 } }>
-          <DemoItem variant="secondary" height={ 80 }>xs=6</DemoItem>
+          <GridContent label="xs=6" variant="secondary" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem height={ 80 }>xs=4</DemoItem>
+          <GridContent label="xs=4" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem variant="primary" height={ 80 }>xs=4</DemoItem>
+          <GridContent label="xs=4" variant="primary" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem variant="secondary" height={ 80 }>xs=4</DemoItem>
+          <GridContent label="xs=4" variant="secondary" height={ 80 } />
         </Grid>
       </LineGrid>
     </Box>
@@ -156,9 +117,9 @@ export const StackMode = {
   render: ({ gap, borderColor }) => (
     <Box sx={ { width: '100%', maxWidth: 400 } }>
       <LineGrid gap={ gap } borderColor={ borderColor }>
-        <DemoItem variant="primary" height={ 60 }>Section 1</DemoItem>
-        <DemoItem variant="secondary" height={ 60 }>Section 2</DemoItem>
-        <DemoItem height={ 60 }>Section 3</DemoItem>
+        <GridContent label="Section 1" variant="primary" height={ 60 } />
+        <GridContent label="Section 2" variant="secondary" height={ 60 } />
+        <GridContent label="Section 3" height={ 60 } />
       </LineGrid>
     </Box>
   ),
@@ -174,22 +135,22 @@ export const EqualHeight = {
     <Box sx={ { width: '100%', maxWidth: 600, height: 300 } }>
       <LineGrid container gap={ gap } borderColor={ borderColor } equalHeight>
         <Grid size={ { xs: 12 } }>
-          <DemoItem variant="primary" height="100%">Row 1 (1/3)</DemoItem>
+          <GridContent label="Row 1 (1/3)" variant="primary" height="100%" />
         </Grid>
         <Grid size={ { xs: 6 } }>
-          <DemoItem variant="secondary" height="100%">Row 2 - Col 1</DemoItem>
+          <GridContent label="Row 2 - Col 1" variant="secondary" height="100%" />
         </Grid>
         <Grid size={ { xs: 6 } }>
-          <DemoItem height="100%">Row 2 - Col 2</DemoItem>
+          <GridContent label="Row 2 - Col 2" height="100%" />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem variant="primary" height="100%">Row 3</DemoItem>
+          <GridContent label="Row 3" variant="primary" height="100%" />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem variant="secondary" height="100%">Row 3</DemoItem>
+          <GridContent label="Row 3" variant="secondary" height="100%" />
         </Grid>
         <Grid size={ { xs: 4 } }>
-          <DemoItem height="100%">Row 3</DemoItem>
+          <GridContent label="Row 3" height="100%" />
         </Grid>
       </LineGrid>
     </Box>
@@ -207,13 +168,13 @@ export const CustomRowHeights = {
     <Box sx={ { width: '100%', maxWidth: 600, height: 300 } }>
       <LineGrid container gap={ gap } borderColor={ borderColor } rowHeights={ rowHeights }>
         <Grid size={ { xs: 12 } }>
-          <DemoItem variant="primary" height="100%">Row 1 (1/3 height)</DemoItem>
+          <GridContent label="Row 1 (1/3 height)" variant="primary" height="100%" />
         </Grid>
         <Grid size={ { xs: 6 } }>
-          <DemoItem variant="secondary" height="100%">Row 2 (2/3 height)</DemoItem>
+          <GridContent label="Row 2 (2/3 height)" variant="secondary" height="100%" />
         </Grid>
         <Grid size={ { xs: 6 } }>
-          <DemoItem height="100%">Row 2 (2/3 height)</DemoItem>
+          <GridContent label="Row 2 (2/3 height)" height="100%" />
         </Grid>
       </LineGrid>
     </Box>
@@ -233,19 +194,19 @@ export const Responsive = {
       </Typography>
       <LineGrid container gap={ gap } borderColor={ borderColor }>
         <Grid size={ { xs: 12, md: 8 } }>
-          <DemoItem variant="primary" height={ 100 }>xs=12 md=8</DemoItem>
+          <GridContent label="xs=12 md=8" variant="primary" height={ 100 } />
         </Grid>
         <Grid size={ { xs: 12, md: 4 } }>
-          <DemoItem variant="secondary" height={ 100 }>xs=12 md=4</DemoItem>
+          <GridContent label="xs=12 md=4" variant="secondary" height={ 100 } />
         </Grid>
         <Grid size={ { xs: 6, md: 4 } }>
-          <DemoItem height={ 80 }>xs=6 md=4</DemoItem>
+          <GridContent label="xs=6 md=4" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 6, md: 4 } }>
-          <DemoItem variant="primary" height={ 80 }>xs=6 md=4</DemoItem>
+          <GridContent label="xs=6 md=4" variant="primary" height={ 80 } />
         </Grid>
         <Grid size={ { xs: 12, md: 4 } }>
-          <DemoItem variant="secondary" height={ 80 }>xs=12 md=4</DemoItem>
+          <GridContent label="xs=12 md=4" variant="secondary" height={ 80 } />
         </Grid>
       </LineGrid>
     </Box>
@@ -259,24 +220,24 @@ export const BorderColorVariants = {
       <Box>
         <Typography variant="subtitle2" sx={ { mb: 1 } }>borderColor="text.primary"</Typography>
         <LineGrid container gap={ 16 } borderColor="text.primary">
-          <Grid size={ { xs: 6 } }><DemoItem height={ 50 }>1</DemoItem></Grid>
-          <Grid size={ { xs: 6 } }><DemoItem height={ 50 }>2</DemoItem></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="1" height={ 50 } /></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="2" height={ 50 } /></Grid>
         </LineGrid>
       </Box>
 
       <Box>
         <Typography variant="subtitle2" sx={ { mb: 1 } }>borderColor="primary.main"</Typography>
         <LineGrid container gap={ 16 } borderColor="primary.main">
-          <Grid size={ { xs: 6 } }><DemoItem variant="primary" height={ 50 }>1</DemoItem></Grid>
-          <Grid size={ { xs: 6 } }><DemoItem variant="primary" height={ 50 }>2</DemoItem></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="1" variant="primary" height={ 50 } /></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="2" variant="primary" height={ 50 } /></Grid>
         </LineGrid>
       </Box>
 
       <Box>
         <Typography variant="subtitle2" sx={ { mb: 1 } }>borderColor="divider"</Typography>
         <LineGrid container gap={ 16 } borderColor="divider">
-          <Grid size={ { xs: 6 } }><DemoItem variant="secondary" height={ 50 }>1</DemoItem></Grid>
-          <Grid size={ { xs: 6 } }><DemoItem variant="secondary" height={ 50 }>2</DemoItem></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="1" variant="secondary" height={ 50 } /></Grid>
+          <Grid size={ { xs: 6 } }><GridContent label="2" variant="secondary" height={ 50 } /></Grid>
         </LineGrid>
       </Box>
     </Box>

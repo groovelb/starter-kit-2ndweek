@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { DocumentTitle, PageContainer, SectionTitle } from '../../../components/storybookDocumentation';
+import { DocumentTitle, PageContainer, SectionTitle, GridContent } from '../../../components/storybookDocumentation';
 import {
   SplitScreen,
   StickySection,
@@ -60,24 +60,6 @@ export default {
   },
 };
 
-// 데모용 패널 컴포넌트
-const DemoPanel = ({ label, color = '#667eea', height = 300 }) => (
-  <Box
-    sx={ {
-      height,
-      backgroundColor: color,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontWeight: 600,
-      fontSize: 24,
-    } }
-  >
-    { label }
-  </Box>
-);
-
 /** 기본 사용 */
 export const Default = {
   args: {
@@ -90,8 +72,8 @@ export const Default = {
   render: (args) => (
     <SplitScreen
       { ...args }
-      left={ <DemoPanel label="Left" color="#667eea" /> }
-      right={ <DemoPanel label="Right" color="#764ba2" /> }
+      left={ <GridContent label="Left" variant="primary" height={ 300 } /> }
+      right={ <GridContent label="Right" variant="secondary" height={ 300 } /> }
     />
   ),
 };
@@ -188,8 +170,8 @@ export const Documentation = {
               <SplitScreen
                 ratio={ r }
                 stackAt="none"
-                left={ <DemoPanel label={ r.split(':')[0] + '%' } height={ 80 } color="#667eea" /> }
-                right={ <DemoPanel label={ r.split(':')[1] + '%' } height={ 80 } color="#764ba2" /> }
+                left={ <GridContent label={ r.split(':')[0] + '%' } variant="primary" height={ 80 } /> }
+                right={ <GridContent label={ r.split(':')[1] + '%' } variant="secondary" height={ 80 } /> }
               />
             </Box>
           )) }
