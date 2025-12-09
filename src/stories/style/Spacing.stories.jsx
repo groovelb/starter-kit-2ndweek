@@ -12,7 +12,6 @@ import {
   PageContainer,
   SectionTitle,
   SpacingBox,
-  TreeNode,
 } from '../../components/storybookDocumentation';
 
 export default {
@@ -59,33 +58,22 @@ const SemanticTokenGroup = ({ name, tokens, description }) => (
 /** Docs - 간격 시스템 문서 (첫 번째 스토리) */
 export const Docs = {
   render: () => {
-    // 토큰 구조 (트리 뷰용)
-    const tokenStructure = {
-      spacing: {
-        unit: '8px',
-        scale: '0, 0.5, 1, 2, 3, 4, 6, 8, 12...',
-      },
-      customSpacing: {
-        inset: { none: 0, sm: 2, md: 3, lg: 4 },
-        gap: { none: 0, xs: 0.5, sm: 1, md: 2, lg: 3, xl: 4 },
-        section: { sm: 3, md: 4, lg: 6 },
-        page: { gutter: '2-4', top: '8-12', bottom: '4-6' },
-        nav: { header: '64px', drawer: '280px' },
-        interactive: { indicator: 1, control: 2 },
-      },
-    };
-
-    // 핵심 토큰 값 (테이블용)
-    const coreTokens = [
-      { token: 'spacing(1)', value: '1', px: '8px', description: '최소 간격, 인라인 요소' },
-      { token: 'spacing(2)', value: '2', px: '16px', description: '기본 간격, 컴포넌트 패딩' },
-      { token: 'spacing(3)', value: '3', px: '24px', description: '카드 내부 패딩' },
-      { token: 'spacing(4)', value: '4', px: '32px', description: '섹션 간격' },
-      { token: 'spacing(6)', value: '6', px: '48px', description: '페이지 패딩' },
-      { token: 'inset.md', value: '3', px: '24px', description: '컴포넌트 내부 패딩' },
-      { token: 'gap.md', value: '2', px: '16px', description: 'Grid/Flex 간격' },
-      { token: 'section.md', value: '4', px: '32px', description: '섹션 간 수직 간격' },
-      { token: 'page.gutter', value: '2-4', px: '16-32px', description: '페이지 좌우 여백' },
+    // 8px 기반 spacing scale (0-10)
+    const spacingScale = [
+      { value: 0, px: 0, usage: '간격 없음' },
+      { value: 0.5, px: 4, usage: '최소 간격, 아이콘-텍스트' },
+      { value: 1, px: 8, usage: '인라인 요소 간격' },
+      { value: 1.5, px: 12, usage: '작은 패딩' },
+      { value: 2, px: 16, usage: '기본 간격, 컴포넌트 패딩' },
+      { value: 2.5, px: 20, usage: '중간 패딩' },
+      { value: 3, px: 24, usage: '카드 내부 패딩' },
+      { value: 4, px: 32, usage: '섹션 간격' },
+      { value: 5, px: 40, usage: '큰 섹션 간격' },
+      { value: 6, px: 48, usage: '페이지 패딩' },
+      { value: 7, px: 56, usage: '대형 간격' },
+      { value: 8, px: 64, usage: '헤더 높이' },
+      { value: 9, px: 72, usage: '대형 패딩' },
+      { value: 10, px: 80, usage: '페이지 상단' },
     ];
 
     return (
@@ -107,33 +95,27 @@ export const Docs = {
             8px 그리드 기반의 기본 스페이싱과 용도별 시멘틱 토큰을 정의합니다.
           </Typography>
 
-          {/* 토큰 구조 (트리 뷰) */}
-          <SectionTitle title="토큰 구조" description="Base spacing과 Semantic spacing 계층 구조" />
-          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1, mb: 4 } }>
-            { Object.entries(tokenStructure).map(([key, value]) => (
-              <TreeNode key={ key } keyName={ key } value={ value } defaultOpen />
-            )) }
-          </Box>
-
-          {/* 토큰 값 (테이블) */}
-          <SectionTitle title="핵심 토큰 값" description="자주 사용되는 스페이싱 토큰" />
+          {/* Spacing Scale 테이블 (0-10) */}
+          <SectionTitle title="Spacing Scale" description="8px 기반 스페이싱 스케일 (0-10)" />
           <TableContainer sx={ { mb: 4 } }>
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={ { fontWeight: 600 } }>Token</TableCell>
                   <TableCell sx={ { fontWeight: 600 } }>Value</TableCell>
                   <TableCell sx={ { fontWeight: 600 } }>Pixel</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>설명</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Visual</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                { coreTokens.map((row) => (
-                  <TableRow key={ row.token }>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.token }</TableCell>
+                { spacingScale.map((row) => (
+                  <TableRow key={ row.value }>
                     <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.value }</TableCell>
-                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.px }</TableCell>
-                    <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>{ row.description }</TableCell>
+                    <TableCell sx={ { fontFamily: 'monospace', fontSize: 13 } }>{ row.px }px</TableCell>
+                    <TableCell>
+                      <SpacingBox size={ row.px } />
+                    </TableCell>
+                    <TableCell sx={ { color: 'text.secondary', fontSize: 13 } }>{ row.usage }</TableCell>
                   </TableRow>
                 )) }
               </TableBody>

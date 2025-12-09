@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
  * Props:
  * @param {number} size - 박스 크기 (픽셀 값) [Required]
  * @param {string} color - 박스 색상 [Optional, 기본값: 'primary.main']
- * @param {number} maxSize - 최대 박스 크기 [Optional, 기본값: 48]
+ * @param {number} maxSize - 최대 박스 크기 [Optional, 기본값: 80]
  *
  * Example usage:
  * <SpacingBox size={16} />
@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 export const SpacingBox = ({
   size,
   color = 'primary.main',
-  maxSize = 48,
+  maxSize = 80,
 }) => {
   const boxSize = Math.max(4, Math.min(size, maxSize));
 
@@ -28,7 +28,6 @@ export const SpacingBox = ({
         width: boxSize,
         height: boxSize,
         backgroundColor: color,
-        borderRadius: '2px',
         minWidth: size > 0 ? 4 : 0,
         minHeight: size > 0 ? 4 : 0,
       } }
