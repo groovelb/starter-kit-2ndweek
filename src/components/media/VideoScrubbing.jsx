@@ -18,6 +18,7 @@ import Box from '@mui/material/Box';
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
  * @param {boolean} startInView - 뷰포트 상단에서 시작하는 경우 true [Optional, 기본값: false]
+ * @param {string} ratio - 비디오 비율 (예: '16/9', '4/3', 'auto') [Optional, 기본값: 'auto']
  * @param {Object} sx - MUI sx 스타일 [Optional]
  * @param {Object} scrollRange - 스크롤 범위 매핑 { start: 0, end: 1 } [Optional]
  * @param {function} onProgressChange - 진행도 변경 콜백 (progress: 0-1) [Optional]
@@ -26,6 +27,7 @@ const VideoScrubbing = ({
   src,
   containerRef = null,
   startInView = false,
+  ratio = 'auto',
   sx = {},
   scrollRange = { start: 0, end: 1 },
   onProgressChange,
@@ -182,7 +184,9 @@ const VideoScrubbing = ({
         preload="auto"
         sx={{
           width: '100%',
-          height: 'auto',
+          height: ratio === 'auto' ? 'auto' : '100%',
+          aspectRatio: ratio === 'auto' ? undefined : ratio,
+          objectFit: ratio === 'auto' ? undefined : 'cover',
           display: 'block',
           position: 'relative',
           zIndex: 0,
