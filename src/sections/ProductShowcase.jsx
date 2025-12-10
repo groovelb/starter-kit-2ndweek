@@ -1,10 +1,9 @@
 import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { SectionContainer } from '../components/container/SectionContainer';
-import { ProductGrid } from '../templates/ProductGrid';
+import { ProductGallery } from '../templates/ProductGallery';
 import { TimelineSlider } from '../components/shared/TimelineSlider';
 import { useTimeline } from '../hooks/useTimeline';
 import { products } from '../data/products';
@@ -13,16 +12,17 @@ import { content } from '../data/content';
 /**
  * ProductShowcase 섹션 컴포넌트
  *
- * TimelineSlider와 ProductGrid를 연동한 제품 쇼케이스 섹션.
+ * TimelineSlider와 ProductGallery(필터 + 그리드)를 연동한 제품 쇼케이스 섹션.
  * 전역 TimelineContext를 사용하여 시간대별 제품 이미지 전환.
  *
  * 동작 방식:
  * 1. TimelineSlider로 시간대 조절 (12pm, 4pm, 8pm, 12am)
- * 2. 선택된 시간대에 따라 모든 ProductCard 이미지 동기화
- * 3. timeline >= 0.5 시 다크 모드 자동 전환
+ * 2. ProductGallery에서 제품 타입별 필터링
+ * 3. 선택된 시간대에 따라 모든 ProductCard 이미지 동기화
+ * 4. timeline >= 0.5 시 다크 모드 자동 전환
  *
  * Props:
- * @param {number} columns - 그리드 열 수 [Optional, 기본값: 6]
+ * @param {number} columns - 그리드 열 수 [Optional, 기본값: 4]
  * @param {function} onProductClick - 제품 클릭 핸들러 [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
  *
@@ -32,7 +32,7 @@ import { content } from '../data/content';
  * </TimelineProvider>
  */
 const ProductShowcase = forwardRef(function ProductShowcase({
-  columns = 6,
+  columns = 4,
   onProductClick,
   sx,
   ...props
@@ -43,7 +43,6 @@ const ProductShowcase = forwardRef(function ProductShowcase({
   return (
     <SectionContainer
       ref={ref}
-      // spacing={12}
       sx={sx}
       {...props}
     >
@@ -71,24 +70,23 @@ const ProductShowcase = forwardRef(function ProductShowcase({
         </Typography>
       </Box>
 
-      {/* TimelineSlider + ProductGrid */}
-      <Stack spacing={4}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <TimelineSlider />
-        </Box>
+      {/* TimelineSlider */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <TimelineSlider />
+      </Box>
 
-        <ProductGrid
-          products={products}
-          timeline={timeline}
-          columns={columns}
-          onProductClick={onProductClick}
-        />
-      </Stack>
+      {/* ProductGallery (필터 + 그리드) */}
+      <ProductGallery
+        products={products}
+        timeline={timeline}
+        columns={columns}
+        onProductClick={onProductClick}
+      />
     </SectionContainer>
   );
 });

@@ -1,7 +1,6 @@
 import { PageContainer } from '../components/container/PageContainer';
 import { TopSection } from '../sections/TopSection';
 import { ProductShowcase } from '../sections/ProductShowcase';
-import { TimelineProvider } from '../hooks/useTimeline';
 
 /**
  * LandingPage 컴포넌트
@@ -13,21 +12,25 @@ import { TimelineProvider } from '../hooks/useTimeline';
  * - TopSection: 히어로 섹션 + 브랜드 가치 카드
  * - ProductShowcase: 타임라인 슬라이더 + 제품 그리드
  *
+ * 동작:
+ * - TimelineContext는 상위(Storybook decorator 또는 App)에서 제공
+ * - timeline >= 0.5 시 배경색 자동 전환 (다크 모드)
+ *
  * @param {object} sx - 추가 스타일 [Optional]
  */
 function LandingPage({ sx }) {
   return (
-    <TimelineProvider>
-      <PageContainer
-        maxWidth={false}
-        disableGutters
-        spacing={0}
-        sx={sx}
-      >
-        <TopSection />
-        <ProductShowcase />
-      </PageContainer>
-    </TimelineProvider>
+    <PageContainer
+      sx={{
+        backgroundColor: 'background.default',
+        transition: 'background-color 600ms ease',
+        minHeight: '100vh',
+        ...sx,
+      }}
+    >
+      <TopSection />
+      <ProductShowcase />
+    </PageContainer>
   );
 }
 
