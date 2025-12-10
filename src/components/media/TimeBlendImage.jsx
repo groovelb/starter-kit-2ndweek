@@ -62,6 +62,9 @@ export function TimeBlendImage({
     };
   }, [timeline]);
 
+  // aspectRatio="auto" 여부
+  const isAutoRatio = aspectRatio === 'auto';
+
   // 이미지가 없는 경우 빈 박스 렌더링
   if (!dayImage && !nightImage) {
     return (
@@ -69,7 +72,7 @@ export function TimeBlendImage({
         sx={ {
           position: 'relative',
           width: '100%',
-          aspectRatio,
+          ...(!isAutoRatio && { aspectRatio }),
           backgroundColor: 'grey.200',
           ...sx,
         } }
@@ -83,35 +86,34 @@ export function TimeBlendImage({
       sx={ {
         position: 'relative',
         width: '100%',
-        aspectRatio,
+        ...(!isAutoRatio && { aspectRatio }),
         overflow: 'hidden',
-        backgroundColor: 'grey.900',
         ...sx,
       } }
       { ...props }
     >
-      {/* 낮 이미지 (하단 레이어) */}
+      {/* 낮 이미지 (하단 레이어) - auto 비율일 때 relative로 컨테이너 높이 결정 */}
       { dayImage && (
         <Box
           component="img"
           src={ dayImage }
           alt={ `${alt} - Day` }
           sx={ {
-            position: 'absolute',
+            position: isAutoRatio ? 'relative' : 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: '100%',
+            height: isAutoRatio ? 'auto' : '100%',
+            display: 'block',
             objectFit,
             opacity: dayOpacity,
             transition: 'opacity 600ms ease-out',
-            // z-index로 레이어 순서 고정 (낮이 항상 아래)
             zIndex: 0,
           } }
         />
       ) }
 
-      {/* 밤 이미지 (상단 레이어) */}
+      {/* 밤 이미지 (상단 레이어) - 항상 absolute로 겹침 */}
       { nightImage && (
         <Box
           component="img"
@@ -126,7 +128,6 @@ export function TimeBlendImage({
             objectFit,
             opacity: nightOpacity,
             transition: 'opacity 600ms ease-out',
-            // z-index로 레이어 순서 고정 (밤이 항상 위)
             zIndex: 1,
           } }
         />

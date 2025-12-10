@@ -101,7 +101,7 @@ const ProductCard = forwardRef(function ProductCard({
         nightImage={ nightImage }
         timeline={ timeline }
         alt={ title }
-        aspectRatio="1/1"
+        aspectRatio="auto"
         objectFit="cover"
         sx={ { width: '100%', height: '100%' } }
       />
@@ -112,17 +112,13 @@ const ProductCard = forwardRef(function ProductCard({
     <CustomCard
       ref={ ref }
       layout="vertical"
-      mediaRatio="1/1"
+      mediaRatio="auto"
       mediaSlot={ renderMediaSlot() }
-      contentPadding="sm"
+      gap="md"
+      contentPadding="none"
       variant="ghost"
       isInteractive
       onClick={ onClick }
-      sx={ {
-        border: isSelected ? '2px solid' : 'none',
-        borderColor: isSelected ? 'primary.main' : 'transparent',
-        ...sx,
-      } }
       { ...props }
     >
       {/* 제품명 + 상태 라벨 */}

@@ -91,86 +91,96 @@ const ScrollVideo = forwardRef(function ScrollVideo({
         onProgressChange={handleProgressChange}
       />
 
-      {/* Bottom Gradient Overlay */}
+      {/* Overlay Container - 비디오 위에 패딩 적용된 레이어 */}
       <Box
         sx={{
           position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '30%',
-          background: 'linear-gradient(to top, rgba(18, 16, 14, 0.8) 0%, rgba(18, 16, 14, 0) 100%)',
+          inset: 0,
+          p: { xs: 3, md: 4 },
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
           pointerEvents: 'none',
         }}
-      />
-
-      {/* Time Overlay - 하단 전체 영역 (DOM 직접 업데이트) */}
-      {showTimeOverlay && (
+      >
+        {/* Bottom Gradient */}
         <Box
           sx={{
             position: 'absolute',
-            bottom: 48,
-            left: 16,
-            right: 16,
-            display: 'flex',
-            alignItems: 'flex-end',
-            gap: 3,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '30%',
+            background: 'linear-gradient(to top, rgba(18, 16, 14, 0.8) 0%, rgba(18, 16, 14, 0) 100%)',
           }}
-        >
-          {isTimeline && (
-            <TimelineSlider
-              value={timelineValue}
-              useGlobalState={false}
-              showLabels={false}
-              color="#F2E9DA"
-              disableTransition
-              sx={{ flex: 1 }}
-            />
-          )}
-          <Typography
-            ref={timeRef}
-            variant="h4"
-            sx={{
-              color: '#F2E9DA',
-              fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
-              fontWeight: 100,
-              width: 130,
-              textAlign: 'right',
-              flexShrink: 0,
-            }}
-          >
-            12:00pm
-          </Typography>
-        </Box>
-      )}
+        />
 
-      {/* Timeline Value Overlay (DOM 직접 업데이트) */}
-      {showTimeline && (
-        <Box
-          sx={{
-            position: 'absolute',
-            bottom: 16,
-            left: 16,
-            px: 1.5,
-            py: 0.75,
-            backgroundColor: 'rgba(18, 16, 14, 0.6)',
-            backdropFilter: 'blur(4px)',
-          }}
-        >
+        {/* Time Overlay - 하단 영역 (DOM 직접 업데이트) */}
+        {showTimeOverlay && (
           <Box
-            component="span"
-            ref={percentRef}
             sx={{
-              fontFamily: 'monospace',
-              fontSize: 12,
-              color: '#F2E9DA',
-              opacity: 0.7,
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'flex-end',
+              gap: 3,
+              pointerEvents: 'auto',
             }}
           >
-            0%
+            <Typography
+              ref={timeRef}
+              variant="h4"
+              sx={{
+                color: '#F2E9DA',
+                fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
+                fontWeight: 100,
+                width: 130,
+                flexShrink: 0,
+              }}
+            >
+              12:00pm
+            </Typography>
+            {isTimeline && (
+              <TimelineSlider
+                value={timelineValue}
+                useGlobalState={false}
+                showLabels={false}
+                color="#F2E9DA"
+                disableTransition
+                sx={{ flex: 1 }}
+              />
+            )}
           </Box>
-        </Box>
-      )}
+        )}
+
+        {/* Timeline Value Overlay (DOM 직접 업데이트) */}
+        {showTimeline && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: { xs: 3, md: 4 },
+              left: { xs: 3, md: 4 },
+              px: 1.5,
+              py: 0.75,
+              backgroundColor: 'rgba(18, 16, 14, 0.6)',
+              backdropFilter: 'blur(4px)',
+              pointerEvents: 'auto',
+            }}
+          >
+            <Box
+              component="span"
+              ref={percentRef}
+              sx={{
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: '#F2E9DA',
+                opacity: 0.7,
+              }}
+            >
+              0%
+            </Box>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 });

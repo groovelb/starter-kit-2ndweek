@@ -77,7 +77,9 @@ const ProductShowcase = forwardRef(function ProductShowcase({
           justifyContent: 'center',
         }}
       >
-        <TimelineSlider />
+        <Box sx={{ width: 600, maxWidth: '100%' }}>
+          <TimelineSlider />
+        </Box>
       </Box>
 
       {/* ProductGallery (필터 + 그리드) */}

@@ -51,7 +51,7 @@ const BrandValueCard = forwardRef(function BrandValueCard({
       sx={sx}
       {...props}
     >
-      <Stack spacing={2}>
+      <Stack spacing={6} py={4}>
         {/* 아이콘 */}
         {IconComponent && (
           <IconComponent
@@ -64,7 +64,7 @@ const BrandValueCard = forwardRef(function BrandValueCard({
         {/* 제목 + 짧은 설명 */}
         <Stack spacing={0}>
           <Typography
-            variant="h6"
+            variant="h5"
             sx={{
               fontWeight: 600,
               color: 'text.primary',
@@ -75,6 +75,7 @@ const BrandValueCard = forwardRef(function BrandValueCard({
           <Typography
             variant="body1"
             sx={{
+              fontSize: '20px',
               color: 'text.secondary',
             }}
           >
@@ -85,7 +86,7 @@ const BrandValueCard = forwardRef(function BrandValueCard({
         {/* 상세 설명 */}
         {detailedDescription && (
           <Typography
-            variant="body2"
+            variant="body1"
             sx={{
               color: 'text.secondary',
               lineHeight: 1.6,
