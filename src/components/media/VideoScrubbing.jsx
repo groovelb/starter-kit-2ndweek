@@ -6,9 +6,11 @@ import Box from '@mui/material/Box';
  * 스크롤 위치에 따라 비디오를 프레임 단위로 재생(스크러빙)하는 컴포넌트입니다.
  *
  * 동작 방식:
- * 1. 페이지 스크롤 시작 시 progress = 0 (비디오 첫 프레임)
+ * 1. 비디오 상단이 화면 하단에 등장 → progress = 0 (비디오 첫 프레임)
  * 2. 스크롤에 따라 비디오 프레임이 시킹됨
- * 3. 페이지 스크롤 끝에서 progress = 1 (비디오 마지막 프레임)
+ * 3. 비디오 하단이 화면 상단을 벗어남 → progress = 1 (비디오 마지막 프레임)
+ *
+ * 스크롤 범위 = windowHeight + videoHeight (비디오가 화면을 완전히 지나가는 거리)
  *
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
@@ -85,17 +87,22 @@ const VideoScrubbing = ({
       if (containerRef && containerRef.current) {
         const container = containerRef.current;
         const rect = container.getBoundingClientRect();
+        const containerHeight = container.offsetHeight;
 
-        // 컨테이너가 화면에 등장하는 시점부터 스크러빙 시작
-        // rect.top = windowHeight → progress = 0 (화면 하단에 등장)
-        // rect.top = 0 → progress = 1 (화면 상단에 도달)
-        progress = 1 - (rect.top / windowHeight);
+        // 컨테이너가 화면에 등장해서 완전히 벗어날 때까지 스크러빙
+        // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
+        // rect.top = -containerHeight → progress = 1 (하단이 화면 상단을 벗어남)
+        const totalScrollRange = windowHeight + containerHeight;
+        progress = (windowHeight - rect.top) / totalScrollRange;
       } else {
-        // 비디오가 화면에 등장하는 시점부터 스크러빙 시작
+        // 비디오가 화면에 등장해서 완전히 벗어날 때까지 스크러빙
         const rect = video.getBoundingClientRect();
-        // rect.top = windowHeight → progress = 0 (화면 하단에 등장)
-        // rect.top = 0 → progress = 1 (화면 상단에 도달)
-        progress = 1 - (rect.top / windowHeight);
+        const videoHeight = video.offsetHeight;
+
+        // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
+        // rect.top = -videoHeight → progress = 1 (하단이 화면 상단을 벗어남)
+        const totalScrollRange = windowHeight + videoHeight;
+        progress = (windowHeight - rect.top) / totalScrollRange;
       }
 
       // Apply scroll range mapping
