@@ -145,8 +145,8 @@ const TimelineSlider = forwardRef(function TimelineSlider({
       {/* 아이콘 + 라벨 */}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
+          position: 'relative',
+          height: 48,
           mb: 1.5,
         }}
       >
@@ -158,6 +158,9 @@ const TimelineSlider = forwardRef(function TimelineSlider({
             <Box
               key={marker.label}
               sx={{
+                position: 'absolute',
+                left: `${marker.position}%`,
+                transform: 'translateX(-50%)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -198,7 +201,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
           height: '8px',
         }}
       >
-        {/* 틱 마커 - 중앙 정렬 */}
+        {/* 틱 마커 - 슬라이더 위치와 정렬 */}
         <Box
           sx={{
             position: 'absolute',
@@ -206,9 +209,6 @@ const TimelineSlider = forwardRef(function TimelineSlider({
             bottom: 0,
             left: 0,
             right: 0,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
             pointerEvents: 'none',
           }}
         >
@@ -218,6 +218,10 @@ const TimelineSlider = forwardRef(function TimelineSlider({
               <Box
                 key={`tick-${marker.label}`}
                 sx={{
+                  position: 'absolute',
+                  left: `${marker.position}%`,
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
                   width: '1px',
                   height: '8px',
                   backgroundColor: lineColor,

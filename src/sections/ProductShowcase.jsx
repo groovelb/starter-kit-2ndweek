@@ -1,7 +1,9 @@
 import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { SectionContainer } from '../components/container/SectionContainer';
 import { ProductGrid } from '../templates/ProductGrid';
 import { TimelineSlider } from '../components/shared/TimelineSlider';
 import { useTimeline } from '../hooks/useTimeline';
@@ -46,18 +48,15 @@ const ProductShowcase = forwardRef(function ProductShowcase({
   const { timeline } = useTimeline();
 
   return (
-    <Box
+    <SectionContainer
       ref={ref}
-      component="section"
-      sx={{
-        py: 6,
-        ...sx,
-      }}
+      // spacing={12}
+      sx={sx}
       {...props}
     >
       {/* 헤더 영역 */}
       {(title || subtitle) && (
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ textAlign: 'center' }}>
           {title && (
             <Typography
               variant="h4"
@@ -85,25 +84,25 @@ const ProductShowcase = forwardRef(function ProductShowcase({
         </Box>
       )}
 
-      {/* TimelineSlider */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          mb: 4,
-        }}
-      >
-        <TimelineSlider />
-      </Box>
+      {/* TimelineSlider + ProductGrid */}
+      <Stack spacing={4}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <TimelineSlider />
+        </Box>
 
-      {/* ProductGrid */}
-      <ProductGrid
-        products={products}
-        timeline={timeline}
-        columns={columns}
-        onProductClick={onProductClick}
-      />
-    </Box>
+        <ProductGrid
+          products={products}
+          timeline={timeline}
+          columns={columns}
+          onProductClick={onProductClick}
+        />
+      </Stack>
+    </SectionContainer>
   );
 });
 
