@@ -35,7 +35,7 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
       <LineGrid container gap={0} sx={{ width: '100%' }}>
         {/* 첫 번째 컬럼 - 랜드스케이프 비디오 + 타이틀 오버레이 (2:1 비율 중 2) */}
         <Grid size={{ xs: 12, md: 8 }} sx={{ position: 'relative' }}>
-          <ScrollVideo src={videos.row1Col1} ratio={1.59} startInView />
+          <ScrollVideo src={videos.row1Col1} ratio={1.59} startInView isTimeline />
           {/* 타이틀 오버레이 - 좌측 상단 */}
           <Box
             sx={{

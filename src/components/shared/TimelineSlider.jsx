@@ -22,6 +22,8 @@ import { useTimeline, TIME_PRESETS } from '../../hooks/useTimeline';
  * @param {boolean} showLabels - 시간 라벨 표시 여부 [Optional, 기본값: true]
  * @param {boolean} useGlobalState - 전역 TimelineContext 사용 여부 [Optional, 기본값: true]
  * @param {number} value - 직접 제어 시 timeline 값 [Optional]
+ * @param {string} color - 라인/아이콘 색상 강제 지정 [Optional]
+ * @param {boolean} disableTransition - 트랜지션 비활성화 (스크롤 연동 시) [Optional, 기본값: false]
  * @param {object} sx - 추가 스타일 [Optional]
  */
 const TimelineSlider = forwardRef(function TimelineSlider({
@@ -29,14 +31,16 @@ const TimelineSlider = forwardRef(function TimelineSlider({
   showLabels = true,
   useGlobalState = true,
   value: controlledValue,
+  color,
+  disableTransition = false,
   sx,
   ...props
 }, ref) {
   const { timeline: globalTimeline, setTimeline, isDarkMode } = useTimeline();
   const timeline = useGlobalState ? globalTimeline : (controlledValue ?? 0);
 
-  // 테마에 따른 색상 (검정/흰색만)
-  const lineColor = isDarkMode ? '#F2E9DA' : '#12100E';
+  // 테마에 따른 색상 (color prop이 있으면 우선 적용)
+  const lineColor = color || (isDarkMode ? '#F2E9DA' : '#12100E');
 
   // 4개 지점만 선택 가능하도록 스냅
   const handleChange = useCallback((event, newValue) => {
@@ -108,6 +112,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
       borderRadius: 0,
       top: '50%',
       transform: 'translateY(-50%)',
+      transition: disableTransition ? 'none' : undefined,
     },
 
     '& .MuiSlider-thumb': {
@@ -117,6 +122,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
       borderRadius: '50%',
       border: 'none',
       boxShadow: 'none',
+      transition: disableTransition ? 'none' : undefined,
 
       '&:hover, &.Mui-focusVisible, &.Mui-active': {
         boxShadow: 'none',
@@ -130,14 +136,13 @@ const TimelineSlider = forwardRef(function TimelineSlider({
     '& .MuiSlider-mark': {
       display: 'none',
     },
-  }), [lineColor]);
+  }), [lineColor, disableTransition]);
 
   return (
     <Box
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: 320,
         ...sx,
       }}
       {...props}
@@ -173,7 +178,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
                 color={lineColor}
                 style={{
                   opacity: isActive ? 1 : 0.35,
-                  transition: 'opacity 200ms',
+                  transition: disableTransition ? 'none' : 'opacity 200ms',
                 }}
               />
               {showLabels && (
@@ -183,7 +188,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
                     fontFamily: 'monospace',
                     color: lineColor,
                     opacity: isActive ? 1 : 0.35,
-                    transition: 'opacity 200ms',
+                    transition: disableTransition ? 'none' : 'opacity 200ms',
                   }}
                 >
                   {marker.label}
@@ -226,7 +231,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
                   height: '8px',
                   backgroundColor: lineColor,
                   opacity: isActive ? 1 : 0.35,
-                  transition: 'opacity 200ms',
+                  transition: disableTransition ? 'none' : 'opacity 200ms',
                 }}
               />
             );

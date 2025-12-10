@@ -1,7 +1,9 @@
-import { forwardRef, useRef, useCallback } from 'react';
+import { forwardRef, useRef, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import VideoScrubbing from '../media/VideoScrubbing';
+import TimelineSlider from './TimelineSlider';
 
 /**
  * ScrollVideo 컴포넌트
@@ -16,6 +18,7 @@ import VideoScrubbing from '../media/VideoScrubbing';
  * @param {Object} scrollRange - 스크롤 범위 매핑 { start: 0, end: 1 } [Optional]
  * @param {boolean} showTimeOverlay - 시간 오버레이 표시 여부 [Optional, 기본값: true]
  * @param {boolean} showTimeline - 타임라인 값(0-1) 표시 여부 [Optional, 기본값: false]
+ * @param {boolean} isTimeline - TimelineSlider 표시 여부 [Optional, 기본값: false]
  * @param {function} onProgressChange - 진행도 변경 콜백 (progress: 0-1) [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
  */
@@ -27,12 +30,14 @@ const ScrollVideo = forwardRef(function ScrollVideo({
   scrollRange = { start: 0, end: 1 },
   showTimeOverlay = true,
   showTimeline = false,
+  isTimeline = false,
   onProgressChange,
   sx,
   ...props
 }, ref) {
   const timeRef = useRef(null);
   const percentRef = useRef(null);
+  const [timelineValue, setTimelineValue] = useState(0);
 
   /**
    * progress(0-1)를 12시간제 시간 문자열로 변환
@@ -50,7 +55,7 @@ const ScrollVideo = forwardRef(function ScrollVideo({
     return `${hours12}:${minutes.toString().padStart(2, '0')}${period}`;
   };
 
-  // DOM 직접 업데이트 (리렌더링 없음)
+  // DOM 직접 업데이트 (리렌더링 없음) + TimelineSlider 연동
   const handleProgressChange = useCallback((progress) => {
     if (timeRef.current) {
       timeRef.current.textContent = formatTime(progress);
@@ -58,10 +63,13 @@ const ScrollVideo = forwardRef(function ScrollVideo({
     if (percentRef.current) {
       percentRef.current.textContent = `${(progress * 100).toFixed(0)}%`;
     }
+    if (isTimeline) {
+      setTimelineValue(progress);
+    }
     if (onProgressChange) {
       onProgressChange(progress);
     }
-  }, [onProgressChange]);
+  }, [onProgressChange, isTimeline]);
 
   return (
     <Box
@@ -83,32 +91,56 @@ const ScrollVideo = forwardRef(function ScrollVideo({
         onProgressChange={handleProgressChange}
       />
 
-      {/* Time Overlay - 우측 하단 (DOM 직접 업데이트) */}
+      {/* Bottom Gradient Overlay */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '30%',
+          background: 'linear-gradient(to top, rgba(18, 16, 14, 0.8) 0%, rgba(18, 16, 14, 0) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Time Overlay - 하단 전체 영역 (DOM 직접 업데이트) */}
       {showTimeOverlay && (
         <Box
           sx={{
             position: 'absolute',
-            bottom: 16,
+            bottom: 48,
+            left: 16,
             right: 16,
-            px: 1.5,
-            py: 0.75,
-            backgroundColor: 'rgba(18, 16, 14, 0.6)',
-            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'flex-end',
+            gap: 3,
           }}
         >
-          <Box
-            component="span"
+          {isTimeline && (
+            <TimelineSlider
+              value={timelineValue}
+              useGlobalState={false}
+              showLabels={false}
+              color="#F2E9DA"
+              disableTransition
+              sx={{ flex: 1 }}
+            />
+          )}
+          <Typography
             ref={timeRef}
+            variant="h4"
             sx={{
-              fontFamily: 'monospace',
-              fontSize: 14,
-              fontWeight: 500,
               color: '#F2E9DA',
-              letterSpacing: '0.02em',
+              fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
+              fontWeight: 100,
+              width: 130,
+              textAlign: 'right',
+              flexShrink: 0,
             }}
           >
             12:00pm
-          </Box>
+          </Typography>
         </Box>
       )}
 
