@@ -5,6 +5,11 @@ import Box from '@mui/material/Box';
  * VideoScrubbing Component
  * 스크롤 위치에 따라 비디오를 프레임 단위로 재생(스크러빙)하는 컴포넌트입니다.
  *
+ * 동작 방식:
+ * 1. 컴포넌트가 화면 하단에 등장하는 순간 스크러빙 시작 (progress = 0)
+ * 2. 스크롤에 따라 비디오 프레임이 시킹됨
+ * 3. 컴포넌트 상단이 화면 상단에 도달하면 스크러빙 완료 (progress = 1)
+ *
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
  * @param {Object} sx - MUI sx 스타일 [Optional]
@@ -75,20 +80,30 @@ const VideoScrubbing = ({
       lastScrollTime = now;
 
       let progress = 0;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
 
       if (containerRef && containerRef.current) {
         const container = containerRef.current;
-        const containerHeight = container.offsetHeight;
         const containerOffsetTop = container.offsetTop;
-        const scrollY = window.scrollY || window.pageYOffset;
 
-        progress = (scrollY - containerOffsetTop) / containerHeight;
+        // 컨테이너가 화면 하단에 등장하는 시점부터 스크러빙 시작
+        // 시작점: 컨테이너 상단이 화면 하단에 닿을 때 (scrollY + windowHeight = containerOffsetTop)
+        // 끝점: 컨테이너 상단이 화면 상단에 닿을 때 (scrollY = containerOffsetTop)
+        const startPoint = containerOffsetTop - windowHeight;
+        const range = windowHeight;
+
+        progress = (scrollY - startPoint) / range;
       } else {
-        const videoHeight = video.offsetHeight;
         const videoOffsetTop = video.offsetTop;
-        const scrollY = window.scrollY || window.pageYOffset;
 
-        progress = (scrollY - videoOffsetTop) / videoHeight;
+        // 비디오가 화면 하단에 등장하는 시점부터 스크러빙 시작
+        // 시작점: 비디오 상단이 화면 하단에 닿을 때
+        // 끝점: 비디오 상단이 화면 상단에 닿을 때
+        const startPoint = videoOffsetTop - windowHeight;
+        const range = windowHeight;
+
+        progress = (scrollY - startPoint) / range;
       }
 
       // Apply scroll range mapping

@@ -7,7 +7,7 @@ import { MinimalTimelineSlider } from './MinimalTimelineSlider';
 import { TimelineProvider } from '../../hooks/useTimeline';
 
 export default {
-  title: 'Component/Shared/MinimalTimelineSlider',
+  title: 'Custom Component/MinimalTimelineSlider',
   component: MinimalTimelineSlider,
   tags: ['autodocs'],
   parameters: {

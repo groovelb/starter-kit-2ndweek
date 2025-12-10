@@ -5,7 +5,6 @@
 // Import video assets
 import product9Motion from '../assets/product/9-motion.mp4';
 import landscapeMotion from '../assets/landscape/landscape-motion.mp4';
-import product2Motion from '../assets/product/6-motion.mp4';
 
 export const content = {
   // Brand information
@@ -19,9 +18,8 @@ export const content = {
     title: 'Lumenstate',
     subtitle: 'Light defines the space.',
     videos: {
+      row1Col1: landscapeMotion,
       row1Col2: product9Motion,
-      row2Col1: landscapeMotion,
-      row2Col2: product2Motion,
     },
     features: [
       {

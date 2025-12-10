@@ -7,7 +7,7 @@ import { TimelineSlider } from './TimelineSlider';
 import { TimelineProvider } from '../../hooks/useTimeline';
 
 export default {
-  title: 'Component/Shared/TimelineSlider',
+  title: 'Custom Component/TimelineSlider',
   component: TimelineSlider,
   tags: ['autodocs'],
   parameters: {

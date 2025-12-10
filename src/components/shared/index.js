@@ -7,3 +7,4 @@
 
 export { TimelineSlider } from './TimelineSlider';
 export { MinimalTimelineSlider } from './MinimalTimelineSlider';
+export { ScrollVideo } from './ScrollVideo';

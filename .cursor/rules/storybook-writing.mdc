@@ -5,6 +5,69 @@ alwaysApply: false
 ---
 # Storybook 작성 규칙
 
+## 스토리 카테고리 구조 (CRITICAL)
+
+Storybook 사이드바의 카테고리 구조는 다음과 같이 구성한다.
+
+| 카테고리 | title 접두사 | 설명 | 예시 |
+|---------|-------------|------|------|
+| **Style** | `Style/` | 디자인 토큰 문서 (색상, 타이포그래피, 간격 등) | `Style/Color`, `Style/Typography` |
+| **Custom Component** | `Custom Component/` | 프로젝트에서 새로 만든 재사용 컴포넌트 | `Custom Component/TimelineSlider`, `Custom Component/ScrollVideo` |
+| **Template** | `Template/` | 여러 컴포넌트를 조합한 템플릿 | `Template/ProductGrid`, `Template/HeroSection` |
+| **Section** | `Section/` | 페이지를 구성하는 섹션 단위 컴포넌트 | `Section/ProductShowcase`, `Section/BrandValue` |
+| **Page** | `Page/` | 전체 페이지 레벨 컴포넌트 | `Page/MainPage` |
+
+### 카테고리 분류 기준
+
+```
+Style/           → MUI theme 토큰, 디자인 시스템 문서
+Custom Component/ → 단일 기능의 재사용 UI 컴포넌트 (기존 Component/Shared → Custom Component로 이동)
+Template/        → 2개 이상 컴포넌트 조합, 재사용 가능한 레이아웃 패턴
+Section/         → 페이지의 한 영역을 담당, 특정 컨텍스트에 종속
+Page/            → 전체 페이지, 라우트 단위
+```
+
+### title 작성 예시
+
+```jsx
+// ✅ Custom Component (단일 재사용 컴포넌트)
+export default {
+  title: 'Custom Component/TimelineSlider',
+  // ...
+};
+
+// ✅ Template (컴포넌트 조합)
+export default {
+  title: 'Template/ProductGrid',
+  // ...
+};
+
+// ✅ Section (페이지 섹션)
+export default {
+  title: 'Section/ProductShowcase',
+  // ...
+};
+
+// ❌ 잘못된 예 - Component/Shared 사용 금지
+export default {
+  title: 'Component/Shared/TimelineSlider', // 사용 금지!
+  // ...
+};
+```
+
+### 파일 위치와 카테고리 매핑
+
+| 파일 위치 | Storybook 카테고리 |
+|----------|-------------------|
+| `src/components/shared/` | `Custom Component/` |
+| `src/components/card/` | `Custom Component/` |
+| `src/components/navigation/` | `Custom Component/` |
+| `src/templates/` | `Template/` |
+| `src/sections/` | `Section/` |
+| `src/pages/` | `Page/` |
+
+---
+
 ## 필수 규칙 (MUST)
 
 All stories MUST follow these rules:
