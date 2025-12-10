@@ -7,6 +7,8 @@ import { SectionContainer } from '../components/container/SectionContainer';
 import { ProductGrid } from '../templates/ProductGrid';
 import { TimelineSlider } from '../components/shared/TimelineSlider';
 import { useTimeline } from '../hooks/useTimeline';
+import { products } from '../data/products';
+import { content } from '../data/content';
 
 /**
  * ProductShowcase 섹션 컴포넌트
@@ -20,32 +22,23 @@ import { useTimeline } from '../hooks/useTimeline';
  * 3. timeline >= 0.5 시 다크 모드 자동 전환
  *
  * Props:
- * @param {Array} products - 제품 데이터 배열 [Required]
- * @param {string} title - 섹션 타이틀 [Optional]
- * @param {string} subtitle - 섹션 서브타이틀 [Optional]
- * @param {number} columns - 그리드 열 수 [Optional, 기본값: 3]
+ * @param {number} columns - 그리드 열 수 [Optional, 기본값: 6]
  * @param {function} onProductClick - 제품 클릭 핸들러 [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
  * <TimelineProvider>
- *   <ProductShowcase
- *     products={products}
- *     title="Product Showcase"
- *     subtitle="Explore brightness changes throughout the day"
- *   />
+ *   <ProductShowcase columns={4} />
  * </TimelineProvider>
  */
 const ProductShowcase = forwardRef(function ProductShowcase({
-  products = [],
-  title,
-  subtitle,
   columns = 6,
   onProductClick,
   sx,
   ...props
 }, ref) {
   const { timeline } = useTimeline();
+  const { sectionTitle, sectionSubtitle } = content.products;
 
   return (
     <SectionContainer
@@ -55,34 +48,28 @@ const ProductShowcase = forwardRef(function ProductShowcase({
       {...props}
     >
       {/* 헤더 영역 */}
-      {(title || subtitle) && (
-        <Box sx={{ textAlign: 'center' }}>
-          {title && (
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 700,
-                mb: 1,
-                color: 'text.primary',
-                transition: 'color 600ms ease',
-              }}
-            >
-              {title}
-            </Typography>
-          )}
-          {subtitle && (
-            <Typography
-              variant="body1"
-              sx={{
-                color: 'text.secondary',
-                transition: 'color 600ms ease',
-              }}
-            >
-              {subtitle}
-            </Typography>
-          )}
-        </Box>
-      )}
+      <Box sx={{ textAlign: 'center' }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+            color: 'text.primary',
+            transition: 'color 600ms ease',
+          }}
+        >
+          {sectionTitle}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            color: 'text.secondary',
+            transition: 'color 600ms ease',
+          }}
+        >
+          {sectionSubtitle}
+        </Typography>
+      </Box>
 
       {/* TimelineSlider + ProductGrid */}
       <Stack spacing={4}>

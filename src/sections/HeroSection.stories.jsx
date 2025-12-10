@@ -26,6 +26,7 @@ export default {
 1. 스크롤 시작 → 비디오 0% (첫 프레임)
 2. 스크롤 중 → 비디오 프레임 시킹
 3. 스크롤 끝 → 비디오 100% (마지막 프레임)
+- TimelineContext는 Storybook 글로벌 decorator에서 제공
         `,
       },
     },
@@ -36,13 +37,6 @@ export default {
       description: '추가 스타일 객체',
     },
   },
-  decorators: [
-    (Story) => (
-      <TimelineProvider initialTimeline={0}>
-        <Story />
-      </TimelineProvider>
-    ),
-  ],
 };
 
 /**

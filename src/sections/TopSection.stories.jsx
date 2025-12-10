@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 
 import { TopSection } from './TopSection';
-import { TimelineProvider } from '../hooks/useTimeline';
 
 export default {
   title: 'Section/TopSection',
@@ -24,6 +23,7 @@ HeroSection과 BrandValueSection을 합친 상단 섹션.
 ### 동작
 - 스크롤 시 비디오 프레임 시킹
 - 타임라인 슬라이더로 시간 변화 표시
+- TimelineContext는 Storybook 글로벌 decorator에서 제공
         `,
       },
     },
@@ -34,13 +34,6 @@ HeroSection과 BrandValueSection을 합친 상단 섹션.
       description: '추가 스타일 객체',
     },
   },
-  decorators: [
-    (Story) => (
-      <TimelineProvider initialTimeline={0}>
-        <Story />
-      </TimelineProvider>
-    ),
-  ],
 };
 
 /**

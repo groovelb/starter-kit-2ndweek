@@ -1,6 +1,5 @@
 import { ProductGallery } from './ProductGallery';
 import { products, PRODUCT_TYPES } from '../data/products';
-import { TimelineProvider } from '../hooks/useTimeline';
 
 export default {
   title: 'Template/ProductGallery',
@@ -22,17 +21,11 @@ ProductFilter와 ProductGrid를 3:9 비율로 결합한 갤러리 템플릿입�
 ### 동작
 1. 필터 선택 시 해당 타입의 제품만 표시
 2. 'All' 선택 시 전체 제품 표시
+- TimelineContext는 Storybook 글로벌 decorator에서 제공
         `,
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <TimelineProvider initialTimeline={0}>
-        <Story />
-      </TimelineProvider>
-    ),
-  ],
   argTypes: {
     products: {
       control: 'object',

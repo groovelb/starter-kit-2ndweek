@@ -25,6 +25,7 @@ Lumenstate 4단계 시간대 슬라이더 컴포넌트.
 - lucide-react 아이콘 (Sun, Sunset, Moon)
 - 전역 TimelineContext 연동 또는 로컬 상태 제어
 - timeline >= 0.5 → 다크 모드 자동 전환
+- TimelineContext는 Storybook 글로벌 decorator에서 제공
 
 ### 아이콘 매핑
 | 시간대 | 아이콘 | timeline 값 |
@@ -53,18 +54,16 @@ Lumenstate 4단계 시간대 슬라이더 컴포넌트.
   },
   decorators: [
     (Story, context) => (
-      <TimelineProvider initialTimeline={0}>
-        <Box
-          sx={{
-            minWidth: 320,
-            p: 4,
-            backgroundColor: 'background.default',
-            transition: 'background-color 600ms ease',
-          }}
-        >
-          <Story {...context} />
-        </Box>
-      </TimelineProvider>
+      <Box
+        sx={{
+          minWidth: 320,
+          p: 4,
+          backgroundColor: 'background.default',
+          transition: 'background-color 600ms ease',
+        }}
+      >
+        <Story {...context} />
+      </Box>
     ),
   ],
 };

@@ -24,6 +24,7 @@ export default {
 - 4개 아이콘 클릭으로 시간대 이동
 - 세로 마커 라인으로 각 시간대 위치 표시
 - 전역 TimelineContext 연동
+- TimelineContext는 Storybook 글로벌 decorator에서 제공
 
 ### 용도
 - GNB(Global Navigation Bar) 헤더
@@ -44,17 +45,15 @@ export default {
   },
   decorators: [
     (Story, context) => (
-      <TimelineProvider initialTimeline={0}>
-        <Box
-          sx={{
-            p: 4,
-            backgroundColor: 'background.default',
-            transition: 'background-color 600ms ease',
-          }}
-        >
-          <Story {...context} />
-        </Box>
-      </TimelineProvider>
+      <Box
+        sx={{
+          p: 4,
+          backgroundColor: 'background.default',
+          transition: 'background-color 600ms ease',
+        }}
+      >
+        <Story {...context} />
+      </Box>
     ),
   ],
 };
