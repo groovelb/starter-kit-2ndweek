@@ -1,11 +1,19 @@
 import { productAssets } from '../assets/product';
 
+// Product Types
+export const PRODUCT_TYPES = {
+  CEILING: 'ceiling',
+  STAND: 'stand',
+  WALL: 'wall',
+  DESK: 'desk',
+};
+
 // Product Data
 export const products = [
   {
     id: 1,
     title: 'Lumen Desk Pro',
-    type: 'ceiling',
+    type: PRODUCT_TYPES.CEILING,
     lux: 260,
     kelvin: 3200,
     images: productAssets[1].images,
@@ -14,7 +22,7 @@ export const products = [
   {
     id: 2,
     title: 'Lumen Ceiling',
-    type: 'stand',
+    type: PRODUCT_TYPES.STAND,
     lux: 480,
     kelvin: 4400,
     images: productAssets[2].images,
@@ -23,7 +31,7 @@ export const products = [
   {
     id: 3,
     title: 'Lumen Floor',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 320,
     kelvin: 3800,
     images: productAssets[3].images,
@@ -32,7 +40,7 @@ export const products = [
   {
     id: 4,
     title: 'Lumen Wall',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 180,
     kelvin: 2800,
     images: productAssets[4].images,
@@ -41,7 +49,7 @@ export const products = [
   {
     id: 5,
     title: 'Lumen Table',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 240,
     kelvin: 3400,
     images: productAssets[5].images,
@@ -50,7 +58,7 @@ export const products = [
   {
     id: 6,
     title: 'Lumen Ambient',
-    type: 'stand',
+    type: PRODUCT_TYPES.STAND,
     lux: 120,
     kelvin: 2400,
     images: productAssets[6].images,
@@ -59,7 +67,7 @@ export const products = [
   {
     id: 7,
     title: 'Lumen Arc',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 350,
     kelvin: 3600,
     images: productAssets[7].images,
@@ -68,7 +76,7 @@ export const products = [
   {
     id: 8,
     title: 'Lumen Sphere',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 200,
     kelvin: 3000,
     images: productAssets[8].images,
@@ -77,7 +85,7 @@ export const products = [
   {
     id: 9,
     title: 'Lumen Linear',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 420,
     kelvin: 4200,
     images: productAssets[9].images,
@@ -86,7 +94,7 @@ export const products = [
   {
     id: 10,
     title: 'Lumen Pendant',
-    type: 'desk',
+    type: PRODUCT_TYPES.DESK,
     lux: 280,
     kelvin: 3300,
     images: productAssets[10].images,
@@ -95,7 +103,7 @@ export const products = [
   {
     id: 11,
     title: 'Lumen Mini',
-    type: 'stand',
+    type: PRODUCT_TYPES.STAND,
     lux: 150,
     kelvin: 2900,
     images: productAssets[11].images,
@@ -104,7 +112,7 @@ export const products = [
   {
     id: 12,
     title: 'Lumen Studio',
-    type: 'ceiling',
+    type: PRODUCT_TYPES.CEILING,
     lux: 380,
     kelvin: 3900,
     images: productAssets[12].images,
@@ -113,7 +121,7 @@ export const products = [
   {
     id: 13,
     title: 'Lumen Spot',
-    type: 'ceiling',
+    type: PRODUCT_TYPES.CEILING,
     lux: 450,
     kelvin: 4000,
     images: productAssets[13].images,
@@ -122,7 +130,7 @@ export const products = [
   {
     id: 14,
     title: 'Lumen Flex',
-    type: 'wall',
+    type: PRODUCT_TYPES.WALL,
     lux: 300,
     kelvin: 3500,
     images: productAssets[14].images,
@@ -131,7 +139,7 @@ export const products = [
   {
     id: 15,
     title: 'Lumen Ring',
-    type: 'desk',
+    type: PRODUCT_TYPES.DESK,
     lux: 340,
     kelvin: 3700,
     images: productAssets[15].images,
