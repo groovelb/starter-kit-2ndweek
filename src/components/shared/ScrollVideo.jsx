@@ -11,6 +11,7 @@ import VideoScrubbing from '../media/VideoScrubbing';
  *
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
+ * @param {boolean} startInView - 뷰포트 상단에서 시작하는 경우 true [Optional, 기본값: false]
  * @param {Object} scrollRange - 스크롤 범위 매핑 { start: 0, end: 1 } [Optional]
  * @param {boolean} showTimeOverlay - 시간 오버레이 표시 여부 [Optional, 기본값: true]
  * @param {boolean} showTimeline - 타임라인 값(0-1) 표시 여부 [Optional, 기본값: false]
@@ -20,6 +21,7 @@ import VideoScrubbing from '../media/VideoScrubbing';
 const ScrollVideo = forwardRef(function ScrollVideo({
   src,
   containerRef,
+  startInView = false,
   scrollRange = { start: 0, end: 1 },
   showTimeOverlay = true,
   showTimeline = false,
@@ -73,6 +75,7 @@ const ScrollVideo = forwardRef(function ScrollVideo({
       <VideoScrubbing
         src={src}
         containerRef={containerRef}
+        startInView={startInView}
         scrollRange={scrollRange}
         onProgressChange={handleProgressChange}
       />

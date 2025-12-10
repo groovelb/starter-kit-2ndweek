@@ -21,6 +21,12 @@ export const content = {
       row1Col1: landscapeMotion,
       row1Col2: product9Motion,
     },
+  },
+
+  // Brand Value section
+  brandValue: {
+    sectionTitle: 'Brand Value',
+    sectionSubtitle: 'Our core principles for lighting design',
     features: [
       {
         id: 'immanence',

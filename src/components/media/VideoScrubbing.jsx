@@ -5,15 +5,19 @@ import Box from '@mui/material/Box';
  * VideoScrubbing Component
  * 스크롤 위치에 따라 비디오를 프레임 단위로 재생(스크러빙)하는 컴포넌트입니다.
  *
- * 동작 방식:
+ * 동작 방식 (startInView: false, 기본값):
  * 1. 비디오 상단이 화면 하단에 등장 → progress = 0 (비디오 첫 프레임)
  * 2. 스크롤에 따라 비디오 프레임이 시킹됨
  * 3. 비디오 하단이 화면 상단을 벗어남 → progress = 1 (비디오 마지막 프레임)
  *
- * 스크롤 범위 = windowHeight + videoHeight (비디오가 화면을 완전히 지나가는 거리)
+ * 동작 방식 (startInView: true):
+ * 1. 비디오가 뷰포트 상단에 위치 → progress = 0 (비디오 첫 프레임)
+ * 2. 스크롤에 따라 비디오 프레임이 시킹됨
+ * 3. 비디오가 화면 상단을 벗어남 → progress = 1 (비디오 마지막 프레임)
  *
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
+ * @param {boolean} startInView - 뷰포트 상단에서 시작하는 경우 true [Optional, 기본값: false]
  * @param {Object} sx - MUI sx 스타일 [Optional]
  * @param {Object} scrollRange - 스크롤 범위 매핑 { start: 0, end: 1 } [Optional]
  * @param {function} onProgressChange - 진행도 변경 콜백 (progress: 0-1) [Optional]
@@ -21,6 +25,7 @@ import Box from '@mui/material/Box';
 const VideoScrubbing = ({
   src,
   containerRef = null,
+  startInView = false,
   sx = {},
   scrollRange = { start: 0, end: 1 },
   onProgressChange,
@@ -89,20 +94,34 @@ const VideoScrubbing = ({
         const rect = container.getBoundingClientRect();
         const containerHeight = container.offsetHeight;
 
-        // 컨테이너가 화면에 등장해서 완전히 벗어날 때까지 스크러빙
-        // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
-        // rect.top = -containerHeight → progress = 1 (하단이 화면 상단을 벗어남)
-        const totalScrollRange = windowHeight + containerHeight;
-        progress = (windowHeight - rect.top) / totalScrollRange;
+        if (startInView) {
+          // 뷰포트 상단에서 시작하는 경우 (Hero 섹션 등)
+          // rect.top >= 0 → progress = 0 (상단이 뷰포트 상단에 위치)
+          // rect.top = -containerHeight → progress = 1 (하단이 화면 상단을 벗어남)
+          progress = -rect.top / containerHeight;
+        } else {
+          // 화면 하단에서 등장하는 경우 (기본값)
+          // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
+          // rect.top = -containerHeight → progress = 1 (하단이 화면 상단을 벗어남)
+          const totalScrollRange = windowHeight + containerHeight;
+          progress = (windowHeight - rect.top) / totalScrollRange;
+        }
       } else {
-        // 비디오가 화면에 등장해서 완전히 벗어날 때까지 스크러빙
         const rect = video.getBoundingClientRect();
         const videoHeight = video.offsetHeight;
 
-        // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
-        // rect.top = -videoHeight → progress = 1 (하단이 화면 상단을 벗어남)
-        const totalScrollRange = windowHeight + videoHeight;
-        progress = (windowHeight - rect.top) / totalScrollRange;
+        if (startInView) {
+          // 뷰포트 상단에서 시작하는 경우 (Hero 섹션 등)
+          // rect.top >= 0 → progress = 0 (상단이 뷰포트 상단에 위치)
+          // rect.top = -videoHeight → progress = 1 (하단이 화면 상단을 벗어남)
+          progress = -rect.top / videoHeight;
+        } else {
+          // 화면 하단에서 등장하는 경우 (기본값)
+          // rect.top = windowHeight → progress = 0 (상단이 화면 하단에 등장)
+          // rect.top = -videoHeight → progress = 1 (하단이 화면 상단을 벗어남)
+          const totalScrollRange = windowHeight + videoHeight;
+          progress = (windowHeight - rect.top) / totalScrollRange;
+        }
       }
 
       // Apply scroll range mapping
@@ -144,7 +163,7 @@ const VideoScrubbing = ({
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [isInView, containerRef, scrollRange, onProgressChange]);
+  }, [isInView, containerRef, startInView, scrollRange, onProgressChange]);
 
   return (
     <Box

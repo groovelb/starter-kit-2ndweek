@@ -20,6 +20,11 @@ YOU MUST NOT 명시적 허용 없이 규칙을 위반하는 코드를 작성하�
 @.cursor/rules/project-summary.mdc
 @.cursor/rules/mui-grid-usage.mdc
 
+**지시된 기능만 구현 (CRITICAL)**
+- 사용자가 구체적인 지시를 한 경우, 명시된 기능만 구현할 것
+- 요청하지 않은 기능, 옵션, 예외 처리를 임의로 추가하지 말 것
+- "있으면 좋을 것 같은" 기능은 먼저 사용자에게 제안하고 승인받은 후 구현
+
 ### MUST (반드시 준수)
 @.cursor/rules/code-convenstion.mdc
 @.cursor/rules/design-system.mdc
