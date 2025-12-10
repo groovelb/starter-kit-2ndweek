@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Stack, Divider } from '@mui/material';
+import { Grid, Stack, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -34,6 +34,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
  *   <Grid size={{ xs: 4 }}>Row 2 Col 2</Grid>
  *   <Grid size={{ xs: 4 }}>Row 2 Col 3</Grid>
  * </LineGrid>
+ *
+ * Usage 5 - With border at start/end:
+ * <LineGrid borderStart borderEnd>
+ *   <Section1 />
+ *   <Section2 />
+ * </LineGrid>
  */
 const LineGrid = React.forwardRef(({
   container,
@@ -42,6 +48,8 @@ const LineGrid = React.forwardRef(({
   borderColor = 'text.primary',
   equalHeight = false,
   rowHeights = null, // [1, 2, 1] means row ratios
+  borderStart = false, // 시작 부분 border 표시
+  borderEnd = false, // 끝 부분 border 표시
   ...props
 }, ref) => {
   const theme = useTheme();
@@ -49,23 +57,26 @@ const LineGrid = React.forwardRef(({
 
   // Stack mode (no container prop)
   if (!container) {
+    // 1px 높이 라인 (Grid 모드와 동일)
+    const lineElement = (
+      <Box
+        sx={{
+          width: '100%',
+          height: '1px',
+          bgcolor: borderColor,
+          transition: 'background-color 1s ease',
+        }}
+      />
+    );
+
     return (
-      <Stack
-        ref={ref}
-        spacing={gap / 8}
-        divider={
-          <Divider
-            sx={{
-              borderColor,
-              borderWidth: 1,
-              transition: 'border-color 1s ease',
-            }}
-          />
-        }
-        {...props}
-      >
-        {children}
-      </Stack>
+      <Box ref={ref} {...props}>
+        {borderStart && lineElement}
+        <Stack spacing={gap / 8} divider={lineElement}>
+          {children}
+        </Stack>
+        {borderEnd && lineElement}
+      </Box>
     );
   }
 

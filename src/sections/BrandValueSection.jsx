@@ -28,33 +28,11 @@ const BrandValueSection = forwardRef(function BrandValueSection({ sx, ...props }
       ref={ref}
       sx={{
         width: '100%',
-        py: SPACING.section.lg,
+        py: 0,
         ...sx,
       }}
       {...props}
     >
-      {/* 섹션 헤더 */}
-      <Box sx={{ mb: SPACING.section.md, px: SPACING.inset.md }}>
-        <Typography
-          variant="h3"
-          sx={{
-            fontWeight: 700,
-            mb: SPACING.stack.xs,
-            color: 'text.primary',
-          }}
-        >
-          {sectionTitle}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: 'text.secondary',
-          }}
-        >
-          {sectionSubtitle}
-        </Typography>
-      </Box>
-
       {/* 1x3 그리드 - LineGrid 사용 */}
       <LineGrid container gap={0}>
         {features.map((feature) => (
