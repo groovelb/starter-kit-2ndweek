@@ -78,7 +78,7 @@ export const Default = {
     products: products,
     title: content.products.sectionTitle,
     subtitle: content.products.sectionSubtitle,
-    columns: 3,
+    columns: 6,
   },
   render: (args) => (
     <Box sx={{ px: 4 }}>

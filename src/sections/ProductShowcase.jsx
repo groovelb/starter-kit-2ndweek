@@ -40,7 +40,7 @@ const ProductShowcase = forwardRef(function ProductShowcase({
   products = [],
   title,
   subtitle,
-  columns = 3,
+  columns = 6,
   onProductClick,
   sx,
   ...props

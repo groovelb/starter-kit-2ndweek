@@ -32,7 +32,7 @@ import { ProductCard } from '../components/product/ProductCard';
 const ProductGrid = forwardRef(function ProductGrid({
   products = [],
   timeline = 0,
-  columns = 3,
+  columns = 6,
   spacing = 2,
   onProductClick,
   selectedProductId,
