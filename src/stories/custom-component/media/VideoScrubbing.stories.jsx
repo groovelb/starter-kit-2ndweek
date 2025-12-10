@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import { DocumentTitle, PageContainer, SectionTitle } from '../../../components/storybookDocumentation';
 import VideoScrubbing from '../../../components/media/VideoScrubbing';
 
-import testVideo from '../../../assets/video/9-motion.mp4';
+import testVideo from '../../../assets/product/9-motion.mp4';
 
 const TEST_VIDEO_URL = testVideo;
 

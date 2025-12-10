@@ -72,35 +72,34 @@ export const Default = {
     showTimeline: false,
   },
   render: (args) => (
-    <Box sx={{ height: '300vh' }}>
+    <Box sx={{ minHeight: '300vh', backgroundColor: 'background.default' }}>
+      {/* 스크롤 시작 영역 */}
       <Box
         sx={{
-          position: 'sticky',
-          top: 0,
           height: '100vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'background.default',
+        }}
+      >
+        <Typography variant="h6" color="text.secondary">
+          Scroll down to see video
+        </Typography>
+      </Box>
+
+      {/* 비디오 영역 - 화면에 등장하면 스크러빙 시작 */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          py: 4,
         }}
       >
         <ScrollVideo {...args} sx={{ maxWidth: 800 }} />
       </Box>
-      <Box
-        sx={{
-          position: 'fixed',
-          top: 16,
-          left: 16,
-          px: 2,
-          py: 1,
-          backgroundColor: 'rgba(18, 16, 14, 0.8)',
-          color: '#F2E9DA',
-          fontSize: 12,
-          fontFamily: 'monospace',
-        }}
-      >
-        Scroll down to scrub video
-      </Box>
+
+      {/* 하단 여백 */}
+      <Box sx={{ height: '100vh' }} />
     </Box>
   ),
 };
@@ -115,20 +114,16 @@ export const WithTimeline = {
     showTimeline: true,
   },
   render: (args) => (
-    <Box sx={{ height: '300vh' }}>
-      <Box
-        sx={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'background.default',
-        }}
-      >
+    <Box sx={{ minHeight: '300vh', backgroundColor: 'background.default' }}>
+      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography variant="h6" color="text.secondary">
+          Scroll down to see video
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
         <ScrollVideo {...args} sx={{ maxWidth: 800 }} />
       </Box>
+      <Box sx={{ height: '100vh' }} />
     </Box>
   ),
   parameters: {
@@ -150,111 +145,22 @@ export const NoOverlay = {
     showTimeline: false,
   },
   render: (args) => (
-    <Box sx={{ height: '300vh' }}>
-      <Box
-        sx={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#12100E',
-        }}
-      >
+    <Box sx={{ minHeight: '300vh', backgroundColor: '#12100E' }}>
+      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography variant="h6" sx={{ color: '#F2E9DA' }}>
+          Scroll down to see video
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
         <ScrollVideo {...args} sx={{ maxWidth: 600 }} />
       </Box>
+      <Box sx={{ height: '100vh' }} />
     </Box>
   ),
   parameters: {
     docs: {
       description: {
         story: '오버레이 없이 순수 비디오 스크러빙만 사용하는 예시입니다.',
-      },
-    },
-  },
-};
-
-/**
- * 커스텀 스크롤 범위
- */
-export const CustomScrollRange = {
-  args: {
-    src: landscapeVideo,
-    showTimeOverlay: true,
-    showTimeline: true,
-    scrollRange: { start: 0.2, end: 0.8 },
-  },
-  render: (args) => (
-    <Box sx={{ height: '400vh' }}>
-      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography variant="h6" color="text.secondary">
-          Scroll down to start
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'background.default',
-        }}
-      >
-        <ScrollVideo {...args} sx={{ maxWidth: 800 }} />
-      </Box>
-    </Box>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'scrollRange를 조절하여 스크롤의 20%-80% 구간에서만 비디오가 재생되도록 설정한 예시입니다.',
-      },
-    },
-  },
-};
-
-/**
- * 컨테이너 기준 스크롤
- */
-export const WithContainerRef = {
-  render: function ContainerRefDemo() {
-    const containerRef = useRef(null);
-
-    return (
-      <Box sx={{ height: '400vh' }}>
-        <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography variant="h6" color="text.secondary">
-            Scroll to container section
-          </Typography>
-        </Box>
-        <Box
-          ref={containerRef}
-          sx={{
-            height: '200vh',
-            backgroundColor: '#12100E',
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            pt: 8,
-          }}
-        >
-          <ScrollVideo
-            src={landscapeVideo}
-            containerRef={containerRef}
-            showTimeOverlay={true}
-            sx={{ maxWidth: 900, position: 'sticky', top: 40 }}
-          />
-        </Box>
-      </Box>
-    );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'containerRef를 사용하여 특정 컨테이너 요소를 기준으로 스크롤 진행도를 계산합니다.',
       },
     },
   },

@@ -6,9 +6,9 @@ import Box from '@mui/material/Box';
  * 스크롤 위치에 따라 비디오를 프레임 단위로 재생(스크러빙)하는 컴포넌트입니다.
  *
  * 동작 방식:
- * 1. 컴포넌트가 화면 하단에 등장하는 순간 스크러빙 시작 (progress = 0)
+ * 1. 페이지 스크롤 시작 시 progress = 0 (비디오 첫 프레임)
  * 2. 스크롤에 따라 비디오 프레임이 시킹됨
- * 3. 컴포넌트 상단이 화면 상단에 도달하면 스크러빙 완료 (progress = 1)
+ * 3. 페이지 스크롤 끝에서 progress = 1 (비디오 마지막 프레임)
  *
  * @param {string} src - 비디오 소스 경로 [Required]
  * @param {React.RefObject} containerRef - 스크롤 추적용 컨테이너 요소 [Optional]
@@ -80,30 +80,22 @@ const VideoScrubbing = ({
       lastScrollTime = now;
 
       let progress = 0;
-      const scrollY = window.scrollY || window.pageYOffset;
       const windowHeight = window.innerHeight;
 
       if (containerRef && containerRef.current) {
         const container = containerRef.current;
-        const containerOffsetTop = container.offsetTop;
+        const rect = container.getBoundingClientRect();
 
-        // 컨테이너가 화면 하단에 등장하는 시점부터 스크러빙 시작
-        // 시작점: 컨테이너 상단이 화면 하단에 닿을 때 (scrollY + windowHeight = containerOffsetTop)
-        // 끝점: 컨테이너 상단이 화면 상단에 닿을 때 (scrollY = containerOffsetTop)
-        const startPoint = containerOffsetTop - windowHeight;
-        const range = windowHeight;
-
-        progress = (scrollY - startPoint) / range;
+        // 컨테이너가 화면에 등장하는 시점부터 스크러빙 시작
+        // rect.top = windowHeight → progress = 0 (화면 하단에 등장)
+        // rect.top = 0 → progress = 1 (화면 상단에 도달)
+        progress = 1 - (rect.top / windowHeight);
       } else {
-        const videoOffsetTop = video.offsetTop;
-
-        // 비디오가 화면 하단에 등장하는 시점부터 스크러빙 시작
-        // 시작점: 비디오 상단이 화면 하단에 닿을 때
-        // 끝점: 비디오 상단이 화면 상단에 닿을 때
-        const startPoint = videoOffsetTop - windowHeight;
-        const range = windowHeight;
-
-        progress = (scrollY - startPoint) / range;
+        // 비디오가 화면에 등장하는 시점부터 스크러빙 시작
+        const rect = video.getBoundingClientRect();
+        // rect.top = windowHeight → progress = 0 (화면 하단에 등장)
+        // rect.top = 0 → progress = 1 (화면 상단에 도달)
+        progress = 1 - (rect.top / windowHeight);
       }
 
       // Apply scroll range mapping
