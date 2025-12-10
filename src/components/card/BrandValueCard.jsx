@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import * as LucideIcons from 'lucide-react';
 import { SPACING } from '../../styles/tokens';
+import Stack from '@mui/material/Stack';
 
 /**
  * BrandValueCard 컴포넌트
@@ -67,27 +68,27 @@ const BrandValueCard = forwardRef(function BrandValueCard({
       )}
 
       {/* 제목 */}
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: 600,
-          mb: SPACING.stack.xs,
-          color: 'text.primary',
-        }}
-      >
-        {title}
-      </Typography>
-
-      {/* 짧은 설명 */}
-      <Typography
-        variant="body2"
-        sx={{
-          color: 'text.secondary',
-          mb: SPACING.stack.sm,
-        }}
-      >
-        {description}
-      </Typography>
+      <Stack spacing={0} sx={{ width: '100%' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 600,
+            color: 'text.primary',
+          }}
+        >
+          {title}
+        </Typography>
+        {/* 짧은 설명 */}
+        <Typography
+          variant="body1"
+          sx={{
+            color: 'text.secondary',
+            mb: SPACING.stack.sm,
+          }}
+        >
+          {description}
+        </Typography>
+      </Stack>
 
       {/* 상세 설명 */}
       {detailedDescription && (

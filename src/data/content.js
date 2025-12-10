@@ -25,8 +25,6 @@ export const content = {
 
   // Brand Value section
   brandValue: {
-    sectionTitle: 'Brand Value',
-    sectionSubtitle: 'Our core principles for lighting design',
     features: [
       {
         id: 'immanence',
