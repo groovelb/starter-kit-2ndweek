@@ -177,32 +177,40 @@ const typography = {
   fontWeightMedium: 500,
   fontWeightBold: 700,
 
-  // Display Typography (Cormorant Garamond)
+  // Display Typography (Tiempos Headline)
   h1: {
     fontFamily: displayFontFamily,
     fontWeight: 800,
-    fontSize: '3rem',         // 48px
-    lineHeight: 1.15,
+    fontSize: '6rem',         // 96px
+    lineHeight: 1.05,
     letterSpacing: '-0.02em',
   },
 
   h2: {
     fontFamily: displayFontFamily,
     fontWeight: 700,
-    fontSize: '2.5rem',       // 40px
-    lineHeight: 1.2,
-    letterSpacing: '-0.01em',
+    fontSize: '4.5rem',       // 72px
+    lineHeight: 1.1,
+    letterSpacing: '-0.02em',
   },
 
   h3: {
     fontFamily: displayFontFamily,
     fontWeight: 700,
-    fontSize: '2rem',         // 32px
-    lineHeight: 1.25,
+    fontSize: '3rem',         // 48px
+    lineHeight: 1.15,
     letterSpacing: '-0.01em',
   },
 
   h4: {
+    fontFamily: displayFontFamily,
+    fontWeight: 700,
+    fontSize: '2.25rem',      // 36px
+    lineHeight: 1.2,
+    letterSpacing: '-0.01em',
+  },
+
+  h5: {
     fontFamily: displayFontFamily,
     fontWeight: 700,
     fontSize: '1.75rem',      // 28px
@@ -210,19 +218,11 @@ const typography = {
     letterSpacing: '0',
   },
 
-  h5: {
-    fontFamily: displayFontFamily,
-    fontWeight: 700,
-    fontSize: '1.5rem',       // 24px
-    lineHeight: 1.35,
-    letterSpacing: '0',
-  },
-
   h6: {
     fontFamily: displayFontFamily,
     fontWeight: 500,
-    fontSize: '1.25rem',      // 20px
-    lineHeight: 1.4,
+    fontSize: '1.5rem',       // 24px
+    lineHeight: 1.35,
     letterSpacing: '0',
   },
 

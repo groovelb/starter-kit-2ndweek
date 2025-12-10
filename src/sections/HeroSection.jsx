@@ -56,10 +56,12 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
               {title}
             </Typography>
             <Typography
-              variant="h5"
+              variant="h3"
               sx={{
                 color: 'text.secondary',
-                fontWeight: 400,
+                fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
+                fontWeight: 100,
+                pl: 0.5,
               }}
             >
               {subtitle}
