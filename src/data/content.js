@@ -30,7 +30,7 @@ export const content = {
     features: [
       {
         id: 'immanence',
-        icon: 'CircleHalf',
+        icon: 'CircleDot',
         title: 'Immanence',
         description: 'Light quietly residing within the space.',
         detailedDescription: 'Our luminaires merge with architecture, emitting indirect, glare-free light that preserves surfaces and sightlines; presence without display, precision without distraction.',
@@ -44,7 +44,7 @@ export const content = {
       },
       {
         id: 'flexibility',
-        icon: 'WaveSine',
+        icon: 'Activity',
         title: 'Flexibility',
         description: 'Auto by default, precise on demand.',
         detailedDescription: 'Automation handles the routine while instant overrides grant exact control of lux and CCT; minimal sensing, local computation, and efficient defaults respect context.',

@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CustomCard } from '../card/CustomCard';
 import { TimeBlendImage } from '../media/TimeBlendImage';
@@ -124,46 +125,44 @@ const ProductCard = forwardRef(function ProductCard({
       } }
       { ...props }
     >
-      {/* 제품명 */}
-      <Typography
-        variant="subtitle2"
-        sx={ {
-          fontWeight: 600,
-          mb: 0.5,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        } }
-      >
-        { title }
-      </Typography>
-
-      {/* 상태 라벨 (조도·색온도) */}
-      <Typography
-        variant="caption"
-        sx={ {
-          fontFamily: 'monospace',
-          color: 'text.secondary',
-          mb: 1,
-        } }
-      >
-        { lux } lx · { kelvin } K
-      </Typography>
+      {/* 제품명 + 상태 라벨 */}
+      <Stack spacing={0.5} sx={{ mb: 1 }}>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontWeight: 600,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            fontFamily: 'monospace',
+            color: 'text.secondary',
+          }}
+        >
+          {lux} lx · {kelvin} K
+        </Typography>
+      </Stack>
 
       {/* 타입 태그 */}
-      <Box sx={ { display: 'flex', gap: 0.5 } }>
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
         <Typography
           variant="caption"
-          sx={ {
+          sx={{
             px: 1,
             py: 0.25,
             backgroundColor: 'grey.200',
             fontSize: 10,
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
-          } }
+          }}
         >
-          { typeLabel }
+          {typeLabel}
         </Typography>
       </Box>
     </CustomCard>
