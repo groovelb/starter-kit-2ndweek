@@ -43,6 +43,15 @@ export default {
       control: 'text',
       description: '비디오 소스 경로',
     },
+    startInView: {
+      control: 'boolean',
+      description: '뷰포트 상단에서 시작하는 경우 true (Hero 섹션 등)',
+    },
+    ratio: {
+      control: 'select',
+      options: ['auto', '16/9', '4/3', '21/9', '1/1'],
+      description: '비디오 비율',
+    },
     showTimeOverlay: {
       control: 'boolean',
       description: '시간 오버레이 표시 여부',
@@ -161,6 +170,64 @@ export const NoOverlay = {
     docs: {
       description: {
         story: '오버레이 없이 순수 비디오 스크러빙만 사용하는 예시입니다.',
+      },
+    },
+  },
+};
+
+/**
+ * startInView 모드 - Hero 섹션용
+ */
+export const StartInView = {
+  args: {
+    src: landscapeVideo,
+    startInView: true,
+    showTimeOverlay: true,
+    showTimeline: false,
+  },
+  render: (args) => (
+    <Box sx={{ minHeight: '200vh', backgroundColor: 'background.default' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <ScrollVideo {...args} sx={{ maxWidth: 800 }} />
+      </Box>
+      <Box sx={{ height: '100vh' }} />
+    </Box>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'startInView=true일 때, 뷰포트 상단에서 progress=0부터 시작합니다. Hero 섹션에 적합합니다.',
+      },
+    },
+  },
+};
+
+/**
+ * 비율 지정
+ */
+export const WithRatio = {
+  args: {
+    src: productVideo,
+    ratio: '16/9',
+    showTimeOverlay: true,
+  },
+  render: (args) => (
+    <Box sx={{ minHeight: '300vh', backgroundColor: 'background.default' }}>
+      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography variant="h6" color="text.secondary">
+          Scroll down to see video (16:9)
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+        <ScrollVideo {...args} sx={{ maxWidth: 800 }} />
+      </Box>
+      <Box sx={{ height: '100vh' }} />
+    </Box>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'ratio prop으로 비디오 비율을 강제 지정할 수 있습니다.',
       },
     },
   },

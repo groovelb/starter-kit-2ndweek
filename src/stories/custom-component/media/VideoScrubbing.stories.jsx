@@ -51,6 +51,23 @@ export default {
         type: { summary: 'React.RefObject' },
       },
     },
+    startInView: {
+      control: 'boolean',
+      description: '뷰포트 상단에서 시작하는 경우 true (Hero 섹션 등)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    ratio: {
+      control: 'select',
+      options: ['auto', '16/9', '4/3', '21/9', '1/1'],
+      description: '비디오 비율',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'auto' },
+      },
+    },
     scrollRange: {
       control: 'object',
       description: '스크롤 범위 매핑',
@@ -197,6 +214,18 @@ export const Default = {
                 <TableCell sx={{ color: 'text.secondary', fontSize: 13 }}>스크롤 추적용 컨테이너 요소</TableCell>
               </TableRow>
               <TableRow>
+                <TableCell sx={{ fontFamily: 'monospace', fontSize: 12 }}>startInView</TableCell>
+                <TableCell sx={{ fontSize: 13 }}>boolean</TableCell>
+                <TableCell sx={{ fontSize: 13 }}>false</TableCell>
+                <TableCell sx={{ color: 'text.secondary', fontSize: 13 }}>뷰포트 상단에서 시작하는 경우 true (Hero 섹션 등)</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell sx={{ fontFamily: 'monospace', fontSize: 12 }}>ratio</TableCell>
+                <TableCell sx={{ fontSize: 13 }}>string</TableCell>
+                <TableCell sx={{ fontSize: 13 }}>auto</TableCell>
+                <TableCell sx={{ color: 'text.secondary', fontSize: 13 }}>비디오 비율 (auto, 16/9, 4/3, 21/9, 1/1)</TableCell>
+              </TableRow>
+              <TableRow>
                 <TableCell sx={{ fontFamily: 'monospace', fontSize: 12 }}>scrollRange</TableCell>
                 <TableCell sx={{ fontSize: 13 }}>{'{ start, end }'}</TableCell>
                 <TableCell sx={{ fontSize: 13 }}>{'{ 0, 1 }'}</TableCell>
@@ -234,6 +263,12 @@ export const Default = {
 
 // 기본 사용
 <VideoScrubbing src="/video.mp4" />
+
+// Hero 섹션 (뷰포트 상단에서 시작)
+<VideoScrubbing src="/video.mp4" startInView />
+
+// 비율 지정
+<VideoScrubbing src="/video.mp4" ratio="16/9" />
 
 // 진행도 콜백 활용
 const [progress, setProgress] = useState(0);
@@ -382,41 +417,85 @@ export const AspectRatios = {
           Aspect Ratios
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          sx prop으로 다양한 비율을 적용할 수 있습니다.
+          ratio prop으로 다양한 비율을 적용할 수 있습니다.
         </Typography>
 
         <ScrollArea height="300vh">
           <Stack spacing={6} sx={{ maxWidth: 800 }}>
             <Box>
               <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: 'monospace' }}>
-                aspectRatio: 21/9 (Cinematic)
+                ratio: auto (원본 비율)
               </Typography>
               <VideoScrubbing
                 src={TEST_VIDEO_URL}
-                sx={{ aspectRatio: '21/9', objectFit: 'cover' }}
+                ratio="auto"
               />
             </Box>
 
             <Box>
               <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: 'monospace' }}>
-                aspectRatio: 16/9 (Standard)
+                ratio: 21/9 (Cinematic)
               </Typography>
               <VideoScrubbing
                 src={TEST_VIDEO_URL}
-                sx={{ aspectRatio: '16/9', objectFit: 'cover' }}
+                ratio="21/9"
               />
             </Box>
 
             <Box>
               <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: 'monospace' }}>
-                aspectRatio: 4/3 (Classic)
+                ratio: 16/9 (Standard)
               </Typography>
               <VideoScrubbing
                 src={TEST_VIDEO_URL}
-                sx={{ aspectRatio: '4/3', objectFit: 'cover' }}
+                ratio="16/9"
+              />
+            </Box>
+
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontFamily: 'monospace' }}>
+                ratio: 4/3 (Classic)
+              </Typography>
+              <VideoScrubbing
+                src={TEST_VIDEO_URL}
+                ratio="4/3"
               />
             </Box>
           </Stack>
+        </ScrollArea>
+      </PageContainer>
+    </>
+  ),
+};
+
+/** startInView 모드 */
+export const StartInView = {
+  render: () => (
+    <>
+      <DocumentTitle
+        title="VideoScrubbing"
+        status="Available"
+        note="Start from viewport top"
+        brandName="Design System"
+        systemName="Starter Kit"
+        version="1.0"
+      />
+      <PageContainer>
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+          Start In View
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+          startInView=true일 때, 비디오가 뷰포트 상단에서 시작하면 progress=0부터 시작합니다.
+          Hero 섹션처럼 페이지 상단에 배치되는 경우에 사용합니다.
+        </Typography>
+
+        <ScrollArea height="200vh">
+          <Box sx={{ maxWidth: 800 }}>
+            <VideoScrubbing
+              src={TEST_VIDEO_URL}
+              startInView
+            />
+          </Box>
         </ScrollArea>
       </PageContainer>
     </>
