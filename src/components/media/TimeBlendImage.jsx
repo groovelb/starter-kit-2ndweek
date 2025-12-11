@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
  *    - timeline 0.67 = 8pm (저녁) → 낮 33% + 밤 67%
  *    - timeline 1.00 = 12am (자정) → 완전 밤 이미지
  * 2. 선형 블렌딩: timeline 값이 증가할수록 밤 이미지 opacity 증가
- * 3. 두 이미지를 absolute 포지션으로 스택 렌더링
+ * 3. aspectRatio="auto"일 때: 투명 이미지로 컨테이너 크기 결정, 두 이미지 모두 absolute
  * 4. 사용자가 타임라인 스크러버를 움직이면 실시간으로 블렌딩 반영
  *
  * Props:
@@ -22,7 +22,7 @@ import Box from '@mui/material/Box';
  * @param {string} nightImage - 밤 이미지 소스 (12am) [Required]
  * @param {number} timeline - 시간대 값 (0-1, 0=12pm, 1=12am) [Optional, 기본값: 0]
  * @param {string} alt - 이미지 대체 텍스트 [Optional, 기본값: '']
- * @param {string} aspectRatio - 컨테이너 종횡비 [Optional, 기본값: '1/1']
+ * @param {string} aspectRatio - 컨테이너 종횡비, 'auto'면 원본 비율 [Optional, 기본값: '1/1']
  * @param {string} objectFit - 이미지 맞춤 방식 [Optional, 기본값: 'cover']
  * @param {object} sx - 추가 스타일 [Optional]
  *
@@ -32,6 +32,7 @@ import Box from '@mui/material/Box';
  *   nightImage="/images/product-night.jpg"
  *   timeline={0.5}
  *   alt="Product"
+ *   aspectRatio="auto"
  * />
  */
 export function TimeBlendImage({
@@ -92,18 +93,34 @@ export function TimeBlendImage({
       } }
       { ...props }
     >
-      {/* 낮 이미지 (하단 레이어) - auto 비율일 때 relative로 컨테이너 높이 결정 */}
+      {/* auto 비율일 때: 공간 확보용 투명 이미지 (낮 이미지 기준) */}
+      { isAutoRatio && dayImage && (
+        <Box
+          component="img"
+          src={ dayImage }
+          alt=""
+          sx={ {
+            position: 'relative',
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            visibility: 'hidden',
+          } }
+        />
+      ) }
+
+      {/* 낮 이미지 (하단 레이어) */}
       { dayImage && (
         <Box
           component="img"
           src={ dayImage }
           alt={ `${alt} - Day` }
           sx={ {
-            position: isAutoRatio ? 'relative' : 'absolute',
+            position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: isAutoRatio ? 'auto' : '100%',
+            height: '100%',
             display: 'block',
             objectFit,
             opacity: dayOpacity,
@@ -113,7 +130,7 @@ export function TimeBlendImage({
         />
       ) }
 
-      {/* 밤 이미지 (상단 레이어) - 항상 absolute로 겹침 */}
+      {/* 밤 이미지 (상단 레이어) */}
       { nightImage && (
         <Box
           component="img"
