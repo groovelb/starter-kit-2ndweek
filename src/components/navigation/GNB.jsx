@@ -2,10 +2,13 @@ import { useState, forwardRef, createContext, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { NavMenu } from './NavMenu';
+import { content } from '../../data/content';
 
 /**
  * GNB Context
@@ -26,11 +29,15 @@ export const useGNB = () => useContext(GNBContext);
  * 데스크탑에서는 헤더에 네비게이션을 표시하고,
  * 모바일에서는 햄버거 메뉴 + 전체화면 드로어로 전환된다.
  *
+ * 동작 방식:
+ * 1. content.js에서 brand.name과 navigation.menuItems를 자동으로 불러옴
+ * 2. 데스크탑: 헤더에 로고 + NavMenu 표시
+ * 3. 모바일: 햄버거 버튼 → 전체화면 드로어로 전환
+ *
  * Props:
- * @param {node} logo - 로고 영역 (항상 표시) [Optional]
- * @param {node} navContent - 네비게이션 콘텐츠 (반응형 전환 대상) [Optional]
+ * @param {string} activeId - 현재 활성 메뉴 ID [Optional]
+ * @param {function} onMenuClick - 메뉴 클릭 핸들러 (item) => void [Optional]
  * @param {node} persistent - 헤더에 항상 표시될 요소 [Optional]
- * @param {node} drawerHeader - 드로어 상단 커스텀 요소 [Optional]
  * @param {node} drawerFooter - 드로어 하단 커스텀 요소 [Optional]
  * @param {string} breakpoint - 반응형 전환 브레이크포인트 ('sm' | 'md' | 'lg') [Optional, 기본값: 'md']
  * @param {number} height - 헤더 높이 (px) [Optional, 기본값: 64]
@@ -40,17 +47,12 @@ export const useGNB = () => useContext(GNBContext);
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
- * <GNB
- *   logo={<Logo />}
- *   navContent={<NavMenu items={menuItems} />}
- *   persistent={<SearchBar />}
- * />
+ * <GNB activeId="brand" onMenuClick={(item) => navigate(item.path)} />
  */
 const GNB = forwardRef(function GNB({
-  logo,
-  navContent,
+  activeId,
+  onMenuClick,
   persistent,
-  drawerHeader,
   drawerFooter,
   breakpoint = 'md',
   height = 64,
@@ -64,8 +66,34 @@ const GNB = forwardRef(function GNB({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(breakpoint));
 
+  // content.js에서 데이터 불러오기
+  const brandName = content.brand.name;
+  const menuItems = content.navigation.menuItems;
+
   const toggleDrawer = () => setIsDrawerOpen((prev) => !prev);
   const closeDrawer = () => setIsDrawerOpen(false);
+
+  // 메뉴 클릭 핸들러 (드로어 닫기 포함)
+  const handleMenuClick = (item) => {
+    closeDrawer();
+    onMenuClick?.(item);
+  };
+
+  // 로고 컴포넌트
+  const Logo = (
+    <Typography variant="h6" fontWeight={700}>
+      {brandName}
+    </Typography>
+  );
+
+  // NavMenu 컴포넌트
+  const NavContent = (
+    <NavMenu
+      items={menuItems}
+      activeId={activeId}
+      onItemClick={handleMenuClick}
+    />
+  );
 
   /**
    * 헤더 스타일
@@ -115,7 +143,7 @@ const GNB = forwardRef(function GNB({
           flexShrink: 0,
         }}
       >
-        {drawerHeader || logo}
+        {Logo}
         <IconButton
           onClick={closeDrawer}
           size="medium"
@@ -149,7 +177,7 @@ const GNB = forwardRef(function GNB({
           },
         }}
       >
-        {navContent}
+        {NavContent}
       </Box>
 
       {/* Drawer Footer */}
@@ -174,7 +202,7 @@ const GNB = forwardRef(function GNB({
       <Box ref={ref} component="header" sx={headerStyles} {...props}>
         {/* Left: Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {logo}
+          {Logo}
         </Box>
 
         {/* Right: Navigation */}
@@ -182,11 +210,11 @@ const GNB = forwardRef(function GNB({
           {/* Persistent (always visible) */}
           {persistent}
 
-          {/* Desktop: Show navContent */}
-          {!isMobile && navContent}
+          {/* Desktop: Show NavMenu */}
+          {!isMobile && NavContent}
 
           {/* Mobile: Hamburger menu */}
-          {isMobile && navContent && (
+          {isMobile && (
             <IconButton
               onClick={toggleDrawer}
               size="medium"

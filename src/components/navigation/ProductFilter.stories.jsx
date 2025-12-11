@@ -5,7 +5,7 @@ import { ProductFilter } from './ProductFilter';
 import { products, PRODUCT_TYPES } from '../../data/products';
 
 export default {
-  title: 'Custom Component/ProductFilter',
+  title: 'Custom Component/navigation/ProductFilter',
   component: ProductFilter,
   tags: ['autodocs'],
   parameters: {

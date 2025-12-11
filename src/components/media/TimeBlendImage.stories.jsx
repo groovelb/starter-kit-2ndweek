@@ -13,7 +13,7 @@ const dayImage = testImages[0] || '';
 const nightImage = testImages[1] || testImages[0] || '';
 
 export default {
-  title: 'Custom Component/TimeBlendImage',
+  title: 'Custom Component/media/TimeBlendImage',
   component: TimeBlendImage,
   tags: ['autodocs'],
   parameters: {

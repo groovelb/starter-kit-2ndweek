@@ -1,8 +1,7 @@
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { GNB } from '../../../components/navigation/GNB';
-import { NavMenu } from '../../../components/navigation/NavMenu';
 
 export default {
   title: 'Custom Component/Navigation/GNB',
@@ -18,6 +17,7 @@ export default {
 반응형 Global Navigation Bar 컴포넌트.
 
 ### 특징
+- content.js에서 로고(brand.name)와 메뉴(navigation.menuItems) 자동 로드
 - 데스크탑: 헤더에 네비게이션 표시
 - 모바일: 햄버거 메뉴 + 드로어로 전환
 - 투명/고정 헤더 옵션
@@ -26,6 +26,11 @@ export default {
     },
   },
   argTypes: {
+    activeId: {
+      control: 'select',
+      options: ['brand', 'collection', 'shop'],
+      description: '현재 활성 메뉴 ID',
+    },
     breakpoint: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -47,24 +52,17 @@ export default {
       control: 'boolean',
       description: '투명 배경 + 블러 효과',
     },
+    onMenuClick: {
+      action: 'menuClicked',
+      description: '메뉴 클릭 핸들러',
+    },
   },
 };
-
-const menuItems = [
-  { id: 'menu1', label: 'Menu 1' },
-  { id: 'menu2', label: 'Menu 2' },
-  { id: 'menu3', label: 'Menu 3' },
-];
-
-const Logo = () => (
-  <Typography variant="h6" fontWeight={ 700 }>
-    Logo
-  </Typography>
-);
 
 /** 기본 GNB - Controls에서 Props 조작 가능 */
 export const Default = {
   args: {
+    activeId: 'brand',
     breakpoint: 'md',
     height: 64,
     hasBorder: true,
@@ -73,16 +71,7 @@ export const Default = {
   },
   render: (args) => (
     <Box sx={ { height: 400 } }>
-      <GNB
-        { ...args }
-        logo={ <Logo /> }
-        navContent={
-          <NavMenu
-            items={ menuItems }
-            activeId="menu1"
-          />
-        }
-      />
+      <GNB { ...args } />
       <Box sx={ { p: 4, bgcolor: 'grey.50', height: '100%' } }>
         <Typography color="text.secondary">
           브라우저 너비를 줄여서 반응형 전환을 확인하세요.
@@ -101,11 +90,7 @@ export const HeaderStyles = {
           hasBorder: true (기본)
         </Typography>
         <Box sx={ { border: '1px solid', borderColor: 'divider' } }>
-          <GNB
-            logo={ <Logo /> }
-            navContent={ <NavMenu items={ menuItems } activeId="menu1" /> }
-            hasBorder
-          />
+          <GNB activeId="brand" hasBorder />
         </Box>
       </Box>
       <Box>
@@ -113,22 +98,7 @@ export const HeaderStyles = {
           isTransparent: true (Hero 섹션용)
         </Typography>
         <Box sx={ { position: 'relative' } }>
-          <GNB
-            logo={
-              <Typography variant="h6" fontWeight={ 700 } sx={ { color: 'white' } }>
-                Logo
-              </Typography>
-            }
-            navContent={
-              <NavMenu
-                items={ menuItems }
-                activeId="menu1"
-                sx={ { '& button': { color: 'white' } } }
-              />
-            }
-            isTransparent
-            hasBorder={ false }
-          />
+          <GNB activeId="brand" isTransparent hasBorder={ false } />
           <Box
             sx={ {
               height: 200,

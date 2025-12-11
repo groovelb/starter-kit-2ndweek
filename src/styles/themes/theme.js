@@ -35,20 +35,20 @@ const BRAND_COLORS = {
 const palette = {
   mode: 'light',
 
-  // 브랜드 Primary - Accent Color
+  // 브랜드 Primary - Warm Black
   primary: {
-    light: '#FFD89A',
-    main: BRAND_COLORS.accent,        // #FFC66E
-    dark: '#E6A84A',
-    contrastText: BRAND_COLORS.warmBlack,
-  },
-
-  // Secondary - Warm Black
-  secondary: {
     light: '#3D3835',
     main: BRAND_COLORS.warmBlack,     // #12100E
     dark: '#0A0908',
     contrastText: BRAND_COLORS.wallTintWhite,
+  },
+
+  // Secondary - Accent Color
+  secondary: {
+    light: '#FFD89A',
+    main: BRAND_COLORS.accent,        // #FFC66E
+    dark: '#E6A84A',
+    contrastText: BRAND_COLORS.warmBlack,
   },
 
   // 상태 색상 (브랜드 톤에 맞춰 조정)
@@ -178,12 +178,14 @@ const typography = {
   fontWeightBold: 700,
 
   // Display Typography (Tiempos Headline)
+  // letterSpacing: 타이트하게, wordSpacing: 넓게 (글자는 붙이고 단어는 띄움)
   h1: {
     fontFamily: displayFontFamily,
     fontWeight: 800,
     fontSize: '6rem',         // 96px
     lineHeight: 1.05,
-    letterSpacing: '-0.02em',
+    letterSpacing: '-0.04em',
+    wordSpacing: '0.1em',
   },
 
   h2: {
@@ -191,7 +193,8 @@ const typography = {
     fontWeight: 700,
     fontSize: '4.5rem',       // 72px
     lineHeight: 1.1,
-    letterSpacing: '-0.02em',
+    letterSpacing: '-0.04em',
+    wordSpacing: '0.1em',
   },
 
   h3: {
@@ -199,7 +202,8 @@ const typography = {
     fontWeight: 700,
     fontSize: '3rem',         // 48px
     lineHeight: 1.15,
-    letterSpacing: '-0.01em',
+    letterSpacing: '-0.03em',
+    wordSpacing: '0.08em',
   },
 
   h4: {
@@ -207,7 +211,8 @@ const typography = {
     fontWeight: 700,
     fontSize: '2.25rem',      // 36px
     lineHeight: 1.2,
-    letterSpacing: '-0.01em',
+    letterSpacing: '-0.03em',
+    wordSpacing: '0.08em',
   },
 
   h5: {
@@ -215,7 +220,8 @@ const typography = {
     fontWeight: 700,
     fontSize: '1.75rem',      // 28px
     lineHeight: 1.3,
-    letterSpacing: '0',
+    letterSpacing: '-0.02em',
+    wordSpacing: '0.06em',
   },
 
   h6: {
@@ -223,7 +229,8 @@ const typography = {
     fontWeight: 500,
     fontSize: '1.5rem',       // 24px
     lineHeight: 1.35,
-    letterSpacing: '0',
+    letterSpacing: '-0.02em',
+    wordSpacing: '0.06em',
   },
 
   // Body Typography (Pretendard)
@@ -245,7 +252,7 @@ const typography = {
 
   body1: {
     fontFamily: bodyFontFamily,
-    fontSize: '1rem',         // 16px
+    fontSize: '1.25rem',         // 16px
     fontWeight: 400,
     lineHeight: 1.7,
     letterSpacing: '0',
@@ -253,7 +260,7 @@ const typography = {
 
   body2: {
     fontFamily: bodyFontFamily,
-    fontSize: '0.875rem',     // 14px
+    fontSize: '1rem',     // 14px
     fontWeight: 400,
     lineHeight: 1.7,
     letterSpacing: '0',

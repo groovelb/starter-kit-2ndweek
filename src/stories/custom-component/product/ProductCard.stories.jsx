@@ -12,7 +12,7 @@ import {
 } from '../../../components/storybookDocumentation';
 
 export default {
-  title: 'Custom Component/Product/ProductCard',
+  title: 'Custom Component/card/ProductCard',
   component: ProductCard,
   tags: ['autodocs'],
   parameters: {

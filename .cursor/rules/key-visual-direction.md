@@ -21,9 +21,20 @@
 - Warm Black `#12100E`: 다크 배경, 라이트 모드 텍스트
 - 3800K Accent `#FFC66E`: 액센트 (CTA, 링크, 포커스)
 
+### MUI 토큰 매핑
+
+| 모드 | primary.main | secondary.main |
+|------|--------------|----------------|
+| Light | `#12100E` (Warm Black) | `#FFC66E` (Accent) |
+| Dark | `#F5F2EE` (Wall Tint White) | `#FFC66E` (Accent) |
+
+- **primary**: 기본 텍스트, 아이콘, 보더 (모드에 따라 반전)
+- **secondary**: CTA 버튼, 링크, 액센트 (모드 불문 동일)
+
 선택 이유:
 - 3800K 색온도 기반으로 조명 제품의 따뜻한 빛을 반영
 - 순백/순흑 대신 틴트된 색상으로 실제 벽면과 조명 환경 재현
+- primary는 텍스트/UI 기본색, secondary는 강조색으로 역할 분리
 
 ### 시간대별 배경색 전환
 

@@ -3,9 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { AppShell } from '../../../components/navigation/AppShell';
-import { NavMenu } from '../../../components/navigation/NavMenu';
-import { useGNB } from '../../../components/navigation/GNB';
 import { Page1, Page2, Page3 } from '../../../pages';
+import { content } from '../../../data/content';
 
 export default {
   title: 'Custom Component/Navigation/AppShell',
@@ -22,6 +21,7 @@ export default {
 
 ### 특징
 - GNB(헤더) + 메인 콘텐츠 영역 구성
+- GNB는 content.js에서 로고/메뉴 자동 로드
 - 모바일에서 자동으로 드로어 메뉴 전환
 - react-router-dom 연동 지원
         `,
@@ -29,6 +29,11 @@ export default {
     },
   },
   argTypes: {
+    activeId: {
+      control: 'select',
+      options: ['brand', 'collection', 'shop'],
+      description: '현재 활성 메뉴 ID',
+    },
     breakpoint: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
@@ -50,24 +55,17 @@ export default {
       control: 'boolean',
       description: '헤더 투명 배경',
     },
+    onMenuClick: {
+      action: 'menuClicked',
+      description: '메뉴 클릭 핸들러',
+    },
   },
 };
-
-const menuItems = [
-  { id: 'page1', label: 'Page 1' },
-  { id: 'page2', label: 'Page 2' },
-  { id: 'page3', label: 'Page 3' },
-];
-
-const Logo = () => (
-  <Typography variant="h6" fontWeight={ 700 }>
-    Logo
-  </Typography>
-);
 
 /** 기본 AppShell - Controls에서 Props 조작 가능 */
 export const Default = {
   args: {
+    activeId: 'brand',
     breakpoint: 'md',
     headerHeight: 64,
     hasHeaderBorder: true,
@@ -76,16 +74,7 @@ export const Default = {
   },
   render: (args) => (
     <Box sx={ { height: 400, border: '1px solid', borderColor: 'divider' } }>
-      <AppShell
-        { ...args }
-        logo={ <Logo /> }
-        headerCollapsible={
-          <NavMenu
-            items={ menuItems }
-            activeId="page1"
-          />
-        }
-      >
+      <AppShell { ...args }>
         <Box
           sx={ {
             flex: 1,
@@ -110,50 +99,27 @@ export const Default = {
 };
 
 /**
- * 라우터 연동 네비게이션 컴포넌트
- */
-function RouterNavMenu() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { closeDrawer } = useGNB();
-
-  const routerMenuItems = [
-    { id: 'page1', label: 'Page 1', path: '/page1' },
-    { id: 'page2', label: 'Page 2', path: '/page2' },
-    { id: 'page3', label: 'Page 3', path: '/page3' },
-  ];
-
-  // 현재 경로에서 activeId 추출
-  const activeId = routerMenuItems.find((item) => item.path === location.pathname)?.id || 'page1';
-
-  const handleItemClick = (item) => {
-    navigate(item.path);
-    closeDrawer(); // 모바일 드로어 닫기
-  };
-
-  return (
-    <NavMenu
-      items={ routerMenuItems }
-      activeId={ activeId }
-      onItemClick={ handleItemClick }
-    />
-  );
-}
-
-/**
  * 라우터 연동 AppShell
  */
 function RouterAppShell() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 현재 경로에서 activeId 추출
+  const menuItems = content.navigation.menuItems;
+  const activeId = menuItems.find((item) => item.path === location.pathname)?.id || 'brand';
+
+  const handleMenuClick = (item) => {
+    navigate(item.path);
+  };
+
   return (
-    <AppShell
-      logo={ <Logo /> }
-      headerCollapsible={ <RouterNavMenu /> }
-    >
+    <AppShell activeId={ activeId } onMenuClick={ handleMenuClick }>
       <Routes>
         <Route path="/" element={ <Page1 /> } />
-        <Route path="/page1" element={ <Page1 /> } />
-        <Route path="/page2" element={ <Page2 /> } />
-        <Route path="/page3" element={ <Page3 /> } />
+        <Route path="/brand" element={ <Page1 /> } />
+        <Route path="/collection" element={ <Page2 /> } />
+        <Route path="/shop" element={ <Page3 /> } />
         <Route path="*" element={ <Page1 /> } />
       </Routes>
     </AppShell>
@@ -163,7 +129,7 @@ function RouterAppShell() {
 /** 라우터 연동 예시 - 메뉴 클릭 시 페이지 전환 */
 export const WithRouter = {
   render: () => (
-    <MemoryRouter initialEntries={ ['/page1'] }>
+    <MemoryRouter initialEntries={ ['/brand'] }>
       <Box sx={ { height: 500, border: '1px solid', borderColor: 'divider' } }>
         <RouterAppShell />
       </Box>
@@ -180,10 +146,7 @@ export const LayoutVariants = {
           기본 레이아웃
         </Typography>
         <Box sx={ { height: 300, border: '1px solid', borderColor: 'divider' } }>
-          <AppShell
-            logo={ <Logo /> }
-            headerCollapsible={ <NavMenu items={ menuItems } activeId="page1" /> }
-          >
+          <AppShell activeId="brand">
             <Box sx={ { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.50' } }>
               <Typography variant="h5" fontWeight={ 600 }>Content Area</Typography>
             </Box>
@@ -195,22 +158,7 @@ export const LayoutVariants = {
           투명 헤더 (Hero 섹션)
         </Typography>
         <Box sx={ { height: 300 } }>
-          <AppShell
-            logo={
-              <Typography variant="h6" fontWeight={ 700 } sx={ { color: 'white' } }>
-                Logo
-              </Typography>
-            }
-            headerCollapsible={
-              <NavMenu
-                items={ menuItems }
-                activeId="page1"
-                sx={ { '& button': { color: 'white' } } }
-              />
-            }
-            isHeaderTransparent
-            hasHeaderBorder={ false }
-          >
+          <AppShell activeId="brand" isHeaderTransparent hasHeaderBorder={ false }>
             <Box
               sx={ {
                 flex: 1,

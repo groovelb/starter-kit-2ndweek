@@ -13,6 +13,15 @@ export const content = {
     tagline: 'Light defines the space.',
   },
 
+  // Navigation
+  navigation: {
+    menuItems: [
+      { id: 'brand', label: 'Brand', path: '/brand' },
+      { id: 'collection', label: 'Collection', path: '/collection' },
+      { id: 'shop', label: 'Shop', path: '/shop' },
+    ],
+  },
+
   // Hero section
   hero: {
     title: 'Lumenstate',

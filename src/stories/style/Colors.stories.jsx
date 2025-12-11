@@ -248,8 +248,8 @@ export const Docs = {
             } }
           >
 { `// 브랜드 컬러 직접 사용
-<Box sx={{ backgroundColor: 'primary.main' }} />  // #FFC66E (Accent)
-<Box sx={{ backgroundColor: 'secondary.main' }} />  // #12100E (Warm Black)
+<Box sx={{ backgroundColor: 'primary.main' }} />  // #12100E (Warm Black)
+<Box sx={{ backgroundColor: 'secondary.main' }} />  // #FFC66E (Accent)
 
 // 배경/텍스트
 <Box sx={{ backgroundColor: 'background.default' }} />  // #F5F2EE
@@ -259,9 +259,9 @@ export const Docs = {
 // CTA 버튼
 <Button
   sx={{
-    backgroundColor: 'primary.main',  // #FFC66E
-    color: 'secondary.main',          // #12100E
-    '&:hover': { backgroundColor: 'primary.dark' }
+    backgroundColor: 'secondary.main',  // #FFC66E (Accent)
+    color: 'primary.main',              // #12100E (Warm Black)
+    '&:hover': { backgroundColor: 'secondary.dark' }
   }}
 >
   제품 보기
@@ -289,14 +289,15 @@ export const Docs = {
 "배경은 #F5F2EE (Wall Tint White), 텍스트는 #12100E (Warm Black)로
 조명 제품 카드를 만들어줘. 그래디언트 금지."
 
-"CTA 버튼은 #FFC66E (3800K Accent) 배경에
-#12100E 텍스트로 만들어줘. hover 시 약간 어둡게."
+"CTA 버튼은 secondary.main (#FFC66E Accent) 배경에
+primary.main (#12100E Warm Black) 텍스트로 만들어줘."
 
-"다크 모드에서는 배경 #12100E, 텍스트 #F2E9DA로
-전환해줘. 액센트 #FFC66E는 동일하게 유지."
+"primary.main은 #12100E (Warm Black),
+secondary.main은 #FFC66E (Accent)야. 다크 모드에서
+primary는 #F5F2EE로 전환되고, secondary는 #FFC66E 유지."
 
-"히어로 섹션의 헤드라인은 #12100E, 서브텍스트는
-#12100E 80% opacity로 구분해줘. 글로우/블러 금지."` }
+"히어로 섹션의 헤드라인은 text.primary, 서브텍스트는
+text.secondary (80% opacity)로 구분해줘. 글로우/블러 금지."` }
           </Box>
         </PageContainer>
       </>
@@ -345,14 +346,14 @@ export const SemanticTokens = {
                   light={ theme.palette.primary.light }
                   main={ theme.palette.primary.main }
                   dark={ theme.palette.primary.dark }
-                  description="CTA 버튼, 링크, 액센트"
+                  description="기본 텍스트, 아이콘, 보더"
                 />
                 <SemanticColorRow
                   name="Secondary"
                   light={ theme.palette.secondary.light }
                   main={ theme.palette.secondary.main }
                   dark={ theme.palette.secondary.dark }
-                  description="보조 버튼, 태그"
+                  description="CTA 버튼, 링크, 액센트"
                 />
                 <SemanticColorRow
                   name="Error"

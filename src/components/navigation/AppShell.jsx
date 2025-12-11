@@ -7,12 +7,12 @@ import { GNB } from './GNB';
  *
  * 반응형 레이아웃 쉘. GNB(헤더)와 메인 영역으로 구성된다.
  * GNB가 반응형 네비게이션(Header + 전체화면 Drawer)을 처리한다.
+ * GNB는 content.js에서 로고와 메뉴 데이터를 자동으로 불러온다.
  *
  * Props:
- * @param {node} logo - 로고 영역 (항상 표시) [Optional]
+ * @param {string} activeId - 현재 활성 메뉴 ID [Optional]
+ * @param {function} onMenuClick - 메뉴 클릭 핸들러 (item) => void [Optional]
  * @param {node} headerPersistent - 헤더에 항상 표시될 요소 [Optional]
- * @param {node} headerCollapsible - 모바일에서 드로어로 이동할 요소 [Optional]
- * @param {node} drawerHeader - 드로어 상단 커스텀 요소 [Optional]
  * @param {node} drawerFooter - 드로어 하단 커스텀 요소 [Optional]
  * @param {node} children - 메인 콘텐츠 영역 [Required]
  * @param {string} breakpoint - 반응형 전환 브레이크포인트 ('sm' | 'md' | 'lg') [Optional, 기본값: 'md']
@@ -23,20 +23,14 @@ import { GNB } from './GNB';
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
- * <AppShell
- *   logo={<Logo />}
- *   headerPersistent={<SearchBar />}
- *   headerCollapsible={<NavMenu items={menuItems} />}
- *   breakpoint="md"
- * >
+ * <AppShell activeId="brand" onMenuClick={(item) => navigate(item.path)}>
  *   <MainContent />
  * </AppShell>
  */
 const AppShell = forwardRef(function AppShell({
-  logo,
+  activeId,
+  onMenuClick,
   headerPersistent,
-  headerCollapsible,
-  drawerHeader,
   drawerFooter,
   children,
   breakpoint = 'md',
@@ -60,10 +54,9 @@ const AppShell = forwardRef(function AppShell({
     >
       {/* GNB */}
       <GNB
-        logo={logo}
-        navContent={headerCollapsible}
+        activeId={activeId}
+        onMenuClick={onMenuClick}
         persistent={headerPersistent}
-        drawerHeader={drawerHeader}
         drawerFooter={drawerFooter}
         breakpoint={breakpoint}
         height={headerHeight}

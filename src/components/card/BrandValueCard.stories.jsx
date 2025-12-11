@@ -1,7 +1,7 @@
 import { BrandValueCard } from './BrandValueCard';
 
 export default {
-  title: 'Custom Component/BrandValueCard',
+  title: 'Custom Component/card/BrandValueCard',
   component: BrandValueCard,
   tags: ['autodocs'],
   parameters: {

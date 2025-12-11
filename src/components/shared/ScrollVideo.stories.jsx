@@ -8,7 +8,7 @@ import landscapeVideo from '../../assets/landscape/landscape-motion.mp4';
 import productVideo from '../../assets/product/1-motion.mp4';
 
 export default {
-  title: 'Custom Component/ScrollVideo',
+  title: 'Custom Component/media/ScrollVideo',
   component: ScrollVideo,
   tags: ['autodocs'],
   parameters: {

@@ -32,19 +32,19 @@ import {
 const darkPalette = {
   mode: 'dark',
 
-  // 브랜드 Primary - Accent Color (동일)
+  // 브랜드 Primary - Wall Tint White (라이트 모드 배경색)
   primary: {
-    light: '#FFD89A',
-    main: BRAND_COLORS.accent,        // #FFC66E
-    dark: '#E6A84A',
-    contrastText: BRAND_COLORS.warmBlack,
-  },
-
-  // Secondary - Wall Tint White (라이트와 반전)
-  secondary: {
     light: '#FFFAF5',
     main: BRAND_COLORS.wallTintWhite, // #F5F2EE
     dark: '#E8E4DF',
+    contrastText: BRAND_COLORS.warmBlack,
+  },
+
+  // Secondary - Accent Color (동일)
+  secondary: {
+    light: '#FFD89A',
+    main: BRAND_COLORS.accent,        // #FFC66E
+    dark: '#E6A84A',
     contrastText: BRAND_COLORS.warmBlack,
   },
 
