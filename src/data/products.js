@@ -1,5 +1,30 @@
 import { productAssets } from '../assets/product';
 
+// Product Options (for product detail page)
+export const PRODUCT_OPTIONS = {
+  glassFinish: [
+    { value: 'clear', label: 'Clear' },
+    { value: 'frosted', label: 'Frosted' },
+    { value: 'opaline', label: 'Opaline' },
+    { value: 'amber', label: 'Amber' },
+    { value: 'smoke', label: 'Smoke' },
+  ],
+  hardware: [
+    { value: 'patina-brass', label: 'Patina Brass' },
+    { value: 'polished-brass', label: 'Polished Brass' },
+    { value: 'brushed-nickel', label: 'Brushed Nickel' },
+    { value: 'matte-black', label: 'Matte Black' },
+    { value: 'chrome', label: 'Chrome' },
+  ],
+  height: [
+    { value: '36-48', label: '36" - 48"' },
+    { value: '49-60', label: '49" - 60"' },
+    { value: '61-72', label: '61" - 72"' },
+    { value: '73-84', label: '73" - 84"' },
+    { value: '85-96', label: '85" - 96"' },
+  ],
+};
+
 // Product Types
 export const PRODUCT_TYPES = {
   CEILING: 'ceiling',

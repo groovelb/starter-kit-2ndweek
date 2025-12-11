@@ -153,6 +153,7 @@ const TimelineSlider = forwardRef(function TimelineSlider({
           position: 'relative',
           height: 48,
           mb: 1.5,
+          pointerEvents: 'none',
         }}
       >
         {timeMarkers.map((marker, index) => {
