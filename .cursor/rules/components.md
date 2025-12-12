@@ -69,9 +69,13 @@
 - CartDrawerTemplate: 장바구니 슬라이드 템플릿. CartHeader + CartItem 리스트 + CartSummary + CartCheckoutButton
 - CheckoutTemplate: 체크아웃 페이지 템플릿. CheckoutHeader + CheckoutSteps + ExpressCheckout + ContactForm + ShippingForm + OrderSummary
 
+### Navigation
+
+- GNB: 글로벌 네비게이션 바. 로고 + Cart 아이콘 (뱃지로 아이템 수 표시)
+
 ### Pages
 
-- ProductDetailPage: 상품 상세 페이지. ProductDetailTemplate 사용
+- ProductDetailPage: 상품 상세 페이지. PageContainer + ProductDetailSection. GNB는 라우터에서 처리
 - CheckoutPage: 체크아웃 페이지. CheckoutTemplate 사용
 
 ---
