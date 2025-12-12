@@ -1,45 +1,30 @@
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import LandingPage from './pages/LandingPage';
-
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import { TimelineProvider } from './hooks/useTimeline';
+import { CartProvider } from './context/CartContext';
 import { AppShell } from './components/navigation/AppShell';
-import { NavMenu } from './components/navigation/NavMenu';
-import { useGNB } from './components/navigation/GNB';
-import { Page1, Page2, Page3 } from './pages';
-
-const menuItems = [
-  { id: 'page1', label: 'Page 1', path: '/page1' },
-  { id: 'page2', label: 'Page 2', path: '/page2' },
-  { id: 'page3', label: 'Page 3', path: '/page3' },
-];
-
-const Logo = () => (
-  <Typography variant="h6" fontWeight={ 700 }>
-    Logo
-  </Typography>
-);
+import LandingPage from './pages/LandingPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import { products } from './data/products';
 
 /**
- * 라우터 연동 네비게이션
+ * 제품 상세 페이지 래퍼
+ * URL 파라미터에서 productId를 추출하여 해당 제품 데이터 전달
  */
-function RouterNavMenu() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { closeDrawer } = useGNB();
+function ProductDetailRoute() {
+  const { productId } = useParams();
+  const product = products.find((p) => p.id === Number(productId)) || products[0];
 
-  const activeId = menuItems.find((item) => item.path === location.pathname)?.id || 'page1';
-
-  const handleItemClick = (item) => {
-    navigate(item.path);
-    closeDrawer();
+  // 샘플 메타 정보 (실제로는 API에서 가져올 수 있음)
+  const meta = {
+    itemNumber: `LM-${String(product.id).padStart(3, '0')}`,
+    leadTime: '4 Weeks',
+    shipDate: 'Jan 15, 2025',
   };
 
   return (
-    <NavMenu
-      items={ menuItems }
-      activeId={ activeId }
-      onItemClick={ handleItemClick }
+    <ProductDetailPage
+      product={{ ...product, price: 1290 }}
+      meta={meta}
     />
   );
 }
@@ -49,16 +34,11 @@ function RouterNavMenu() {
  */
 function AppLayout() {
   return (
-    <AppShell
-      logo={ <Logo /> }
-      headerCollapsible={ <RouterNavMenu /> }
-    >
+    <AppShell>
       <Routes>
-        <Route path="/" element={ <LandingPage /> } />
-        <Route path="/page1" element={ <Page1 /> } />
-        <Route path="/page2" element={ <Page2 /> } />
-        <Route path="/page3" element={ <Page3 /> } />
-        <Route path="*" element={ <Page1 /> } />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/product/:productId" element={<ProductDetailRoute />} />
+        <Route path="*" element={<LandingPage />} />
       </Routes>
     </AppShell>
   );
@@ -66,11 +46,13 @@ function AppLayout() {
 
 function App() {
   return (
-    <TimelineProvider initialTimeline={ 0 }>
-      <BrowserRouter>
-        <AppLayout />
-      </BrowserRouter>
-    </TimelineProvider>
+    <CartProvider>
+      <TimelineProvider initialTimeline={0}>
+        <BrowserRouter>
+          <AppLayout />
+        </BrowserRouter>
+      </TimelineProvider>
+    </CartProvider>
   );
 }
 

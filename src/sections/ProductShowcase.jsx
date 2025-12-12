@@ -1,4 +1,5 @@
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -37,8 +38,20 @@ const ProductShowcase = forwardRef(function ProductShowcase({
   sx,
   ...props
 }, ref) {
+  const navigate = useNavigate();
   const { timeline } = useTimeline();
   const { sectionTitle, sectionSubtitle } = content.products;
+
+  /**
+   * 제품 클릭 핸들러
+   * 제품 상세 페이지로 라우팅
+   */
+  const handleProductClick = useCallback((product) => {
+    if (onProductClick) {
+      onProductClick(product);
+    }
+    navigate(`/product/${product.id}`);
+  }, [navigate, onProductClick]);
 
   return (
     <SectionContainer
@@ -87,7 +100,7 @@ const ProductShowcase = forwardRef(function ProductShowcase({
         products={products}
         timeline={timeline}
         columns={columns}
-        onProductClick={onProductClick}
+        onProductClick={handleProductClick}
       />
     </SectionContainer>
   );
