@@ -1,18 +1,20 @@
 import { forwardRef, useState, useMemo } from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { CenteredAsideLayout } from '../components/layout/CenteredAsideLayout';
 import { ProductFilter } from '../components/navigation/ProductFilter';
 import { ProductGrid } from './ProductGrid';
 
 /**
  * ProductGallery 템플릿 컴포넌트
  *
- * ProductFilter와 ProductGrid를 3:9 비율로 결합한 갤러리 레이아웃.
+ * CenteredAsideLayout을 사용하여 ProductFilter와 ProductGrid를 배치.
+ * 좌측 필터는 sticky, 중앙에 제품 그리드, 우측은 빈 영역으로 시각적 중앙 정렬.
  *
  * 동작 방식:
- * 1. 좌측 필터(3)에서 제품 타입 선택
- * 2. 우측 그리드(9)에서 필터링된 제품 표시
- * 3. 'All' 선택 시 전체 제품 표시
+ * 1. CenteredAsideLayout(2:8:2)으로 대칭 레이아웃 구성
+ * 2. 좌측 필터에서 제품 타입 선택 (sticky로 스크롤 시 고정)
+ * 3. 중앙 그리드에서 필터링된 제품 표시 (시각적 정중앙)
+ * 4. 'All' 선택 시 전체 제품 표시
+ * 5. 모바일(md 미만)에서는 필터가 상단, 그리드가 하단으로 스택
  *
  * Props:
  * @param {Array} products - 제품 데이터 배열 [Required]
@@ -23,12 +25,14 @@ import { ProductGrid } from './ProductGrid';
  * @param {string|number} selectedProductId - 선택된 제품 ID [Optional]
  * @param {string} defaultFilter - 초기 필터 값 [Optional, 기본값: 'all']
  * @param {boolean} showAllOption - 'All' 탭 표시 여부 [Optional, 기본값: true]
+ * @param {number} stickyTop - Filter sticky 위치 (px) [Optional, 기본값: 88 (GNB 64px + 여백 24px)]
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
  * <ProductGallery
  *   products={products}
  *   timeline={0.5}
+ *   stickyTop={80}
  *   onProductClick={(product) => console.log(product)}
  * />
  */
@@ -41,6 +45,7 @@ const ProductGallery = forwardRef(function ProductGallery({
   selectedProductId,
   defaultFilter = 'all',
   showAllOption = true,
+  stickyTop = 88,
   sx,
   ...props
 }, ref) {
@@ -55,27 +60,29 @@ const ProductGallery = forwardRef(function ProductGallery({
   }, [products, filter]);
 
   return (
-    <Box ref={ref} sx={sx} {...props}>
-      <Grid container spacing={spacing}>
-        <Grid size={{ xs: 12, md: 2 }}>
-          <ProductFilter
-            selected={filter}
-            onChange={setFilter}
-            showAll={showAllOption}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 10 }}>
-          <ProductGrid
-            products={filteredProducts}
-            timeline={timeline}
-            columns={columns}
-            spacing={spacing}
-            onProductClick={onProductClick}
-            selectedProductId={selectedProductId}
-          />
-        </Grid>
-      </Grid>
-    </Box>
+    <CenteredAsideLayout
+      ref={ref}
+      aside={
+        <ProductFilter
+          selected={filter}
+          onChange={setFilter}
+          showAll={showAllOption}
+        />
+      }
+      stickyTop={stickyTop}
+      spacing={spacing}
+      sx={sx}
+      {...props}
+    >
+      <ProductGrid
+        products={filteredProducts}
+        timeline={timeline}
+        columns={columns}
+        spacing={spacing}
+        onProductClick={onProductClick}
+        selectedProductId={selectedProductId}
+      />
+    </CenteredAsideLayout>
   );
 });
 

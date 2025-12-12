@@ -28,20 +28,29 @@ export function ProductFilter({ selected = 'all', onChange, showAll = true, sx }
   ];
 
   return (
-    <Box sx={{ borderRight: 1, borderColor: 'divider', ...sx }}>
+    <Box sx={sx}>
       <Tabs
         orientation="vertical"
         value={selected}
         onChange={(e, newValue) => onChange(newValue)}
         aria-label="product type filter"
         sx={{
+          '& .MuiTabs-indicator': {
+            left: 0,
+            right: 'auto',
+            height: '50%',
+            top: '25%',
+          },
           '& .MuiTab-root': {
             textTransform: 'none',
             fontWeight: 500,
-            minWidth: 120,
+            minWidth: 60,
+            minHeight: 32,
             alignItems: 'flex-start',
-            px: 2,
-            py: 1.5,
+            pl: 2,
+            pr: 1,
+            py: 0.75,
+            fontSize: '0.8125rem',
           },
           '& .Mui-selected': {
             fontWeight: 600,

@@ -7,12 +7,15 @@ import { keyframes } from '@mui/material/styles';
  * 프로젝트 디자인 시스템의 Icons.stories.jsx 패턴 사용
  */
 function MaterialSymbol({ name, size = 24, fill = false, weight = 400, color = 'inherit', sx = {} }) {
+  // size가 숫자면 px 단위 추가, 문자열이면 그대로 사용
+  const fontSize = typeof size === 'number' ? `${size}px` : size;
+
   return (
     <Box
       component="span"
       className="material-symbols-rounded"
       sx={{
-        fontSize: size,
+        fontSize,
         color,
         fontVariationSettings: `'FILL' ${fill ? 1 : 0}, 'wght' ${weight}`,
         lineHeight: 1,

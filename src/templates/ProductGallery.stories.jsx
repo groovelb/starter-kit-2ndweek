@@ -12,15 +12,17 @@ export default {
         component: `
 ## ProductGallery
 
-ProductFilter와 ProductGrid를 3:9 비율로 결합한 갤러리 템플릿입니다.
+대칭 그리드(2:8:2) 레이아웃으로 ProductFilter와 ProductGrid를 배치하는 갤러리 템플릿입니다.
 
-### 레이아웃
-- 좌측 (3): ProductFilter (세로 탭)
-- 우측 (9): ProductGrid (제품 카드 그리드)
+### 레이아웃 (2:8:2)
+- 좌측 (2): ProductFilter (세로 탭, sticky)
+- 중앙 (8): ProductGrid (제품 카드 그리드, 시각적 정중앙)
+- 우측 (2): 빈 영역 (시각 균형용)
 
 ### 동작
 1. 필터 선택 시 해당 타입의 제품만 표시
-2. 'All' 선택 시 전체 제품 표시
+2. 스크롤 시 필터가 sticky로 고정
+3. 'All' 선택 시 전체 제품 표시
 - TimelineContext는 Storybook 글로벌 decorator에서 제공
         `,
       },
@@ -72,6 +74,14 @@ ProductFilter와 ProductGrid를 3:9 비율로 결합한 갤러리 템플릿입�
         defaultValue: { summary: 'true' },
       },
     },
+    stickyTop: {
+      control: { type: 'number', min: 0, max: 200 },
+      description: 'Filter sticky 위치 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '24' },
+      },
+    },
     onProductClick: {
       action: 'productClicked',
       description: '제품 클릭 핸들러',
@@ -96,6 +106,7 @@ export const Default = {
     spacing: 2,
     defaultFilter: 'all',
     showAllOption: true,
+    stickyTop: 24,
   },
 };
 

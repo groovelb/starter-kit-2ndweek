@@ -1,14 +1,14 @@
-import { forwardRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { forwardRef, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-import { SectionContainer } from '../components/container/SectionContainer';
-import { ProductGallery } from '../templates/ProductGallery';
-import { TimelineSlider } from '../components/shared/TimelineSlider';
-import { useTimeline } from '../hooks/useTimeline';
-import { products } from '../data/products';
-import { content } from '../data/content';
+import { SectionContainer } from "../components/container/SectionContainer";
+import { ProductGallery } from "../templates/ProductGallery";
+import { TimelineSlider } from "../components/shared/TimelineSlider";
+import { useTimeline } from "../hooks/useTimeline";
+import { products } from "../data/products";
+import { content } from "../data/content";
 
 /**
  * ProductShowcase 섹션 컴포넌트
@@ -32,78 +32,75 @@ import { content } from '../data/content';
  *   <ProductShowcase columns={4} />
  * </TimelineProvider>
  */
-const ProductShowcase = forwardRef(function ProductShowcase({
-  columns = 4,
-  onProductClick,
-  sx,
-  ...props
-}, ref) {
-  const navigate = useNavigate();
-  const { timeline } = useTimeline();
-  const { sectionTitle, sectionSubtitle } = content.products;
+const ProductShowcase = forwardRef(function ProductShowcase(
+	{ columns = 4, onProductClick, sx, ...props },
+	ref
+) {
+	const navigate = useNavigate();
+	const { timeline } = useTimeline();
+	const { sectionTitle, sectionSubtitle } = content.products;
 
-  /**
-   * 제품 클릭 핸들러
-   * 제품 상세 페이지로 라우팅
-   */
-  const handleProductClick = useCallback((product) => {
-    if (onProductClick) {
-      onProductClick(product);
-    }
-    navigate(`/product/${product.id}`);
-  }, [navigate, onProductClick]);
+	/**
+	 * 제품 클릭 핸들러
+	 * 제품 상세 페이지로 라우팅
+	 */
+	const handleProductClick = useCallback(
+		(product) => {
+			if (onProductClick) {
+				onProductClick(product);
+			}
+			navigate(`/product/${product.id}`);
+		},
+		[navigate, onProductClick]
+	);
 
-  return (
-    <SectionContainer
-      ref={ref}
-      sx={sx}
-      {...props}
-    >
-      {/* 헤더 영역 */}
-      <Box sx={{ textAlign: 'center' }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 700,
-            mb: 1,
-            color: 'text.primary',
-            transition: 'color 600ms ease',
-          }}
-        >
-          {sectionTitle}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: 'text.secondary',
-            transition: 'color 600ms ease',
-          }}
-        >
-          {sectionSubtitle}
-        </Typography>
-      </Box>
+	return (
+		<SectionContainer ref={ref} sx={sx} {...props}>
+			{/* 헤더 영역 */}
+			<Box sx={{ textAlign: "center" }}>
+				<Typography
+					variant="h4"
+					sx={{
+						fontWeight: 700,
+						mb: 1,
+						color: "text.primary",
+						transition: "color 600ms ease",
+					}}
+				>
+					{sectionTitle}
+				</Typography>
+				<Typography
+					variant="body1"
+					sx={{
+						color: "text.secondary",
+						transition: "color 600ms ease",
+					}}
+				>
+					{sectionSubtitle}
+				</Typography>
+			</Box>
 
-      {/* TimelineSlider */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Box sx={{ width: 600, maxWidth: '100%' }}>
-          <TimelineSlider />
-        </Box>
-      </Box>
+			{/* TimelineSlider */}
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+				}}
+			>
+				<Box sx={{ width: 600, maxWidth: "100%" }}>
+					<TimelineSlider />
+				</Box>
+			</Box>
 
-      {/* ProductGallery (필터 + 그리드) */}
-      <ProductGallery
-        products={products}
-        timeline={timeline}
-        columns={columns}
-        onProductClick={handleProductClick}
-      />
-    </SectionContainer>
-  );
+			{/* ProductGallery (필터 + 그리드) */}
+			<ProductGallery
+				products={products}
+				timeline={timeline}
+				columns={columns}
+				onProductClick={handleProductClick}
+			/>
+		</SectionContainer>
+	);
 });
 
 export { ProductShowcase };

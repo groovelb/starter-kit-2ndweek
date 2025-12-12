@@ -1,4 +1,4 @@
-import { forwardRef, useState, useCallback } from 'react';
+import { forwardRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SectionContainer } from '../components/container/SectionContainer';
 import ProductDetailTemplate from '../templates/ProductDetailTemplate';
@@ -50,6 +50,13 @@ const ProductDetailSection = forwardRef(function ProductDetailSection(
   const navigate = useNavigate();
   const { items, subtotal, updateQuantity, removeItem } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
+
+  /**
+   * 페이지 진입 시 스크롤 초기화
+   */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [product?.id]);
 
   /**
    * 장바구니 열기

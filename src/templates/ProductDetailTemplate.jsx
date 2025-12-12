@@ -81,7 +81,7 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
     <SplitScreen
       ref={ref}
       ratio="50:50"
-      gap={0}
+      gap={4}
       stackAt="md"
       stackOrder="reverse"
       sx={sx}
@@ -94,7 +94,7 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
           footerPadding={{ xs: 3, md: 5 }}
           footerSx={{ pt: 0 }}
           hero={
-            /* 제품명 + Lux/Kelvin */
+            /* 제품명 + 설명 + Lux/Kelvin */
             <Box>
               <Typography
                 variant="h2"
@@ -107,6 +107,18 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
               >
                 {product.title || 'Product Name'}
               </Typography>
+              {/* 제품 설명 */}
+              {product.description && (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'text.secondary',
+                    mb: 2.5,
+                  }}
+                >
+                  {product.description}
+                </Typography>
+              )}
               {/* Lux / Kelvin 정보 */}
               {(product.lux || product.kelvin) && (
                 <Typography
