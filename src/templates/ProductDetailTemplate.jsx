@@ -1,11 +1,11 @@
-import { forwardRef, useState } from 'react';
-import Box from '@mui/material/Box';
-import { SplitScreen } from '../components/layout/SplitScreen';
-import { HeroStack } from '../components/layout/HeroStack';
-import ProductImageViewer from '../components/product/ProductImageViewer';
-import { ProductHeroTemplate } from './ProductHeroTemplate';
-import { ProductInfoTemplate } from './ProductInfoTemplate';
-import { useCart } from '../context/CartContext';
+import { forwardRef, useState } from "react";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import { SplitScreen } from "../components/layout/SplitScreen";
+import ProductImageViewer from "../components/product/ProductImageViewer";
+import { ProductHeroTemplate } from "./ProductHeroTemplate";
+import { ProductInfoTemplate } from "./ProductInfoTemplate";
+import { useCart } from "../context/CartContext";
 
 /**
  * ProductDetailTemplate 컴포넌트
@@ -35,105 +35,95 @@ import { useCart } from '../context/CartContext';
  * />
  */
 const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
-  {
-    product = {},
-    meta = {},
-    onAddToCart,
-    sx = {},
-    ...props
-  },
-  ref
+	{ product = {}, meta = {}, onAddToCart, sx = {}, ...props },
+	ref
 ) {
-  const { addItem } = useCart();
-  const [quantity, setQuantity] = useState(1);
-  const [options, setOptions] = useState({
-    glassFinish: 'opaline',
-    hardware: 'patina-brass',
-    height: '61-72',
-  });
+	const { addItem } = useCart();
+	const [quantity, setQuantity] = useState(1);
+	const [options, setOptions] = useState({
+		glassFinish: "opaline",
+		hardware: "patina-brass",
+		height: "61-72",
+	});
 
-  // 이미지 배열 생성
-  const images = product.images || [];
+	// 이미지 배열 생성
+	const images = product.images || [];
 
-  /**
-   * 옵션 변경 핸들러
-   */
-  const handleOptionChange = (key, value) => {
-    setOptions((prev) => ({ ...prev, [key]: value }));
-  };
+	/**
+	 * 옵션 변경 핸들러
+	 */
+	const handleOptionChange = (key, value) => {
+		setOptions((prev) => ({ ...prev, [key]: value }));
+	};
 
-  /**
-   * 장바구니 추가 핸들러
-   */
-  const handleAddToCart = (qty, opts) => {
-    // CartContext에 아이템 추가
-    addItem(product, opts, qty);
+	/**
+	 * 장바구니 추가 핸들러
+	 */
+	const handleAddToCart = (qty, opts) => {
+		// CartContext에 아이템 추가
+		addItem(product, opts, qty);
 
-    // 외부 핸들러도 호출 (있는 경우)
-    if (onAddToCart) {
-      onAddToCart(qty, opts);
-    }
-  };
+		// 외부 핸들러도 호출 (있는 경우)
+		if (onAddToCart) {
+			onAddToCart(qty, opts);
+		}
+	};
 
-  return (
-    <SplitScreen
-      ref={ref}
-      ratio="50:50"
-      gap={4}
-      stackAt="md"
-      stackOrder="reverse"
-      sx={sx}
-      left={
-        <HeroStack
-          height="100vh"
-          heroAlign="center"
-          heroJustify="start"
-          heroPadding={{ xs: 3, md: 5 }}
-          footerPadding={{ xs: 3, md: 5 }}
-          footerSx={{ pt: 0 }}
-          hero={
-            <ProductHeroTemplate
-              title={product.title}
-              description={product.description}
-              type={product.type}
-              lux={product.lux}
-              kelvin={product.kelvin}
-            />
-          }
-          footer={
-            <ProductInfoTemplate
-              meta={meta}
-              price={product.price || 0}
-              currency={product.currency || 'USD'}
-              options={options}
-              onOptionChange={handleOptionChange}
-              quantity={quantity}
-              onQuantityChange={setQuantity}
-              size="large"
-              onAddToCart={handleAddToCart}
-            />
-          }
-        />
-      }
-      right={
-        <Box
-          sx={{
-            position: { md: 'sticky' },
-            top: { md: 0 },
-            height: { md: '100vh' },
-          }}
-        >
-          <ProductImageViewer
-            images={images}
-            lux={product.lux}
-            kelvin={product.kelvin}
-            productName={product.title}
-          />
-        </Box>
-      }
-      {...props}
-    />
-  );
+	return (
+		<SplitScreen
+			ref={ref}
+			ratio="50:50"
+			gap={4}
+			stackAt="md"
+			stackOrder="reverse"
+			sx={sx}
+			left={
+				<Stack
+					spacing={24}
+					sx={{
+						p: { xs: 3, md: 5 },
+						justifyContent: "center",
+					}}
+				>
+					<ProductHeroTemplate
+						title={product.title}
+						description={product.description}
+						type={product.type}
+						lux={product.lux}
+						kelvin={product.kelvin}
+					/>
+					<ProductInfoTemplate
+						meta={meta}
+						price={product.price || 0}
+						currency={product.currency || "USD"}
+						options={options}
+						onOptionChange={handleOptionChange}
+						quantity={quantity}
+						onQuantityChange={setQuantity}
+						size="large"
+						onAddToCart={handleAddToCart}
+					/>
+				</Stack>
+			}
+			right={
+				<Box
+					sx={{
+						position: { md: "sticky" },
+						top: { md: 0 },
+						height: { md: "100vh" },
+					}}
+				>
+					<ProductImageViewer
+						images={images}
+						lux={product.lux}
+						kelvin={product.kelvin}
+						productName={product.title}
+					/>
+				</Box>
+			}
+			{...props}
+		/>
+	);
 });
 
 export { ProductDetailTemplate };
