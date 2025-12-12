@@ -19,12 +19,14 @@ import { TimeBlendImage } from '../media/TimeBlendImage';
  * 2. 시간이 지날수록 점점 어두워짐 (선형 블렌딩)
  * 3. 상태 라벨에 조도(lux)·색온도(K) 실시간 표시
  * 4. 카드 클릭 시 onClick 콜백 호출
+ * 5. hover 시 미디어 확대 효과 (CustomCard hoverMediaScale 사용)
  *
  * Props:
  * @param {object} product - 제품 데이터 { id, title, type, lux, kelvin, images, video } [Required]
  * @param {number} timeline - 시간대 값 (0-1) [Optional, 기본값: 0]
  * @param {function} onClick - 카드 클릭 핸들러 [Optional]
  * @param {boolean} isSelected - 선택 상태 [Optional, 기본값: false]
+ * @param {number} hoverMediaScale - hover 시 미디어 확대 비율 [Optional, 기본값: 1.05]
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -32,6 +34,7 @@ import { TimeBlendImage } from '../media/TimeBlendImage';
  *   product={products[0]}
  *   timeline={0.5}
  *   onClick={() => handleProductClick(product)}
+ *   hoverMediaScale={1.08}
  * />
  */
 const ProductCard = forwardRef(function ProductCard({
@@ -39,6 +42,7 @@ const ProductCard = forwardRef(function ProductCard({
   timeline = 0,
   onClick,
   isSelected = false,
+  hoverMediaScale = 1.05,
   sx,
   ...props
 }, ref) {
@@ -119,6 +123,7 @@ const ProductCard = forwardRef(function ProductCard({
       variant="ghost"
       isInteractive
       onClick={ onClick }
+      hoverMediaScale={ hoverMediaScale }
       { ...props }
     >
       {/* 제품명 + 상태 라벨 */}

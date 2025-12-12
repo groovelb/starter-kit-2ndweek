@@ -15,6 +15,7 @@ import { SPACING } from '../../styles/tokens';
  * 3. 콘텐츠 영역은 텍스트, 버튼 등 정보 표시
  * 4. overlaySlot을 통해 미디어 위에 액션 버튼, 배지 등 오버레이 가능
  * 5. CardContainer의 모든 props를 지원 (variant, elevation, isInteractive, isSelected 등)
+ * 6. hover 인터랙션 props로 세밀한 호버 효과 제어 가능
  *
  * Props:
  * @param {string} layout - 레이아웃 타입 ('vertical' | 'horizontal' | 'overlay') [Optional, 기본값: 'vertical']
@@ -28,6 +29,13 @@ import { SPACING } from '../../styles/tokens';
  * @param {string} contentPadding - 콘텐츠 패딩 ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') [Optional, 기본값: 'md']
  * @param {string} contentAlign - 콘텐츠 정렬 ('start' | 'center' | 'end') [Optional, 기본값: 'start']
  * @param {string} gap - 미디어와 콘텐츠 사이 간격 ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') [Optional, 기본값: 'none']
+ *
+ * Hover Interaction Props:
+ * @param {number} hoverLift - hover 시 위로 들리는 px 값 (예: 4) [Optional]
+ * @param {string} hoverBorderColor - hover 시 border 색상 (예: 'primary.main') [Optional]
+ * @param {string} hoverBgColor - hover 시 배경색 (예: 'grey.50') [Optional]
+ * @param {number} hoverMediaScale - hover 시 미디어 확대 비율 (예: 1.05) [Optional]
+ *
  * @param {...containerProps} - CardContainer의 모든 props (variant, elevation, isInteractive, onClick, sx 등)
  *
  * Example usage:
@@ -39,6 +47,9 @@ import { SPACING } from '../../styles/tokens';
  *   variant="elevation"
  *   elevation={4}
  *   isInteractive
+ *   hoverLift={4}
+ *   hoverBorderColor="primary.main"
+ *   hoverMediaScale={1.05}
  * >
  *   <Typography variant="h6">Title</Typography>
  *   <Typography>Description</Typography>
@@ -58,10 +69,56 @@ const CustomCard = forwardRef(function CustomCard({
   contentAlign = 'start',
   gap = 'none',
 
+  // === Hover Interaction props ===
+  hoverLift,
+  hoverBorderColor,
+  hoverBgColor,
+  hoverMediaScale,
+
   // === CardContainer로 전달될 props ===
   // variant, elevation, isInteractive, onClick, sx 등
   ...containerProps
 }, ref) {
+  /**
+   * hover 효과 활성화 여부
+   */
+  const hasHoverEffects = hoverLift || hoverBorderColor || hoverBgColor || hoverMediaScale;
+
+  /**
+   * hover 시 카드 스타일 생성
+   * - hoverLift: translateY로 위로 들어올림
+   * - hoverBorderColor: border 색상 변경
+   * - hoverBgColor: 배경색 변경
+   */
+  const getHoverStyles = () => {
+    if (!hasHoverEffects) return {};
+
+    const hoverState = {};
+
+    if (hoverLift) {
+      hoverState.transform = `translateY(-${hoverLift}px)`;
+    }
+    if (hoverBorderColor) {
+      hoverState.borderColor = hoverBorderColor;
+    }
+    if (hoverBgColor) {
+      hoverState.backgroundColor = hoverBgColor;
+    }
+    if (hoverMediaScale) {
+      hoverState['& .custom-card-media img, & .custom-card-media video, & .custom-card-media > *:first-of-type'] = {
+        transform: `scale(${hoverMediaScale})`,
+      };
+    }
+
+    return {
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      '& .custom-card-media img, & .custom-card-media video, & .custom-card-media > *:first-of-type': {
+        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      '&:hover': hoverState,
+    };
+  };
+
   /**
    * 정렬 맵
    */
@@ -228,6 +285,7 @@ const CustomCard = forwardRef(function CustomCard({
       {...restContainerProps}
       sx={{
         ...getLayoutStyles(),
+        ...getHoverStyles(),
         ...sx,
       }}
     >

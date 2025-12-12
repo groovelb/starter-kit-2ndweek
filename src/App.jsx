@@ -1,9 +1,11 @@
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams, useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { TimelineProvider } from './hooks/useTimeline';
 import { CartProvider } from './context/CartContext';
 import { AppShell } from './components/navigation/AppShell';
 import LandingPage from './pages/LandingPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import CheckoutPage from './pages/CheckoutPage';
 import { products } from './data/products';
 
 /**
@@ -30,11 +32,23 @@ function ProductDetailRoute() {
 }
 
 /**
- * 메인 앱 레이아웃
+ * 메인 앱 레이아웃 (GNB 포함)
+ *
+ * 동작 방식:
+ * 1. GNB의 Cart 아이콘 클릭 시 /checkout으로 이동
  */
 function AppLayout() {
+  const navigate = useNavigate();
+
+  /**
+   * Cart 클릭 → /checkout으로 이동
+   */
+  const handleCartClick = useCallback(() => {
+    navigate('/checkout');
+  }, [navigate]);
+
   return (
-    <AppShell>
+    <AppShell onCartClick={handleCartClick}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/product/:productId" element={<ProductDetailRoute />} />
@@ -49,7 +63,13 @@ function App() {
     <CartProvider>
       <TimelineProvider initialTimeline={0}>
         <BrowserRouter>
-          <AppLayout />
+          <Routes>
+            {/* Checkout - 독립 레이아웃 (GNB 없음) */}
+            <Route path="/checkout" element={<CheckoutPage />} />
+
+            {/* Main - AppShell 레이아웃 (GNB 포함) */}
+            <Route path="/*" element={<AppLayout />} />
+          </Routes>
         </BrowserRouter>
       </TimelineProvider>
     </CartProvider>

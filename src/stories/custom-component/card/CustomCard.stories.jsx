@@ -37,6 +37,12 @@ CardContainer를 확장하여 레이아웃, 미디어 비율, 오버레이 등�
 
 ### CardContainer Props
 variant, elevation, isInteractive, isSelected 등 CardContainer의 모든 props를 지원합니다.
+
+### Hover Interaction Props
+- \`hoverLift\`: hover 시 위로 들리는 px 값
+- \`hoverBorderColor\`: hover 시 border 색상
+- \`hoverBgColor\`: hover 시 배경색
+- \`hoverMediaScale\`: hover 시 미디어 확대 비율
         `,
       },
     },
@@ -145,6 +151,40 @@ variant, elevation, isInteractive, isSelected 등 CardContainer의 모든 props�
       description: '[CardContainer] 클릭 이벤트 핸들러',
       table: {
         type: { summary: 'function' },
+      },
+    },
+
+    // === Hover Interaction props ===
+    hoverLift: {
+      control: { type: 'number', min: 0, max: 20 },
+      description: 'hover 시 위로 들리는 px 값',
+      table: {
+        type: { summary: 'number' },
+        category: 'Hover Interaction',
+      },
+    },
+    hoverBorderColor: {
+      control: 'text',
+      description: 'hover 시 border 색상 (예: primary.main, #ff0000)',
+      table: {
+        type: { summary: 'string' },
+        category: 'Hover Interaction',
+      },
+    },
+    hoverBgColor: {
+      control: 'text',
+      description: 'hover 시 배경색 (예: grey.50, #f5f5f5)',
+      table: {
+        type: { summary: 'string' },
+        category: 'Hover Interaction',
+      },
+    },
+    hoverMediaScale: {
+      control: { type: 'number', min: 1, max: 1.5, step: 0.01 },
+      description: 'hover 시 미디어 확대 비율 (예: 1.05)',
+      table: {
+        type: { summary: 'number' },
+        category: 'Hover Interaction',
       },
     },
   },
@@ -393,6 +433,166 @@ export const Features = {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             mediaSlot으로 커스텀 미디어 구현
+          </Typography>
+        </CustomCard>
+      </Box>
+    </Stack>
+  ),
+};
+
+/** Hover Interaction - hoverLift, hoverBorderColor, hoverBgColor, hoverMediaScale */
+export const HoverInteractions = {
+  render: () => (
+    <Stack spacing={ 4 }>
+      {/* hoverLift */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+          hoverLift - 위로 들어올림
+        </Typography>
+        <Stack direction="row" spacing={ 2 }>
+          <CustomCard
+            mediaSrc="https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverLift={ 4 }
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              hoverLift: 4
+            </Typography>
+          </CustomCard>
+          <CustomCard
+            mediaSrc="https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverLift={ 8 }
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              hoverLift: 8
+            </Typography>
+          </CustomCard>
+        </Stack>
+      </Box>
+
+      {/* hoverBorderColor */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+          hoverBorderColor - border 색상 변경
+        </Typography>
+        <Stack direction="row" spacing={ 2 }>
+          <CustomCard
+            variant="outlined"
+            mediaSrc="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverBorderColor="primary.main"
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              primary.main
+            </Typography>
+          </CustomCard>
+          <CustomCard
+            variant="outlined"
+            mediaSrc="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverBorderColor="error.main"
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              error.main
+            </Typography>
+          </CustomCard>
+        </Stack>
+      </Box>
+
+      {/* hoverBgColor */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+          hoverBgColor - 배경색 변경
+        </Typography>
+        <Stack direction="row" spacing={ 2 }>
+          <CustomCard
+            variant="ghost"
+            mediaSrc="https://images.pexels.com/photos/3131971/pexels-photo-3131971.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverBgColor="grey.100"
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              grey.100
+            </Typography>
+          </CustomCard>
+          <CustomCard
+            variant="ghost"
+            mediaSrc="https://images.pexels.com/photos/3131971/pexels-photo-3131971.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverBgColor="primary.50"
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              primary.50
+            </Typography>
+          </CustomCard>
+        </Stack>
+      </Box>
+
+      {/* hoverMediaScale */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+          hoverMediaScale - 미디어 확대
+        </Typography>
+        <Stack direction="row" spacing={ 2 }>
+          <CustomCard
+            mediaSrc="https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverMediaScale={ 1.05 }
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              scale: 1.05
+            </Typography>
+          </CustomCard>
+          <CustomCard
+            mediaSrc="https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=600"
+            mediaRatio="16/9"
+            contentPadding="md"
+            hoverMediaScale={ 1.1 }
+            sx={ { width: 200 } }
+          >
+            <Typography variant="body2" sx={ { fontWeight: 600 } }>
+              scale: 1.1
+            </Typography>
+          </CustomCard>
+        </Stack>
+      </Box>
+
+      {/* 조합 */}
+      <Box>
+        <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+          조합 - 모든 hover 효과 적용
+        </Typography>
+        <CustomCard
+          variant="outlined"
+          mediaSrc="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600"
+          mediaRatio="16/9"
+          contentPadding="md"
+          hoverLift={ 6 }
+          hoverBorderColor="primary.main"
+          hoverBgColor="grey.50"
+          hoverMediaScale={ 1.05 }
+          sx={ { width: 280 } }
+        >
+          <Typography variant="subtitle1" sx={ { fontWeight: 600 } }>
+            All Hover Effects
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            hoverLift + hoverBorderColor + hoverBgColor + hoverMediaScale
           </Typography>
         </CustomCard>
       </Box>

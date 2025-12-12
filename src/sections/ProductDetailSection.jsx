@@ -1,4 +1,5 @@
 import { forwardRef, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SectionContainer } from '../components/container/SectionContainer';
 import ProductDetailTemplate from '../templates/ProductDetailTemplate';
 import CartDrawer from '../components/cart/CartDrawer';
@@ -46,6 +47,7 @@ const ProductDetailSection = forwardRef(function ProductDetailSection(
   },
   ref
 ) {
+  const navigate = useNavigate();
   const { items, subtotal, updateQuantity, removeItem } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -89,13 +91,16 @@ const ProductDetailSection = forwardRef(function ProductDetailSection(
 
   /**
    * 체크아웃 핸들러
+   * 기본 동작: /checkout 페이지로 이동
    */
   const handleCheckout = useCallback(() => {
+    handleCloseCart();
     if (onCheckout) {
       onCheckout();
+    } else {
+      navigate('/checkout');
     }
-    handleCloseCart();
-  }, [onCheckout, handleCloseCart]);
+  }, [onCheckout, handleCloseCart, navigate]);
 
   return (
     <SectionContainer

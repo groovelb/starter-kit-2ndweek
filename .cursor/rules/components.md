@@ -47,21 +47,22 @@
 
 ### Checkout
 
-- CheckoutLayout: 체크아웃 페이지 레이아웃. 좌: 폼, 우: 주문 요약
-- CheckoutHeader: 체크아웃 헤더. 로고 + 단계 표시 (Cart > Information > Shipping > Payment)
-- CheckoutSteps: 체크아웃 단계 인디케이터. 현재 단계 하이라이트
-- ExpressCheckout: 빠른 결제 옵션. Shop Pay, Google Pay 버튼
+- CheckoutLayout: 체크아웃 페이지 2컬럼 레이아웃. 좌: 폼(7), 우: 주문 요약(5)
+- CheckoutLogo: 체크아웃 상단 브랜드 로고
+- CheckoutSteps: 체크아웃 단계 인디케이터. Cart > Information > Shipping > Payment
+- ExpressCheckout: 빠른 결제 옵션. Shop Pay, Google Pay 버튼 + OR 구분선
 - ContactForm: 연락처 폼. Email 입력 + 뉴스레터 체크박스 + Sign in 링크
 - ShippingForm: 배송지 폼. Country, Name, Company, Address, City, State, ZIP, Phone
-- OrderSummary: 주문 요약 패널. 상품 목록 + 할인코드 + Subtotal + Shipping + Total
+- CheckoutActions: 체크아웃 액션. Return to cart 링크 + Continue 버튼
+- PolicyLinks: 정책 링크. Refund policy, Privacy policy, Terms of service
 - OrderItem: 주문 요약 아이템. 썸네일(수량 뱃지) + 제품명 + 옵션 + 가격
 - DiscountInput: 할인코드 입력. 입력 필드 + Apply 버튼
-- CheckoutFooter: 체크아웃 푸터. Return to cart 링크 + Continue 버튼
-- PolicyLinks: 정책 링크. Refund policy, Privacy policy, Terms of service
+- OrderSummary: 주문 요약 패널. OrderItem 목록 + DiscountInput + Subtotal + Shipping + Total
 
 ### Sections
 
 - ProductDetailSection: 제품 상세 섹션. ProductDetailTemplate + CartDrawer 조합. 장바구니 추가 시 자동 열기 지원
+- CheckoutSection: 체크아웃 섹션. CheckoutTemplate + 폼 상태 관리. CartContext 연동
 
 ### Templates
 
