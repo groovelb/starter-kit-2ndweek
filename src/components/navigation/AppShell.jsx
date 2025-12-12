@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { GNB } from './GNB';
+import { Footer } from './Footer';
 
 /**
  * AppShell 컴포넌트
@@ -15,6 +16,7 @@ import { GNB } from './GNB';
  * @param {boolean} hasHeaderBorder - 헤더 하단 보더 [Optional, 기본값: true]
  * @param {boolean} isHeaderSticky - 헤더 고정 [Optional, 기본값: true]
  * @param {boolean} isHeaderTransparent - 헤더 투명 배경 [Optional, 기본값: false]
+ * @param {function} onSubscribe - 뉴스레터 구독 핸들러 (email) => void [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -24,6 +26,7 @@ import { GNB } from './GNB';
  */
 const AppShell = forwardRef(function AppShell({
   onCartClick,
+  onSubscribe,
   children,
   headerHeight = 64,
   hasHeaderBorder = true,
@@ -59,10 +62,14 @@ const AppShell = forwardRef(function AppShell({
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
+          pb: { xs: 10, md: 14 },
         }}
       >
         {children}
       </Box>
+
+      {/* Footer */}
+      <Footer onSubscribe={onSubscribe} />
     </Box>
   );
 });

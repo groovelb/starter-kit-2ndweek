@@ -24,6 +24,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
  * @param {Array} options - 옵션 배열 [{ value, label, disabled? }] [Required]
  * @param {string} placeholder - 플레이스홀더 텍스트 [Optional]
  * @param {boolean} isDisabled - 비활성화 여부 [Optional, 기본값: false]
+ * @param {string} size - 크기 'small' | 'medium' | 'large' [Optional, 기본값: 'medium']
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -45,11 +46,39 @@ const UnderlineSelect = forwardRef(function UnderlineSelect(
     options = [],
     placeholder = '',
     isDisabled = false,
+    size = 'medium',
     sx = {},
     ...props
   },
   ref
 ) {
+  // 사이즈별 스타일
+  const sizeStyles = {
+    small: {
+      labelSize: '0.6875rem',
+      inputSize: '0.8125rem',
+      menuItemSize: '0.8125rem',
+      pb: 0.75,
+      menuPy: 1,
+    },
+    medium: {
+      labelSize: '0.75rem',
+      inputSize: '0.9375rem',
+      menuItemSize: '0.9375rem',
+      pb: 1,
+      menuPy: 1.25,
+    },
+    large: {
+      labelSize: '1.125rem',
+      inputSize: '1.4rem',
+      menuItemSize: '1.2rem',
+      pb: 1.5,
+      menuPy: 1.5,
+    },
+  };
+
+  const currentSize = sizeStyles[size] || sizeStyles.medium;
+
   return (
     <Box
       ref={ref}
@@ -68,7 +97,7 @@ const UnderlineSelect = forwardRef(function UnderlineSelect(
           variant="caption"
           sx={{
             color: 'text.secondary',
-            fontSize: '0.75rem',
+            fontSize: currentSize.labelSize,
             fontWeight: 500,
             letterSpacing: '0.02em',
           }}
@@ -93,8 +122,8 @@ const UnderlineSelect = forwardRef(function UnderlineSelect(
               boxShadow: '0 4px 20px rgba(18, 16, 14, 0.12)',
               mt: 1,
               '& .MuiMenuItem-root': {
-                fontSize: '0.9375rem',
-                py: 1.25,
+                fontSize: currentSize.menuItemSize,
+                py: currentSize.menuPy,
                 px: 2,
                 '&:hover': {
                   backgroundColor: 'action.hover',
@@ -110,10 +139,10 @@ const UnderlineSelect = forwardRef(function UnderlineSelect(
           },
         }}
         sx={{
-          fontSize: '0.9375rem',
+          fontSize: currentSize.inputSize,
           fontWeight: 400,
           color: 'text.primary',
-          pb: 1,
+          pb: currentSize.pb,
           borderBottom: '1px solid',
           borderColor: 'divider',
           transition: 'border-color 200ms ease',

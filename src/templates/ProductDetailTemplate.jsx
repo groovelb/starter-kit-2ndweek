@@ -1,12 +1,23 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useMemo } from 'react';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import {
+  Lamp,
+  LampCeiling,
+  LampDesk,
+  LampFloor,
+  Sun,
+  SlidersHorizontal,
+} from 'lucide-react';
 import { SplitScreen } from '../components/layout/SplitScreen';
 import { HeroStack } from '../components/layout/HeroStack';
+import LineGrid from '../components/layout/LineGrid';
 import ProductImageViewer from '../components/product/ProductImageViewer';
 import ProductOptions from '../components/product/ProductOptions';
 import ProductMeta from '../components/product/ProductMeta';
 import ProductActions from '../components/product/ProductActions';
+import { ProductSpecCard } from '../components/product/ProductSpecCard';
 import { useCart } from '../context/CartContext';
 
 /**
@@ -56,6 +67,32 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
 
   // 이미지 배열 생성
   const images = product.images || [];
+
+  /**
+   * 제품 타입별 아이콘 매핑 (lucide-react)
+   */
+  const TypeIcon = useMemo(() => {
+    const iconMap = {
+      ceiling: LampCeiling,
+      stand: LampFloor,
+      wall: Lamp,
+      desk: LampDesk,
+    };
+    return iconMap[product.type] || Lamp;
+  }, [product.type]);
+
+  /**
+   * 제품 타입 라벨
+   */
+  const typeLabel = useMemo(() => {
+    const labelMap = {
+      ceiling: 'Ceiling',
+      stand: 'Stand',
+      wall: 'Wall',
+      desk: 'Desk',
+    };
+    return labelMap[product.type] || product.type || 'Light';
+  }, [product.type]);
 
   /**
    * 옵션 변경 핸들러
@@ -119,20 +156,37 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
                   {product.description}
                 </Typography>
               )}
-              {/* Lux / Kelvin 정보 */}
-              {(product.lux || product.kelvin) && (
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'text.secondary',
-                    fontFamily: 'monospace',
-                    fontSize: '0.875rem',
-                  }}
-                >
-                  {product.lux && `${product.lux} lx`}
-                  {product.lux && product.kelvin && ' · '}
-                  {product.kelvin && `${product.kelvin} K`}
-                </Typography>
+              {/* 제품 스펙: 카테고리 / Lux / Kelvin */}
+              {(product.type || product.lux || product.kelvin) && (
+                <LineGrid container gap={24} sx={{ mt: 5 }}>
+                  {product.type && (
+                    <Grid size={{ xs: 4 }}>
+                      <ProductSpecCard
+                        icon={<TypeIcon size={32} strokeWidth={1.5} />}
+                        label="Type"
+                        value={typeLabel}
+                      />
+                    </Grid>
+                  )}
+                  {product.lux && (
+                    <Grid size={{ xs: 4 }}>
+                      <ProductSpecCard
+                        icon={<Sun size={32} strokeWidth={1.5} />}
+                        label="Luminance"
+                        value={`${product.lux} lx`}
+                      />
+                    </Grid>
+                  )}
+                  {product.kelvin && (
+                    <Grid size={{ xs: 4 }}>
+                      <ProductSpecCard
+                        icon={<SlidersHorizontal size={32} strokeWidth={1.5} />}
+                        label="Color Temp"
+                        value={`${product.kelvin} K`}
+                      />
+                    </Grid>
+                  )}
+                </LineGrid>
               )}
             </Box>
           }

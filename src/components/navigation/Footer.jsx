@@ -1,5 +1,6 @@
 import { forwardRef, useState } from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -13,8 +14,8 @@ import { content } from '../../data/content';
  * Lumenstate 브랜드 아이덴티티에 맞춘 절제된 디자인.
  *
  * 동작 방식:
- * 1. 상단: 뉴스레터 구독 섹션 (이메일 입력 + 제출)
- * 2. 하단: 브랜드 로고, 네비게이션 링크, 소셜 아이콘, 저작권
+ * 1. 양쪽 정렬: 뉴스레터 (좌) | 로고 + SNS (우)
+ * 2. 모바일에서는 column으로 스택
  * 3. 제출 시 onSubscribe 콜백 호출
  *
  * Props:
@@ -33,6 +34,7 @@ const Footer = forwardRef(function Footer({
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const brandName = content.brand.name;
+  const tagline = content.brand.tagline;
   const copyright = content.footer.copyright;
 
   /**
@@ -44,7 +46,6 @@ const Footer = forwardRef(function Footer({
       onSubscribe?.(email);
       setIsSubmitted(true);
       setEmail('');
-      // 3초 후 상태 리셋
       setTimeout(() => setIsSubmitted(false), 3000);
     }
   };
@@ -56,63 +57,33 @@ const Footer = forwardRef(function Footer({
       sx={{
         backgroundColor: 'grey.900',
         color: 'grey.100',
+        py: { xs: 5, md: 6 },
+        px: { xs: 3, md: 6 },
         ...sx,
       }}
       {...props}
     >
-      {/* 뉴스레터 섹션 */}
-      <Box
-        sx={{
-          borderBottom: '1px solid',
-          borderColor: 'rgba(245, 242, 238, 0.12)',
-          py: { xs: 6, md: 8 },
-          px: { xs: 3, md: 6 },
-        }}
+      {/* 메인 레이아웃: Newsletter (좌) | Logo + SNS (우) */}
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        justifyContent="space-between"
+        alignItems={{ xs: 'flex-start', md: 'flex-start' }}
+        spacing={{ xs: 5, md: 0 }}
       >
-        <Box
-          sx={{
-            maxWidth: 480,
-            mx: 'auto',
-            textAlign: 'center',
-          }}
-        >
-          {/* 뉴스레터 타이틀 */}
+        {/* 뉴스레터 */}
+        <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: 280 } }}>
           <Typography
             variant="overline"
             sx={{
               color: 'secondary.main',
-              letterSpacing: '0.2em',
-              fontSize: '0.7rem',
+              letterSpacing: '0.15em',
+              fontSize: '0.65rem',
               mb: 1.5,
               display: 'block',
             }}
           >
             Newsletter
           </Typography>
-
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 700,
-              color: 'grey.100',
-              mb: 1,
-            }}
-          >
-            Stay Illuminated
-          </Typography>
-
-          <Typography
-            variant="body2"
-            sx={{
-              color: 'rgba(245, 242, 238, 0.6)',
-              mb: 4,
-              lineHeight: 1.6,
-            }}
-          >
-            Receive updates on new collections, lighting insights, and exclusive offers.
-          </Typography>
-
-          {/* 이메일 입력 폼 */}
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -121,7 +92,7 @@ const Footer = forwardRef(function Footer({
               alignItems: 'center',
               borderBottom: '1px solid',
               borderColor: 'rgba(245, 242, 238, 0.3)',
-              pb: 1,
+              pb: 0.5,
               transition: 'border-color 300ms ease',
               '&:focus-within': {
                 borderColor: 'secondary.main',
@@ -130,14 +101,14 @@ const Footer = forwardRef(function Footer({
           >
             <InputBase
               type="email"
-              placeholder={isSubmitted ? 'Thank you for subscribing' : 'Enter your email'}
+              placeholder={isSubmitted ? 'Subscribed' : 'Enter your email'}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={isSubmitted}
               sx={{
                 flex: 1,
                 color: 'grey.100',
-                fontSize: '0.9rem',
+                fontSize: '0.85rem',
                 '& input': {
                   p: 0,
                   '&::placeholder': {
@@ -153,144 +124,117 @@ const Footer = forwardRef(function Footer({
               sx={{
                 color: 'grey.100',
                 p: 0.5,
-                transition: 'color 300ms ease, transform 300ms ease',
+                transition: 'color 300ms ease',
                 '&:hover': {
                   color: 'secondary.main',
                   backgroundColor: 'transparent',
-                  transform: 'translateX(4px)',
                 },
                 '&.Mui-disabled': {
                   color: 'rgba(245, 242, 238, 0.3)',
                 },
               }}
             >
-              <ArrowRight size={20} strokeWidth={1.5} />
+              <ArrowRight size={18} strokeWidth={1.5} />
             </IconButton>
           </Box>
         </Box>
-      </Box>
 
-      {/* 하단 정보 섹션 */}
-      <Box
-        sx={{
-          py: { xs: 4, md: 5 },
-          px: { xs: 3, md: 6 },
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: { xs: 'center', md: 'flex-start' },
-            justifyContent: 'space-between',
-            gap: { xs: 4, md: 2 },
-          }}
+        {/* 로고 + SNS 그룹 */}
+        <Stack
+          direction="row"
+          spacing={{ xs: 4, md: 6 }}
+          alignItems="flex-start"
         >
-          {/* 브랜드 로고 */}
-          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          {/* 브랜드 로고 + 태그라인 */}
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'rgba(245, 242, 238, 0.5)',
+                fontSize: '0.85rem',
+                mb: 1.5,
+              }}
+            >
+              {tagline}
+            </Typography>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: 700,
                 color: 'grey.100',
                 letterSpacing: '-0.02em',
+                lineHeight: 1,
               }}
             >
               {brandName}
             </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                color: 'rgba(245, 242, 238, 0.5)',
-                display: 'block',
-                mt: 0.5,
-              }}
-            >
-              Light defines the space.
-            </Typography>
           </Box>
 
-          {/* 네비게이션 링크 */}
-          <Box
-            sx={{
-              display: 'flex',
-              gap: { xs: 3, md: 4 },
-            }}
-          >
-            {['Collection', 'About', 'Contact', 'Support'].map((item) => (
-              <Typography
-                key={item}
-                component="a"
-                href="#"
-                variant="body2"
+          {/* 소셜 미디어 */}
+          <Box>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'rgba(245, 242, 238, 0.6)',
+                letterSpacing: '0.15em',
+                fontSize: '0.65rem',
+                mb: 1.5,
+                display: 'block',
+              }}
+            >
+              Follow Us
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1, ml: -1 }}>
+              <IconButton
+                size="small"
                 sx={{
                   color: 'rgba(245, 242, 238, 0.6)',
-                  textDecoration: 'none',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.02em',
                   transition: 'color 300ms ease',
                   '&:hover': {
                     color: 'grey.100',
+                    backgroundColor: 'transparent',
                   },
                 }}
               >
-                {item}
-              </Typography>
-            ))}
+                <Instagram size={20} strokeWidth={1.5} />
+              </IconButton>
+              <IconButton
+                size="small"
+                sx={{
+                  color: 'rgba(245, 242, 238, 0.6)',
+                  transition: 'color 300ms ease',
+                  '&:hover': {
+                    color: 'grey.100',
+                    backgroundColor: 'transparent',
+                  },
+                }}
+              >
+                <Twitter size={20} strokeWidth={1.5} />
+              </IconButton>
+            </Box>
           </Box>
+        </Stack>
+      </Stack>
 
-          {/* 소셜 아이콘 */}
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <IconButton
-              size="small"
-              sx={{
-                color: 'rgba(245, 242, 238, 0.6)',
-                transition: 'color 300ms ease',
-                '&:hover': {
-                  color: 'grey.100',
-                  backgroundColor: 'transparent',
-                },
-              }}
-            >
-              <Instagram size={18} strokeWidth={1.5} />
-            </IconButton>
-            <IconButton
-              size="small"
-              sx={{
-                color: 'rgba(245, 242, 238, 0.6)',
-                transition: 'color 300ms ease',
-                '&:hover': {
-                  color: 'grey.100',
-                  backgroundColor: 'transparent',
-                },
-              }}
-            >
-              <Twitter size={18} strokeWidth={1.5} />
-            </IconButton>
-          </Box>
-        </Box>
-
-        {/* 저작권 */}
-        <Box
+      {/* 저작권 */}
+      <Box
+        sx={{
+          mt: { xs: 5, md: 6 },
+          pt: 3,
+          borderTop: '1px solid',
+          borderColor: 'rgba(245, 242, 238, 0.1)',
+        }}
+      >
+        <Typography
+          variant="caption"
           sx={{
-            mt: { xs: 4, md: 5 },
-            pt: 3,
-            borderTop: '1px solid',
-            borderColor: 'rgba(245, 242, 238, 0.08)',
-            textAlign: 'center',
+            color: 'rgba(245, 242, 238, 0.4)',
+            fontSize: '0.7rem',
+            letterSpacing: '0.02em',
           }}
         >
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'rgba(245, 242, 238, 0.4)',
-              fontSize: '0.7rem',
-              letterSpacing: '0.05em',
-            }}
-          >
-            {copyright}
-          </Typography>
-        </Box>
+          {copyright}
+        </Typography>
       </Box>
     </Box>
   );

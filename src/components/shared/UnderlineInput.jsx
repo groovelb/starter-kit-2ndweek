@@ -23,7 +23,7 @@ import InputBase from '@mui/material/InputBase';
  * @param {boolean} isReadOnly - 읽기 전용 여부 [Optional, 기본값: false]
  * @param {boolean} isDisabled - 비활성화 여부 [Optional, 기본값: false]
  * @param {string} type - 입력 타입 [Optional, 기본값: 'text']
- * @param {string} size - 크기 'small' | 'medium' [Optional, 기본값: 'medium']
+ * @param {string} size - 크기 'small' | 'medium' | 'large' [Optional, 기본값: 'medium']
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -65,6 +65,11 @@ const UnderlineInput = forwardRef(function UnderlineInput(
       labelSize: '0.75rem',
       inputSize: '0.9375rem',
       pb: 1,
+    },
+    large: {
+      labelSize: '1.125rem',
+      inputSize: '1.4rem',
+      pb: 1.5,
     },
   };
 

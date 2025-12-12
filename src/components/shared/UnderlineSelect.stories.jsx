@@ -27,6 +27,7 @@ export default {
 - 상단 라벨 + 하단 underline 스타일
 - 드롭다운 메뉴로 옵션 선택
 - 화살표 아이콘 회전 애니메이션
+- small / medium / large 사이즈 지원
         `,
       },
     },
@@ -52,6 +53,11 @@ export default {
       control: 'boolean',
       description: '비활성화 여부',
     },
+    size: {
+      control: 'select',
+      options: ['small', 'medium', 'large'],
+      description: '크기',
+    },
     onChange: {
       action: 'changed',
       description: '변경 핸들러',
@@ -65,6 +71,7 @@ export const Default = {
     label: 'Glass Finish',
     value: 'opaline',
     options: sampleOptions,
+    size: 'medium',
   },
 };
 
@@ -91,6 +98,39 @@ export const Interactive = {
         options={sampleOptions}
         sx={{ width: 300 }}
       />
+    );
+  },
+};
+
+/** 사이즈 비교 */
+export const Sizes = {
+  render: () => {
+    const [values, setValues] = useState({ small: 'opaline', medium: 'clear', large: 'frosted' });
+
+    return (
+      <Stack spacing={4} sx={{ width: 360 }}>
+        <UnderlineSelect
+          label="Small Size"
+          value={values.small}
+          onChange={(e) => setValues({ ...values, small: e.target.value })}
+          options={sampleOptions}
+          size="small"
+        />
+        <UnderlineSelect
+          label="Medium Size"
+          value={values.medium}
+          onChange={(e) => setValues({ ...values, medium: e.target.value })}
+          options={sampleOptions}
+          size="medium"
+        />
+        <UnderlineSelect
+          label="Large Size"
+          value={values.large}
+          onChange={(e) => setValues({ ...values, large: e.target.value })}
+          options={sampleOptions}
+          size="large"
+        />
+      </Stack>
     );
   },
 };

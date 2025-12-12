@@ -126,8 +126,26 @@ const ProductCard = forwardRef(function ProductCard({
       hoverMediaScale={ hoverMediaScale }
       { ...props }
     >
+      {/* 타입 태그 */}
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <Typography
+          variant="caption"
+          sx={{
+            px: 1,
+            py: 0.25,
+            backgroundColor: '#12100E',
+            color: '#F2E9DA',
+            fontSize: 10,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}
+        >
+          {typeLabel}
+        </Typography>
+      </Box>
+
       {/* 제품명 + 상태 라벨 */}
-      <Stack spacing={0} sx={{ mb: 1 }}>
+      <Stack spacing={0}>
         <Typography
           variant="subtitle1"
           sx={{
@@ -149,23 +167,6 @@ const ProductCard = forwardRef(function ProductCard({
           {lux} lx · {kelvin} K
         </Typography>
       </Stack>
-
-      {/* 타입 태그 */}
-      <Box sx={{ display: 'flex', gap: 0.5 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            px: 1,
-            py: 0.25,
-            backgroundColor: 'grey.200',
-            fontSize: 10,
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-          }}
-        >
-          {typeLabel}
-        </Typography>
-      </Box>
     </CustomCard>
   );
 });

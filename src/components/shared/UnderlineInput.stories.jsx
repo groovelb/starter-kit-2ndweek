@@ -18,7 +18,7 @@ export default {
 ### 특징
 - 상단 라벨 + 하단 underline 스타일
 - readOnly 모드로 정보 표시 전용 사용 가능
-- small / medium 사이즈 지원
+- small / medium / large 사이즈 지원
         `,
       },
     },
@@ -46,7 +46,7 @@ export default {
     },
     size: {
       control: 'select',
-      options: ['small', 'medium'],
+      options: ['small', 'medium', 'large'],
       description: '크기',
     },
     type: {
@@ -84,10 +84,10 @@ export const ReadOnly = {
 /** 사이즈 비교 */
 export const Sizes = {
   render: () => {
-    const [values, setValues] = useState({ small: '', medium: '' });
+    const [values, setValues] = useState({ small: '', medium: '', large: '' });
 
     return (
-      <Stack spacing={3} sx={{ width: 300 }}>
+      <Stack spacing={4} sx={{ width: 360 }}>
         <UnderlineInput
           label="Small Size"
           value={values.small}
@@ -101,6 +101,13 @@ export const Sizes = {
           onChange={(e) => setValues({ ...values, medium: e.target.value })}
           placeholder="Medium input"
           size="medium"
+        />
+        <UnderlineInput
+          label="Large Size"
+          value={values.large}
+          onChange={(e) => setValues({ ...values, large: e.target.value })}
+          placeholder="Large input"
+          size="large"
         />
       </Stack>
     );
