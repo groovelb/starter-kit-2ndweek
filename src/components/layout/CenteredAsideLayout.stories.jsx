@@ -44,6 +44,14 @@ export default {
         type: { summary: 'ReactNode' },
       },
     },
+    centerSize: {
+      control: { type: 'number', min: 2, max: 10 },
+      description: '중앙 콘텐츠 그리드 크기 (1-12). aside는 (12 - centerSize) / 2로 자동 계산',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '8' },
+      },
+    },
     stickyTop: {
       control: { type: 'number', min: 0, max: 200 },
       description: 'aside sticky 위치 (px). GNB 높이(64px) + 여백(24px) 기본 적용',

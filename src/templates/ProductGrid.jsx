@@ -4,6 +4,14 @@ import Grid from '@mui/material/Grid';
 import { ProductCard } from '../components/product/ProductCard';
 
 /**
+ * 시각적 상수 (ProductGrid 전용)
+ */
+const GRID = {
+  SPACING: 1.5,                       // 그리드 간격
+  SIZE: { xs: 6, sm: 4, md: 3 },    // 반응형 열 크기 (xs: 2열, sm: 3열, md: 4열)
+};
+
+/**
  * ProductGrid 템플릿 컴포넌트
  *
  * ProductCard들을 반응형 그리드로 배치하는 템플릿.
@@ -16,8 +24,6 @@ import { ProductCard } from '../components/product/ProductCard';
  * Props:
  * @param {Array} products - 제품 데이터 배열 [Required]
  * @param {number} timeline - 시간대 값 (0-1) [Optional, 기본값: 0]
- * @param {number} columns - 기본 열 수 [Optional, 기본값: 3]
- * @param {number} spacing - 그리드 간격 [Optional, 기본값: 2]
  * @param {function} onProductClick - 제품 클릭 핸들러 [Optional]
  * @param {string|number} selectedProductId - 선택된 제품 ID [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
@@ -32,40 +38,20 @@ import { ProductCard } from '../components/product/ProductCard';
 const ProductGrid = forwardRef(function ProductGrid({
   products = [],
   timeline = 0,
-  columns = 6,
-  spacing = 2,
   onProductClick,
   selectedProductId,
   sx,
   ...props
 }, ref) {
-  // 반응형 열 크기 계산
-  const getGridSize = () => {
-    switch (columns) {
-      case 2:
-        return { xs: 6, sm: 6, md: 6 };
-      case 3:
-        return { xs: 6, sm: 4, md: 4 };
-      case 4:
-        return { xs: 6, sm: 4, md: 3 };
-      case 6:
-        return { xs: 6, sm: 4, md: 2 };
-      default:
-        return { xs: 6, sm: 4, md: 4 };
-    }
-  };
-
-  const gridSize = getGridSize();
-
   if (!products || products.length === 0) {
     return null;
   }
 
   return (
     <Box ref={ref} sx={sx} {...props}>
-      <Grid container spacing={spacing}>
+      <Grid container spacing={GRID.SPACING} rowSpacing={8}>
         {products.map((product) => (
-          <Grid key={product.id} size={gridSize}>
+          <Grid key={product.id} size={GRID.SIZE}>
             <ProductCard
               product={product}
               timeline={timeline}

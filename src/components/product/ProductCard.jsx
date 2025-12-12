@@ -118,7 +118,7 @@ const ProductCard = forwardRef(function ProductCard({
       layout="vertical"
       mediaRatio="auto"
       mediaSlot={ renderMediaSlot() }
-      gap="md"
+      gap="sm"
       contentPadding="none"
       variant="ghost"
       isInteractive
@@ -127,7 +127,7 @@ const ProductCard = forwardRef(function ProductCard({
       { ...props }
     >
       {/* 제품명 + 상태 라벨 */}
-      <Stack spacing={0.5} sx={{ mb: 1 }}>
+      <Stack spacing={0} sx={{ mb: 1 }}>
         <Typography
           variant="subtitle1"
           sx={{
