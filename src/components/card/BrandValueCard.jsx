@@ -66,6 +66,7 @@ const BrandValueCard = forwardRef(function BrandValueCard({
           <Typography
             variant="h5"
             sx={{
+              fontSize: '12px',
               fontWeight: 600,
               color: 'text.primary',
             }}

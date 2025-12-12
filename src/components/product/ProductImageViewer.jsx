@@ -92,7 +92,8 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
         timeline={timeline}
         alt={productName}
         aspectRatio="auto"
-        objectFit="contain"
+        objectFit="cover"
+        sx={ { width: '100%', height: '100%' } }
       />
 
       {/* Overlay Container - 이미지 위에 패딩 적용된 레이어 */}

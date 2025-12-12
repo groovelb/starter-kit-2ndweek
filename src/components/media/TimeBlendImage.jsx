@@ -14,8 +14,11 @@ import Box from '@mui/material/Box';
  *    - timeline 0.67 = 8pm (저녁) → 낮 33% + 밤 67%
  *    - timeline 1.00 = 12am (자정) → 완전 밤 이미지
  * 2. 선형 블렌딩: timeline 값이 증가할수록 밤 이미지 opacity 증가
- * 3. aspectRatio="auto"일 때: 투명 이미지로 컨테이너 크기 결정, 두 이미지 모두 absolute
- * 4. 사용자가 타임라인 스크러버를 움직이면 실시간으로 블렌딩 반영
+ * 3. 이미지 2개만 사용:
+ *    - 낮 이미지: 공간 확보(relative) + 표시
+ *    - 밤 이미지: absolute로 포개기
+ * 4. aspectRatio="auto"일 때: 낮 이미지 원본 비율로 컨테이너 크기 결정
+ * 5. 사용자가 타임라인 스크러버를 움직이면 실시간으로 블렌딩 반영
  *
  * Props:
  * @param {string} dayImage - 낮 이미지 소스 (12pm) [Required]
@@ -93,44 +96,26 @@ export function TimeBlendImage({
       } }
       { ...props }
     >
-      {/* auto 비율일 때: 공간 확보용 투명 이미지 (낮 이미지 기준) */}
-      { isAutoRatio && dayImage && (
-        <Box
-          component="img"
-          src={ dayImage }
-          alt=""
-          sx={ {
-            position: 'relative',
-            width: '100%',
-            height: 'auto',
-            display: 'block',
-            visibility: 'hidden',
-          } }
-        />
-      ) }
-
-      {/* 낮 이미지 (하단 레이어) */}
+      {/* 낮 이미지 (하단 레이어) - 공간 확보 + 표시 */}
       { dayImage && (
         <Box
           component="img"
           src={ dayImage }
           alt={ `${alt} - Day` }
           sx={ {
-            position: 'absolute',
-            top: 0,
-            left: 0,
+            position: isAutoRatio ? 'relative' : 'absolute',
+            ...(isAutoRatio ? {} : { top: 0, left: 0, height: '100%' }),
             width: '100%',
-            height: '100%',
+            height: isAutoRatio ? 'auto' : '100%',
             display: 'block',
-            objectFit,
+            objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: dayOpacity,
             transition: 'opacity 600ms ease-out',
-            zIndex: 0,
           } }
         />
       ) }
 
-      {/* 밤 이미지 (상단 레이어) */}
+      {/* 밤 이미지 (상단 레이어) - 낮 이미지 위에 포개기 */}
       { nightImage && (
         <Box
           component="img"
@@ -142,10 +127,10 @@ export function TimeBlendImage({
             left: 0,
             width: '100%',
             height: '100%',
-            objectFit,
+            display: 'block',
+            objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: nightOpacity,
             transition: 'opacity 600ms ease-out',
-            zIndex: 1,
           } }
         />
       ) }

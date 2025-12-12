@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import LandingPage from './pages/LandingPage';
 
 import { TimelineProvider } from './hooks/useTimeline';
 import { AppShell } from './components/navigation/AppShell';
@@ -53,7 +54,7 @@ function AppLayout() {
       headerCollapsible={ <RouterNavMenu /> }
     >
       <Routes>
-        <Route path="/" element={ <Page1 /> } />
+        <Route path="/" element={ <LandingPage /> } />
         <Route path="/page1" element={ <Page1 /> } />
         <Route path="/page2" element={ <Page2 /> } />
         <Route path="/page3" element={ <Page3 /> } />

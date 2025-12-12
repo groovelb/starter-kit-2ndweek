@@ -246,3 +246,129 @@ export const AspectRatios = {
     },
   },
 };
+
+/**
+ * Playground - 이미지 정렬 디버그
+ */
+export const Playground = {
+  render: function PlaygroundDemo() {
+    const [timeline, setTimeline] = useState(0.5);
+    const [showOverlay, setShowOverlay] = useState(true);
+
+    // 1.png, 1-1.png 직접 불러오기
+    const day = productAssets[1]?.images[0];
+    const night = productAssets[1]?.images[1];
+
+    return (
+      <Stack spacing={3}>
+        <Typography variant="h6">Playground - 이미지 정렬 테스트</Typography>
+
+        {/* 컨트롤 */}
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Typography variant="caption">Timeline: {timeline.toFixed(2)}</Typography>
+          <Slider
+            value={timeline}
+            onChange={(_, v) => setTimeline(v)}
+            min={0}
+            max={1}
+            step={0.01}
+            sx={{ width: 200 }}
+          />
+          <label>
+            <input
+              type="checkbox"
+              checked={showOverlay}
+              onChange={(e) => setShowOverlay(e.target.checked)}
+            />
+            {' '}개별 이미지 표시
+          </label>
+        </Stack>
+
+        {/* TimeBlendImage 결과 */}
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            TimeBlendImage (aspectRatio=&quot;auto&quot;)
+          </Typography>
+          <Box sx={{ border: '1px solid red', display: 'inline-block' }}>
+            <TimeBlendImage
+              dayImage={day}
+              nightImage={night}
+              timeline={timeline}
+              aspectRatio="auto"
+              alt="Test"
+            />
+          </Box>
+        </Box>
+
+        {/* 개별 이미지 비교 */}
+        {showOverlay && (
+          <Stack direction="row" spacing={2}>
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                1.png (낮)
+              </Typography>
+              <Box
+                component="img"
+                src={day}
+                alt="Day"
+                sx={{ width: 200, height: 'auto', border: '1px solid blue' }}
+              />
+            </Box>
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                1-1.png (밤)
+              </Typography>
+              <Box
+                component="img"
+                src={night}
+                alt="Night"
+                sx={{ width: 200, height: 'auto', border: '1px solid green' }}
+              />
+            </Box>
+          </Stack>
+        )}
+
+        {/* 수동 포개기 테스트 */}
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            수동 포개기 테스트 (position: relative + absolute)
+          </Typography>
+          <Box sx={{ position: 'relative', display: 'inline-block', border: '1px solid orange' }}>
+            {/* 낮 이미지 - 공간 확보 */}
+            <Box
+              component="img"
+              src={day}
+              alt="Day"
+              sx={{
+                display: 'block',
+                width: 300,
+                height: 'auto',
+              }}
+            />
+            {/* 밤 이미지 - 포개기 */}
+            <Box
+              component="img"
+              src={night}
+              alt="Night"
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: timeline,
+              }}
+            />
+          </Box>
+        </Box>
+      </Stack>
+    );
+  },
+  decorators: [
+    (Story) => (
+      <Box sx={{ width: 600, p: 2 }}>
+        <Story />
+      </Box>
+    ),
+  ],
+};
