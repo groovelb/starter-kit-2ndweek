@@ -7,6 +7,7 @@ import ProductImageViewer from '../components/product/ProductImageViewer';
 import ProductOptions from '../components/product/ProductOptions';
 import ProductMeta from '../components/product/ProductMeta';
 import ProductActions from '../components/product/ProductActions';
+import { useCart } from '../context/CartContext';
 
 /**
  * ProductDetailTemplate 컴포넌트
@@ -45,6 +46,7 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
   },
   ref
 ) {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [options, setOptions] = useState({
     glassFinish: 'opaline',
@@ -60,6 +62,19 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
    */
   const handleOptionChange = (key, value) => {
     setOptions((prev) => ({ ...prev, [key]: value }));
+  };
+
+  /**
+   * 장바구니 추가 핸들러
+   */
+  const handleAddToCart = () => {
+    // CartContext에 아이템 추가
+    addItem(product, options, quantity);
+
+    // 외부 핸들러도 호출 (있는 경우)
+    if (onAddToCart) {
+      onAddToCart(quantity, options);
+    }
   };
 
   return (
@@ -134,7 +149,7 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
                 currency={product.currency || 'USD'}
                 quantity={quantity}
                 onQuantityChange={setQuantity}
-                onAddToCart={onAddToCart ? () => onAddToCart(quantity) : undefined}
+                onAddToCart={handleAddToCart}
               />
             </Box>
           }

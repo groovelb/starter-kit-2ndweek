@@ -35,11 +35,11 @@
 
 ### Cart
 
-- CartSlide: 장바구니 슬라이드 패널. 오른쪽에서 슬라이드 인/아웃
-- CartHeader: 장바구니 헤더. "Your Cart" 타이틀 + Close 버튼
-- CartItem: 장바구니 아이템. 썸네일 + 제품명 + 옵션 + 수량 + 가격 + Remove
+- CartContext: 장바구니 상태 관리. useCart 훅 (items, addItem, removeItem, updateQuantity, subtotal, totalItems)
+- CartDrawer: 장바구니 슬라이드 패널. MUI Drawer 기반, 오른쪽에서 슬라이드
+- CartHeader: 장바구니 헤더. "Cart" 타이틀 + Close 버튼
+- CartItem: 장바구니 아이템. 썸네일 + 제품명 + 옵션(3줄) + 가격 + 수량 + Remove
 - CartSummary: 장바구니 요약. Subtotal 금액
-- CartActions: 장바구니 액션. Add a P.O. Number, Request Quote 버튼
 - CartCheckoutButton: 체크아웃 버튼. 전체 너비 Checkout 버튼
 
 ### Checkout
@@ -59,7 +59,7 @@
 ### Templates
 
 - ProductDetailTemplate: 상품 상세 페이지 템플릿. SplitLayout + ProductGallery + ProductOptions + ProductActions + ProductTabs
-- CartSlideTemplate: 장바구니 슬라이드 템플릿. CartHeader + CartItem 리스트 + CartSummary + CartActions
+- CartDrawerTemplate: 장바구니 슬라이드 템플릿. CartHeader + CartItem 리스트 + CartSummary + CartCheckoutButton
 - CheckoutTemplate: 체크아웃 페이지 템플릿. CheckoutHeader + CheckoutSteps + ExpressCheckout + ContactForm + ShippingForm + OrderSummary
 
 ### Pages
