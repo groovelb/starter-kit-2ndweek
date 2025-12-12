@@ -1,8 +1,8 @@
-import { forwardRef } from 'react';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import * as LucideIcons from 'lucide-react';
-import { CustomCard } from './CustomCard';
+import { forwardRef } from "react";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import * as LucideIcons from "lucide-react";
+import { CustomCard } from "./CustomCard";
 
 /**
  * BrandValueCard 컴포넌트
@@ -31,74 +31,76 @@ import { CustomCard } from './CustomCard';
  *   detailedDescription="Our luminaires merge with architecture..."
  * />
  */
-const BrandValueCard = forwardRef(function BrandValueCard({
-  icon,
-  title,
-  description,
-  detailedDescription,
-  iconSize = 32,
-  sx,
-  ...props
-}, ref) {
-  // lucide-react 아이콘 동적 로드
-  const IconComponent = LucideIcons[icon];
+const BrandValueCard = forwardRef(function BrandValueCard(
+	{
+		icon,
+		title,
+		description,
+		detailedDescription,
+		iconSize = 32,
+		sx,
+		...props
+	},
+	ref
+) {
+	// lucide-react 아이콘 동적 로드
+	const IconComponent = LucideIcons[icon];
 
-  return (
-    <CustomCard
-      ref={ref}
-      variant="ghost"
-      contentPadding="md"
-      sx={sx}
-      {...props}
-    >
-      <Stack spacing={6} py={4}>
-        {/* 아이콘 */}
-        {IconComponent && (
-          <IconComponent
-            size={iconSize}
-            strokeWidth={1.5}
-            color="currentColor"
-          />
-        )}
+	return (
+		<CustomCard
+			ref={ref}
+			variant="ghost"
+			contentPadding="md"
+			sx={sx}
+			{...props}
+		>
+			<Stack spacing={6} py={4}>
+				{/* 아이콘 */}
+				{IconComponent && (
+					<IconComponent
+						size={iconSize}
+						strokeWidth={1.5}
+						color="currentColor"
+					/>
+				)}
 
-        {/* 제목 + 짧은 설명 */}
-        <Stack spacing={0}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontSize: '12px',
-              fontWeight: 600,
-              color: 'text.primary',
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: '20px',
-              color: 'text.secondary',
-            }}
-          >
-            {description}
-          </Typography>
-        </Stack>
+				{/* 제목 + 짧은 설명 */}
+				<Stack spacing={0}>
+					<Typography
+						variant="h5"
+						sx={{
+							fontWeight: 600,
+							color: "text.primary",
+						}}
+					>
+						{title}
+					</Typography>
+					<Typography
+						variant="body1"
+						sx={{
+							fontSize: "20px",
+							color: "text.secondary",
+						}}
+					>
+						{description}
+					</Typography>
+				</Stack>
 
-        {/* 상세 설명 */}
-        {detailedDescription && (
-          <Typography
-            variant="body1"
-            sx={{
-              color: 'text.secondary',
-              lineHeight: 1.6,
-            }}
-          >
-            {detailedDescription}
-          </Typography>
-        )}
-      </Stack>
-    </CustomCard>
-  );
+				{/* 상세 설명 */}
+				{detailedDescription && (
+					<Typography
+						variant="body1"
+						sx={{
+							color: "text.secondary",
+							lineHeight: 1.6,
+						}}
+					>
+						{detailedDescription}
+					</Typography>
+				)}
+			</Stack>
+		</CustomCard>
+	);
 });
 
 export { BrandValueCard };

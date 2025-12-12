@@ -2,6 +2,7 @@ import { forwardRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { SplitScreen } from '../components/layout/SplitScreen';
+import { HeroStack } from '../components/layout/HeroStack';
 import ProductImageViewer from '../components/product/ProductImageViewer';
 import ProductOptions from '../components/product/ProductOptions';
 import ProductMeta from '../components/product/ProductMeta';
@@ -11,9 +12,12 @@ import ProductActions from '../components/product/ProductActions';
  * ProductDetailTemplate 컴포넌트
  *
  * 제품 상세 페이지 템플릿. SplitScreen 50:50 분할 레이아웃.
+ * 왼쪽 영역은 HeroStack으로 제품명을 수직 가운데 정렬.
  *
- * 레이아웃 (SplitScreen 사용):
- * - left (50%): Title, Lux/Kelvin, Options, Meta, Actions
+ * 레이아웃 (SplitScreen + HeroStack):
+ * - left (50%):
+ *   - Hero: 제품명, Lux/Kelvin (수직 가운데 정렬)
+ *   - Footer: Meta, Options, Actions
  * - right (50%): ProductImageViewer (이미지 + 타임라인 슬라이더)
  *
  * Props:
@@ -62,66 +66,79 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
     <SplitScreen
       ref={ref}
       ratio="50:50"
-      gap={4}
+      gap={0}
       stackAt="md"
+      stackOrder="reverse"
       sx={sx}
       left={
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, p: { xs: 3, md: 5 } }}>
-          {/* 제품명 */}
-          <Box>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 600,
-                fontSize: { xs: '2rem', md: '3rem' },
-                lineHeight: 1.1,
-                mb: 1,
-              }}
-            >
-              {product.title || 'Product Name'}
-            </Typography>
-            {/* Lux / Kelvin 정보 */}
-            {(product.lux || product.kelvin) && (
+        <HeroStack
+          height="100vh"
+          heroAlign="center"
+          heroJustify="start"
+          heroPadding={{ xs: 3, md: 5 }}
+          footerPadding={{ xs: 3, md: 5 }}
+          footerSx={{ pt: 0 }}
+          hero={
+            /* 제품명 + Lux/Kelvin */
+            <Box>
               <Typography
-                variant="body2"
+                variant="h2"
                 sx={{
-                  color: 'text.secondary',
-                  fontFamily: 'monospace',
-                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  fontSize: { xs: '2rem', md: '3rem' },
+                  lineHeight: 1.1,
+                  mb: 1,
                 }}
               >
-                {product.lux && `${product.lux} lx`}
-                {product.lux && product.kelvin && ' · '}
-                {product.kelvin && `${product.kelvin} K`}
+                {product.title || 'Product Name'}
               </Typography>
-            )}
-          </Box>
+              {/* Lux / Kelvin 정보 */}
+              {(product.lux || product.kelvin) && (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'text.secondary',
+                    fontFamily: 'monospace',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  {product.lux && `${product.lux} lx`}
+                  {product.lux && product.kelvin && ' · '}
+                  {product.kelvin && `${product.kelvin} K`}
+                </Typography>
+              )}
+            </Box>
+          }
+          footer={
+            /* Meta, Options, Actions */
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* 제품 메타 정보 */}
+              {(meta.itemNumber || meta.leadTime || meta.shipDate) && (
+                <ProductMeta
+                  itemNumber={meta.itemNumber}
+                  leadTime={meta.leadTime}
+                  shipDate={meta.shipDate}
+                  showDivider={false}
+                />
+              )}
 
-          {/* 제품 메타 정보 */}
-          {(meta.itemNumber || meta.leadTime || meta.shipDate) && (
-            <ProductMeta
-              itemNumber={meta.itemNumber}
-              leadTime={meta.leadTime}
-              shipDate={meta.shipDate}
-              showDivider={false}
-            />
-          )}
+              {/* 제품 옵션 선택 */}
+              <ProductOptions
+                values={options}
+                onChange={handleOptionChange}
+              />
 
-          {/* 제품 옵션 선택 */}
-          <ProductOptions
-            values={options}
-            onChange={handleOptionChange}
-          />
-
-          {/* 액션 영역 */}
-          <ProductActions
-            price={product.price || 0}
-            currency={product.currency || 'USD'}
-            quantity={quantity}
-            onQuantityChange={setQuantity}
-            onAddToCart={onAddToCart ? () => onAddToCart(quantity) : undefined}
-          />
-        </Box>
+              {/* 액션 영역 */}
+              <ProductActions
+                price={product.price || 0}
+                currency={product.currency || 'USD'}
+                quantity={quantity}
+                onQuantityChange={setQuantity}
+                onAddToCart={onAddToCart ? () => onAddToCart(quantity) : undefined}
+              />
+            </Box>
+          }
+        />
       }
       right={
         <Box
@@ -136,7 +153,6 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
             lux={product.lux}
             kelvin={product.kelvin}
             productName={product.title}
-            sx={{ height: '100%' }}
           />
         </Box>
       }

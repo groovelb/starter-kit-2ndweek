@@ -37,7 +37,6 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
     productName = 'Product',
     lux,
     kelvin,
-    sx = {},
     ...props
   },
   ref
@@ -61,7 +60,6 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
       sx={{
         position: 'relative',
         width: '100%',
-        ...sx,
       }}
       {...props}
     >
