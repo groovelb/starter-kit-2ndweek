@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import Stack from '@mui/material/Stack';
-import SelectField from '../shared/SelectField';
+import UnderlineSelect from '../shared/UnderlineSelect';
 
 /**
  * 기본 제품 옵션 데이터
@@ -32,10 +32,10 @@ export const DEFAULT_PRODUCT_OPTIONS = {
  * ProductOptions 컴포넌트
  *
  * 제품 옵션 선택 영역. Glass Finish, Hardware, OAH 등 드롭다운 그룹.
- * 레퍼런스 이미지의 상품 상세 옵션 선택 UI 적용.
+ * UnderlineSelect를 사용한 미니멀한 옵션 선택 UI.
  *
  * 동작 방식:
- * 1. 각 옵션별 SelectField 드롭다운 렌더링
+ * 1. 각 옵션별 UnderlineSelect 드롭다운 렌더링
  * 2. 사용자가 옵션 선택 시 onChange 호출
  * 3. 선택된 값이 필드에 표시됨
  *
@@ -43,7 +43,6 @@ export const DEFAULT_PRODUCT_OPTIONS = {
  * @param {object} values - 현재 선택된 옵션 값 { glassFinish, hardware, height } [Required]
  * @param {function} onChange - 옵션 변경 핸들러 (optionKey, value) => void [Required]
  * @param {object} availableOptions - 사용 가능한 옵션 목록 [Optional, DEFAULT_PRODUCT_OPTIONS 사용]
- * @param {string} size - SelectField 크기 'small' | 'medium' [Optional, 기본값: 'medium']
  * @param {number} spacing - 필드 간 간격 [Optional, 기본값: 2.5]
  * @param {object} sx - 추가 스타일 [Optional]
  *
@@ -58,7 +57,6 @@ const ProductOptions = forwardRef(function ProductOptions(
     values = {},
     onChange,
     availableOptions = DEFAULT_PRODUCT_OPTIONS,
-    size = 'medium',
     spacing = 2.5,
     sx = {},
     ...props
@@ -83,35 +81,31 @@ const ProductOptions = forwardRef(function ProductOptions(
     >
       {/* Glass Finish */}
       {availableOptions.glassFinish && (
-        <SelectField
+        <UnderlineSelect
           label="Glass Finish"
           value={values.glassFinish || ''}
           onChange={handleOptionChange('glassFinish')}
           options={availableOptions.glassFinish}
-          size={size}
         />
       )}
 
       {/* Hardware */}
       {availableOptions.hardware && (
-        <SelectField
+        <UnderlineSelect
           label="Hardware"
           value={values.hardware || ''}
           onChange={handleOptionChange('hardware')}
           options={availableOptions.hardware}
-          size={size}
         />
       )}
 
       {/* OAH (Overall Height) */}
       {availableOptions.height && (
-        <SelectField
-          label="OAH"
+        <UnderlineSelect
+          label="OAH (Overall Height)"
           value={values.height || ''}
           onChange={handleOptionChange('height')}
           options={availableOptions.height}
-          size={size}
-          helperText="Overall Height"
         />
       )}
     </Stack>

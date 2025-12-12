@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useCallback, useState } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -8,12 +8,12 @@ import TimelineSlider from '../shared/TimelineSlider';
 /**
  * ProductImageViewer 컴포넌트
  *
- * ScrollVideo와 동일한 레이아웃. 배경만 비디오 대신 TimeBlendImage 사용.
- * 이미지는 원본 비율을 유지하며, 하단에 overlay로 시간과 슬라이더 표시.
+ * 제품 이미지 뷰어. 낮/밤 이미지를 TimeBlendImage로 블렌딩.
+ * 이미지는 원본 비율을 유지하며, 하단에 overlay로 슬라이더 표시.
  *
  * 동작 방식:
  * 1. 배경: TimeBlendImage (원본 비율 유지, 낮/밤 블렌딩)
- * 2. 오버레이: 하단 그래디언트 + 시간 + TimelineSlider
+ * 2. 오버레이: 하단 그래디언트 + TimelineSlider
  * 3. 슬라이더 조작 시 이미지가 실시간으로 블렌딩
  *
  * Props:
@@ -42,7 +42,6 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
   },
   ref
 ) {
-  const timeRef = useRef(null);
   const [timeline, setTimeline] = useState(0);
 
   // 낮/밤 이미지 분리
@@ -50,29 +49,10 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
   const nightImage = images[1] || images[0] || null;
 
   /**
-   * timeline(0-1)을 12시간제 시간 문자열로 변환
-   */
-  const formatTime = (progress) => {
-    const totalMinutes = Math.round(progress * 720);
-    const hours24 = 12 + Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-
-    let hours12, period;
-    if (hours24 === 12) { hours12 = 12; period = 'pm'; }
-    else if (hours24 >= 24) { hours12 = 12; period = 'am'; }
-    else { hours12 = hours24 - 12; period = 'pm'; }
-
-    return `${hours12}:${minutes.toString().padStart(2, '0')}${period}`;
-  };
-
-  /**
    * 타임라인 변경 핸들러
    */
   const handleTimelineChange = useCallback((newValue) => {
     setTimeline(newValue);
-    if (timeRef.current) {
-      timeRef.current.textContent = formatTime(newValue);
-    }
   }, []);
 
   return (
@@ -144,31 +124,13 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
           </Box>
         )}
 
-        {/* 하단 컨트롤 영역 - 시간 + 슬라이더 */}
+        {/* 하단 컨트롤 영역 - 슬라이더 */}
         <Box
           sx={{
             position: 'relative',
-            display: 'flex',
-            alignItems: 'flex-end',
-            gap: 3,
             pointerEvents: 'auto',
           }}
         >
-          {/* 시간 표시 */}
-          <Typography
-            ref={timeRef}
-            variant="h4"
-            sx={{
-              color: '#F2E9DA',
-              fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
-              fontWeight: 100,
-              width: 130,
-              flexShrink: 0,
-            }}
-          >
-            12:00pm
-          </Typography>
-
           {/* TimelineSlider */}
           <TimelineSlider
             value={timeline}
@@ -176,7 +138,7 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
             useGlobalState={false}
             showLabels={false}
             color="#F2E9DA"
-            sx={{ flex: 1, position: 'relative', zIndex: 1 }}
+            sx={{ width: '100%', position: 'relative', zIndex: 1 }}
           />
         </Box>
       </Box>

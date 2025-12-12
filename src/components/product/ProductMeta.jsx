@@ -1,18 +1,18 @@
 import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import UnderlineInput from '../shared/UnderlineInput';
 
 /**
  * ProductMeta 컴포넌트
  *
  * 제품 메타 정보 표시. Item Number, Lead Time, Est. Ship Date 등.
- * 레퍼런스 이미지의 상품 상세 메타 정보 영역 스타일 적용.
+ * UnderlineInput readOnly를 사용한 미니멀한 정보 표시.
  *
  * 동작 방식:
  * 1. 라벨-값 쌍으로 메타 정보 표시
- * 2. 구분선으로 상단과 분리
- * 3. 좌측 정렬, 일관된 타이포그래피
+ * 2. UnderlineInput readOnly 스타일 적용
+ * 3. 구분선으로 상단과 분리 (옵션)
  *
  * Props:
  * @param {string} itemNumber - 제품 번호 (예: FA-100318) [Optional]
@@ -53,89 +53,42 @@ const ProductMeta = forwardRef(function ProductMeta(
       {...props}
     >
       {showDivider && (
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ mb: 3 }} />
       )}
 
-      {/* 메타 정보 그리드 */}
+      {/* 메타 정보 필드들 */}
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: 'auto 1fr',
-          gap: 1,
-          rowGap: 0.75,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2.5,
         }}
       >
         {/* Item Number */}
         {itemNumber && (
-          <>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.secondary',
-                fontSize: '0.8125rem',
-              }}
-            >
-              Item Number:
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.primary',
-                fontSize: '0.8125rem',
-                fontFamily: 'monospace',
-              }}
-            >
-              {itemNumber}
-            </Typography>
-          </>
+          <UnderlineInput
+            label="Item Number"
+            value={itemNumber}
+            isReadOnly
+          />
         )}
 
         {/* Lead Time */}
         {leadTime && (
-          <>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.secondary',
-                fontSize: '0.8125rem',
-              }}
-            >
-              Lead Time:
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.primary',
-                fontSize: '0.8125rem',
-              }}
-            >
-              {leadTime}
-            </Typography>
-          </>
+          <UnderlineInput
+            label="Lead Time"
+            value={leadTime}
+            isReadOnly
+          />
         )}
 
         {/* Est. Ship Date */}
         {shipDate && (
-          <>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.secondary',
-                fontSize: '0.8125rem',
-              }}
-            >
-              Est. Ship Date:
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: 'text.primary',
-                fontSize: '0.8125rem',
-              }}
-            >
-              {shipDate}
-            </Typography>
-          </>
+          <UnderlineInput
+            label="Est. Ship Date"
+            value={shipDate}
+            isReadOnly
+          />
         )}
       </Box>
     </Box>

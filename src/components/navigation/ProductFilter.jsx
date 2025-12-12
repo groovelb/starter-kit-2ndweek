@@ -33,8 +33,6 @@ export function ProductFilter({ selected = 'all', onChange, showAll = true, sx }
         orientation="vertical"
         value={selected}
         onChange={(e, newValue) => onChange(newValue)}
-        textColor="secondary"
-        indicatorColor="secondary"
         aria-label="product type filter"
         sx={{
           '& .MuiTab-root': {
