@@ -13,7 +13,8 @@
 ### Layout
 
 - Container: 반응형 페이지 컨테이너. PC는 maxWidth 고정, 모바일은 100%
-- SplitLayout: 좌우 분할 레이아웃. 상품 상세용 (좌: 정보, 우: 이미지)
+- SplitScreen: 좌우 분할 레이아웃. ratio, stackAt, stackOrder 옵션 지원
+- HeroStack: 수직 레이아웃. Hero(수직 중앙 정렬) + Footer(하단 고정). flex-grow 패턴
 - LineGrid: 그리드/스택 아이템 사이에 1px 라인을 자동 삽입하는 레이아웃
 
 ### Shared
@@ -23,6 +24,8 @@
 - SelectField: 드롭다운 선택 필드. 라벨 + 선택값 + 화살표
 - AccordionMenu: 아코디언 메뉴. Overview, Description 등 탭 형태 네비게이션
 - ArrowLink: 화살표 링크. → 아이콘 + 텍스트 (Add Sidemark, Download a Tear Sheet)
+- UnderlineInput: 밑줄만 있는 텍스트 인풋. readOnly 지원, size(small/medium) 옵션
+- UnderlineSelect: 밑줄만 있는 셀렉트. MUI Select 기반, size(small/medium) 옵션
 
 ### Product
 
@@ -56,9 +59,13 @@
 - CheckoutFooter: 체크아웃 푸터. Return to cart 링크 + Continue 버튼
 - PolicyLinks: 정책 링크. Refund policy, Privacy policy, Terms of service
 
+### Sections
+
+- ProductDetailSection: 제품 상세 섹션. ProductDetailTemplate + CartDrawer 조합. 장바구니 추가 시 자동 열기 지원
+
 ### Templates
 
-- ProductDetailTemplate: 상품 상세 페이지 템플릿. SplitLayout + ProductGallery + ProductOptions + ProductActions + ProductTabs
+- ProductDetailTemplate: 상품 상세 페이지 템플릿. SplitScreen + HeroStack + ProductImageViewer + ProductOptions + ProductActions
 - CartDrawerTemplate: 장바구니 슬라이드 템플릿. CartHeader + CartItem 리스트 + CartSummary + CartCheckoutButton
 - CheckoutTemplate: 체크아웃 페이지 템플릿. CheckoutHeader + CheckoutSteps + ExpressCheckout + ContactForm + ShippingForm + OrderSummary
 
