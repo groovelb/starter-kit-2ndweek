@@ -1,23 +1,10 @@
-import { forwardRef, useState, useMemo } from 'react';
+import { forwardRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import {
-  Lamp,
-  LampCeiling,
-  LampDesk,
-  LampFloor,
-  Sun,
-  SlidersHorizontal,
-} from 'lucide-react';
 import { SplitScreen } from '../components/layout/SplitScreen';
 import { HeroStack } from '../components/layout/HeroStack';
-import LineGrid from '../components/layout/LineGrid';
 import ProductImageViewer from '../components/product/ProductImageViewer';
-import ProductOptions from '../components/product/ProductOptions';
-import ProductMeta from '../components/product/ProductMeta';
-import ProductActions from '../components/product/ProductActions';
-import { ProductSpecCard } from '../components/product/ProductSpecCard';
+import { ProductHeroTemplate } from './ProductHeroTemplate';
+import { ProductInfoTemplate } from './ProductInfoTemplate';
 import { useCart } from '../context/CartContext';
 
 /**
@@ -69,32 +56,6 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
   const images = product.images || [];
 
   /**
-   * 제품 타입별 아이콘 매핑 (lucide-react)
-   */
-  const TypeIcon = useMemo(() => {
-    const iconMap = {
-      ceiling: LampCeiling,
-      stand: LampFloor,
-      wall: Lamp,
-      desk: LampDesk,
-    };
-    return iconMap[product.type] || Lamp;
-  }, [product.type]);
-
-  /**
-   * 제품 타입 라벨
-   */
-  const typeLabel = useMemo(() => {
-    const labelMap = {
-      ceiling: 'Ceiling',
-      stand: 'Stand',
-      wall: 'Wall',
-      desk: 'Desk',
-    };
-    return labelMap[product.type] || product.type || 'Light';
-  }, [product.type]);
-
-  /**
    * 옵션 변경 핸들러
    */
   const handleOptionChange = (key, value) => {
@@ -104,13 +65,13 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
   /**
    * 장바구니 추가 핸들러
    */
-  const handleAddToCart = () => {
+  const handleAddToCart = (qty, opts) => {
     // CartContext에 아이템 추가
-    addItem(product, options, quantity);
+    addItem(product, opts, qty);
 
     // 외부 핸들러도 호출 (있는 경우)
     if (onAddToCart) {
-      onAddToCart(quantity, options);
+      onAddToCart(qty, opts);
     }
   };
 
@@ -131,93 +92,25 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
           footerPadding={{ xs: 3, md: 5 }}
           footerSx={{ pt: 0 }}
           hero={
-            /* 제품명 + 설명 + Lux/Kelvin */
-            <Box>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: { xs: '2rem', md: '3rem' },
-                  lineHeight: 1.1,
-                  mb: 1,
-                }}
-              >
-                {product.title || 'Product Name'}
-              </Typography>
-              {/* 제품 설명 */}
-              {product.description && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: 'text.secondary',
-                    mb: 2.5,
-                  }}
-                >
-                  {product.description}
-                </Typography>
-              )}
-              {/* 제품 스펙: 카테고리 / Lux / Kelvin */}
-              {(product.type || product.lux || product.kelvin) && (
-                <LineGrid container gap={24} sx={{ mt: 5 }}>
-                  {product.type && (
-                    <Grid size={{ xs: 4 }}>
-                      <ProductSpecCard
-                        icon={<TypeIcon size={32} strokeWidth={1.5} />}
-                        label="Type"
-                        value={typeLabel}
-                      />
-                    </Grid>
-                  )}
-                  {product.lux && (
-                    <Grid size={{ xs: 4 }}>
-                      <ProductSpecCard
-                        icon={<Sun size={32} strokeWidth={1.5} />}
-                        label="Luminance"
-                        value={`${product.lux} lx`}
-                      />
-                    </Grid>
-                  )}
-                  {product.kelvin && (
-                    <Grid size={{ xs: 4 }}>
-                      <ProductSpecCard
-                        icon={<SlidersHorizontal size={32} strokeWidth={1.5} />}
-                        label="Color Temp"
-                        value={`${product.kelvin} K`}
-                      />
-                    </Grid>
-                  )}
-                </LineGrid>
-              )}
-            </Box>
+            <ProductHeroTemplate
+              title={product.title}
+              description={product.description}
+              type={product.type}
+              lux={product.lux}
+              kelvin={product.kelvin}
+            />
           }
           footer={
-            /* Meta, Options, Actions */
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {/* 제품 메타 정보 */}
-              {(meta.itemNumber || meta.leadTime || meta.shipDate) && (
-                <ProductMeta
-                  itemNumber={meta.itemNumber}
-                  leadTime={meta.leadTime}
-                  shipDate={meta.shipDate}
-                  showDivider={false}
-                />
-              )}
-
-              {/* 제품 옵션 선택 */}
-              <ProductOptions
-                values={options}
-                onChange={handleOptionChange}
-              />
-
-              {/* 액션 영역 */}
-              <ProductActions
-                price={product.price || 0}
-                currency={product.currency || 'USD'}
-                quantity={quantity}
-                onQuantityChange={setQuantity}
-                onAddToCart={handleAddToCart}
-              />
-            </Box>
+            <ProductInfoTemplate
+              meta={meta}
+              price={product.price || 0}
+              currency={product.currency || 'USD'}
+              options={options}
+              onOptionChange={handleOptionChange}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              onAddToCart={handleAddToCart}
+            />
           }
         />
       }

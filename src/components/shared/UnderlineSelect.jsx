@@ -69,11 +69,11 @@ const UnderlineSelect = forwardRef(function UnderlineSelect(
       menuPy: 1.25,
     },
     large: {
-      labelSize: '1.125rem',
-      inputSize: '1.4rem',
-      menuItemSize: '1.2rem',
-      pb: 1.5,
-      menuPy: 1.5,
+      labelSize: '0.75rem',
+      inputSize: '0.9375rem',
+      menuItemSize: '0.9375rem',
+      pb: 3,
+      menuPy: 2,
     },
   };
 

@@ -67,9 +67,9 @@ const UnderlineInput = forwardRef(function UnderlineInput(
       pb: 1,
     },
     large: {
-      labelSize: '1.125rem',
-      inputSize: '1.4rem',
-      pb: 1.5,
+      labelSize: '0.75rem',
+      inputSize: '0.9375rem',
+      pb: 3,
     },
   };
 

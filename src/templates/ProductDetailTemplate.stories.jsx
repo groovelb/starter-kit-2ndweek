@@ -16,8 +16,14 @@ export default {
 제품 상세 페이지 템플릿. SplitScreen 50:50 분할 레이아웃.
 
 ### 레이아웃
-- **좌측 (50%)**: 제품명, Lux/Kelvin, Options, Meta, Actions
+- **좌측 (50%)**: HeroStack으로 구성
+  - Hero: ProductHeroTemplate (제품명, 설명, 스펙 카드)
+  - Footer: ProductInfoTemplate (메타, 옵션, CTA)
 - **우측 (50%)**: ProductImageViewer (이미지 + 타임라인 슬라이더)
+
+### 모듈화 구조
+- \`ProductHeroTemplate\`: 상단 타이틀 영역 (독립 사용 가능)
+- \`ProductInfoTemplate\`: 하단 정보 영역 (독립 사용 가능)
 
 ### 특징
 - products.js의 실제 제품 데이터 사용
