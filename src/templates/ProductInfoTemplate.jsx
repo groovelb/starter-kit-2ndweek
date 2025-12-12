@@ -26,6 +26,7 @@ import ProductActions from '../components/product/ProductActions';
  * @param {number} quantity - 현재 수량 (controlled mode) [Optional]
  * @param {function} onQuantityChange - 수량 변경 핸들러 [Optional]
  * @param {object} defaultOptions - 초기 옵션 값 (uncontrolled mode) [Optional]
+ * @param {string} size - 입력 필드 크기 'small' | 'medium' | 'large' [Optional, 기본값: 'medium']
  * @param {function} onAddToCart - 장바구니 추가 핸들러 (quantity, options) => void [Optional]
  * @param {object} sx - 추가 스타일 [Optional]
  *
@@ -63,6 +64,7 @@ const ProductInfoTemplate = forwardRef(function ProductInfoTemplate(
       hardware: 'patina-brass',
       height: '61-72',
     },
+    size = 'medium',
     onAddToCart,
     sx = {},
     ...props
@@ -136,6 +138,7 @@ const ProductInfoTemplate = forwardRef(function ProductInfoTemplate(
       <ProductOptions
         values={options}
         onChange={handleOptionChange}
+        size={size}
       />
 
       {/* 액션 영역 */}

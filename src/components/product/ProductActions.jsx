@@ -2,7 +2,6 @@ import { useState, forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import QuantitySelector from '../shared/QuantitySelector';
 
 /**
@@ -39,7 +38,6 @@ const formatPrice = (price, currency = 'USD') => {
  * @param {function} onAddToCart - 장바구니 추가 핸들러 [Optional]
  * @param {boolean} isLoading - 로딩 상태 [Optional, 기본값: false]
  * @param {boolean} isDisabled - 비활성화 여부 [Optional, 기본값: false]
- * @param {boolean} showDivider - 상단 구분선 표시 여부 [Optional, 기본값: true]
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -59,7 +57,6 @@ const ProductActions = forwardRef(function ProductActions(
     onAddToCart,
     isLoading = false,
     isDisabled = false,
-    showDivider = true,
     sx = {},
     ...props
   },
@@ -93,13 +90,14 @@ const ProductActions = forwardRef(function ProductActions(
     <Box
       ref={ref}
       sx={{
+        pt: 8,
+        mt: 4,
+        borderTop: '3px solid',
+        borderColor: 'primary.main',
         ...sx,
       }}
       {...props}
     >
-      {showDivider && (
-        <Divider sx={{ mb: 2 }} />
-      )}
 
       {/* Quantity + Price + Button Row */}
       <Box
@@ -156,16 +154,17 @@ const ProductActions = forwardRef(function ProductActions(
           onClick={handleAddToCart}
           disabled={isDisabled || isLoading}
           sx={{
-            backgroundColor: 'secondary.main',
-            color: 'primary.main',
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
             borderRadius: 0,
-            px: 4,
-            py: 1.25,
-            fontWeight: 500,
+            px: 5,
+            py: 1.75,
+            fontSize: '1.1rem',
+            fontWeight: 600,
             textTransform: 'none',
             boxShadow: 'none',
             '&:hover': {
-              backgroundColor: 'secondary.dark',
+              backgroundColor: 'primary.dark',
               boxShadow: 'none',
             },
             '&:disabled': {

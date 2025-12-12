@@ -109,6 +109,7 @@ const ProductDetailTemplate = forwardRef(function ProductDetailTemplate(
               onOptionChange={handleOptionChange}
               quantity={quantity}
               onQuantityChange={setQuantity}
+              size="large"
               onAddToCart={handleAddToCart}
             />
           }

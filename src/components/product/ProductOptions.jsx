@@ -44,6 +44,7 @@ export const DEFAULT_PRODUCT_OPTIONS = {
  * @param {function} onChange - 옵션 변경 핸들러 (optionKey, value) => void [Required]
  * @param {object} availableOptions - 사용 가능한 옵션 목록 [Optional, DEFAULT_PRODUCT_OPTIONS 사용]
  * @param {number} spacing - 필드 간 간격 [Optional, 기본값: 2.5]
+ * @param {string} size - Select 크기 'small' | 'medium' | 'large' [Optional, 기본값: 'medium']
  * @param {object} sx - 추가 스타일 [Optional]
  *
  * Example usage:
@@ -58,6 +59,7 @@ const ProductOptions = forwardRef(function ProductOptions(
     onChange,
     availableOptions = DEFAULT_PRODUCT_OPTIONS,
     spacing = 2.5,
+    size = 'medium',
     sx = {},
     ...props
   },
@@ -86,6 +88,7 @@ const ProductOptions = forwardRef(function ProductOptions(
           value={values.glassFinish || ''}
           onChange={handleOptionChange('glassFinish')}
           options={availableOptions.glassFinish}
+          size={size}
         />
       )}
 
@@ -96,6 +99,7 @@ const ProductOptions = forwardRef(function ProductOptions(
           value={values.hardware || ''}
           onChange={handleOptionChange('hardware')}
           options={availableOptions.hardware}
+          size={size}
         />
       )}
 
@@ -106,6 +110,7 @@ const ProductOptions = forwardRef(function ProductOptions(
           value={values.height || ''}
           onChange={handleOptionChange('height')}
           options={availableOptions.height}
+          size={size}
         />
       )}
     </Stack>

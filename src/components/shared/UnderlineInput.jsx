@@ -59,17 +59,17 @@ const UnderlineInput = forwardRef(function UnderlineInput(
     small: {
       labelSize: '0.6875rem',
       inputSize: '0.8125rem',
-      pb: 0.75,
+      py: 0.375,
     },
     medium: {
       labelSize: '0.75rem',
       inputSize: '0.9375rem',
-      pb: 1,
+      py: 0.5,
     },
     large: {
       labelSize: '0.75rem',
       inputSize: '0.9375rem',
-      pb: 3,
+      py: 1.5,
     },
   };
 
@@ -115,7 +115,7 @@ const UnderlineInput = forwardRef(function UnderlineInput(
           fontSize: currentSize.inputSize,
           fontWeight: 400,
           color: 'text.primary',
-          pb: currentSize.pb,
+          py: currentSize.py,
           borderBottom: '1px solid',
           borderColor: 'divider',
           transition: 'border-color 200ms ease',
