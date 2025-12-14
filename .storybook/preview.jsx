@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { MemoryRouter } from 'react-router-dom';
 
 import theme from '../src/styles/themes/theme.js';
 import { TimelineProvider } from '../src/hooks/useTimeline';
@@ -46,16 +47,18 @@ const preview = {
   },
   decorators: [
     (Story, context) => (
-      <ThemeProvider theme={ theme }>
-        <CssBaseline />
-        <CartProvider>
-          <TimelineProvider initialTimeline={0}>
-            <div style={ { width: '100%', paddingTop: '40px' } }>
-              { Story(context) }
-            </div>
-          </TimelineProvider>
-        </CartProvider>
-      </ThemeProvider>
+      <MemoryRouter>
+        <ThemeProvider theme={ theme }>
+          <CssBaseline />
+          <CartProvider>
+            <TimelineProvider initialTimeline={0}>
+              <div style={ { width: '100%', paddingTop: '40px' } }>
+                { Story(context) }
+              </div>
+            </TimelineProvider>
+          </CartProvider>
+        </ThemeProvider>
+      </MemoryRouter>
     ),
   ],
 };
