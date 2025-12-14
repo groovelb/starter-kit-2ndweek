@@ -145,7 +145,7 @@ const ProductCard = forwardRef(function ProductCard({
       </Box>
 
       {/* 제품명 + 상태 라벨 */}
-      <Stack spacing={0}>
+      <Stack spacing={0.5}>
         <Typography
           variant="subtitle1"
           sx={{
@@ -164,7 +164,7 @@ const ProductCard = forwardRef(function ProductCard({
             color: 'text.secondary',
           }}
         >
-          {lux} lx · {kelvin} K
+          {lux}lx · {kelvin}K
         </Typography>
       </Stack>
     </CustomCard>
