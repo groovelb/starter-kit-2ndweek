@@ -2,38 +2,29 @@
 
 ## META INSTRUCTION
 
-IMPORTANT: 이 문서와 참조된 모든 규칙은 프로젝트 법률이다.
+IMPORTANT: 이 문서와 `.claude/rules/` 내 모든 규칙은 프로젝트 법률이다.
 YOU MUST 코드 작업 전 관련 규칙을 확인하고, 위반 가능성이 있으면 먼저 사용자에게 알려라.
 YOU MUST NOT 명시적 허용 없이 규칙을 위반하는 코드를 작성하지 마라.
-
-## Frontmatter 해석
-
-`.cursor/rules/*.mdc` 파일의 YAML frontmatter:
-- `alwaysApply: true` → 모든 작업에 무조건 적용
-- `alwaysApply: false` → 관련 작업 시에만 적용
-- `globs: "*.jsx"` → 해당 패턴 파일 작업 시 적용
-- `description` → 규칙 적용 판단 기준
-
-## 규칙 원본
-
-### CRITICAL (절대 위반 불가)
-@.cursor/rules/project-summary.mdc
-@.cursor/rules/mui-grid-usage.mdc
 
 **지시된 기능만 구현 (CRITICAL)**
 - 사용자가 구체적인 지시를 한 경우, 명시된 기능만 구현할 것
 - 요청하지 않은 기능, 옵션, 예외 처리를 임의로 추가하지 말 것
 - "있으면 좋을 것 같은" 기능은 먼저 사용자에게 제안하고 승인받은 후 구현
 
-### MUST (반드시 준수)
-@.cursor/rules/code-convenstion.mdc
-@.cursor/rules/design-system.mdc
-@.cursor/rules/project-directory-rules.mdc
+## Project Overview
 
-### SHOULD (관련 작업 시 준수)
-@.cursor/rules/storybook-writing.mdc
-@.cursor/rules/easy-refactoring.mdc
-@.cursor/rules/mui-custome-theme.mdc
+**Starter Kit Basic**은 React + MUI + Storybook 환경을 디자이너에게 마치 디자인 툴처럼 사용할 수 있도록 도와주는 개발 환경입니다.
+
+### 핵심 목적
+1. **UI 컴포넌트 체계적 관리** - 재사용 가능한 컴포넌트를 Storybook으로 문서화
+2. **디자인 톤 일관성 유지** - 색상, 타이포그래피, 스타일을 중앙에서 관리
+3. **로직과 UI 분리** - 제품의 비즈니스 로직과 UI 디자인 작업을 명확히 분리
+
+### 기술 스택
+- React 19.x
+- MUI 7.x (Material UI)
+- Vite 7.x
+- Storybook 10.x
 
 ## Key Directories
 
@@ -54,37 +45,33 @@ pnpm build-storybook  # Storybook 정적 빌드
 pnpm lint             # ESLint 검사
 ```
 
+## Rules Priority
+
+| 등급 | 의미 | 규칙 파일 |
+|------|------|----------|
+| CRITICAL | 절대 위반 불가 | mui.md (Grid 규칙) |
+| MUST | 반드시 준수 | code-style.md, design-system.md, project-structure.md |
+| SHOULD | 관련 작업 시 준수 | storybook.md, refactoring.md |
+| REFERENCE | 참조 문서 | components.md, brand/*.md |
+
 ## Workflow
 
 ### 모든 코드 변경 전 (MANDATORY)
 1. 작업 대상 파일/폴더 확인
-2. 관련 규칙 확인 (alwaysApply: true 항목 + 해당 패턴 규칙)
+2. 관련 규칙 확인 (해당 파일 패턴에 맞는 규칙)
 3. 규칙 위반 가능성 체크
 4. 충돌 시 → 사용자에게 먼저 알림
 
 ### 컴포넌트 생성
 1. 요구사항 파악 → 기존 유사 컴포넌트 탐색
-2. project-directory-rules.mdc에 따라 위치 결정
+2. project-structure.md에 따라 위치 결정
 3. **디자인 시스템 재활용 (MUST)**:
-   - 아이콘: Material Symbols 사용 (`src/stories/style/Icons.stories.jsx` 패턴 참고)
+   - 아이콘: lucide-react 라이브러리 사용
    - 타이포그래피: MUI Typography 컴포넌트 사용
    - 기본 컴포넌트: 기존 `src/components/` 내 컴포넌트 우선 활용
-   - 커스텀 SVG/아이콘 생성 금지 (Material Symbols에 없는 경우만 예외)
-4. **frontend-design 스킬 사용 (MUST)**: 디자인 관련 작업 시 반드시 `use frontend skill` 호출
-5. 구현 (MUI 기반, sx prop 사용)
-6. Storybook 스토리 작성
-7. 린트 확인
-
-### 디자인 관련 작업 (CRITICAL)
-**디자인 작업 시 반드시 `use frontend skill`을 사용해야 합니다.**
-
-해당 작업 예시:
-- UI 컴포넌트 스타일링 (색상, 크기, 간격, 레이아웃)
-- 새로운 UI 컴포넌트 생성
-- 기존 컴포넌트 디자인 수정
-- 애니메이션/트랜지션 구현
-- 반응형 디자인 작업
-- 시각적 요소 조정 (아이콘, 타이포그래피, 그리드)
+4. 구현 (MUI 기반, sx prop 사용)
+5. Storybook 스토리 작성
+6. 린트 확인
 
 ### 컴포넌트 수정
 1. 현재 동작 파악
@@ -94,7 +81,7 @@ pnpm lint             # ESLint 검사
 
 ### 리팩토링
 1. 외부 동작 변경 없음 확인
-2. easy-refactoring.mdc 참조
+2. refactoring.md 참조
 3. 기존 스토리 통과 확인
 
 ## 규칙 충돌 처리
