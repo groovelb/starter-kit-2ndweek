@@ -23,17 +23,25 @@ minimalist, photorealistic product photography
 | Aspect Ratio | 3:4 (portrait) |
 | Product Fill | 프레임의 40-60% (제품별 `fillRatio` 참조) |
 | Alignment | 정중앙 (center-center) |
-| Camera Angle | 정면 또는 약간의 3/4 뷰 (제품 설치 방식에 따라) |
+| Padding | 상하좌우 최소 15% 여백 (제품이 가장자리에 닿지 않도록) |
+| Camera Angle | **정면 (straight-on frontal)** — 설치 방식 무관, 항상 정면 |
 | Depth of Field | 전체 샤프 (deep focus), 배경 보케 없음 |
 
-### 설치 방식별 카메라 각도
+### 카메라 각도 (CRITICAL)
 
-| Mounting | Camera Angle |
-|----------|-------------|
-| ceiling | 약간 아래에서 올려보는 앵글 (slight low angle, looking up) |
-| wall | 정면 (straight-on, eye level) |
-| stand | 약간 위에서 내려보는 앵글 (slight high angle) |
-| desk | 3/4 위에서 (three-quarter overhead) |
+**모든 제품은 설치 방식에 관계없이 정면 구도(straight-on frontal view)를 사용한다.**
+
+- 카메라가 제품 면에 수직 (perpendicular)
+- 대각선 구도, 3/4 뷰, 기울어진 앵글 금지
+- 원근 왜곡(perspective distortion) 최소화
+
+### 패딩 바운더리 (CRITICAL)
+
+제품은 프레임 가장자리에서 최소 15% 안쪽에 위치해야 한다:
+- 좌측 여백: 이미지 폭의 15% 이상
+- 우측 여백: 이미지 폭의 15% 이상
+- 상단 여백: 이미지 높이의 15% 이상
+- 하단 여백: 이미지 높이의 15% 이상
 
 ---
 
@@ -119,7 +127,9 @@ no environment, no interior, no furniture, no people,
 no reflective surfaces, no glossy finish, no chrome,
 no lens flare, no bokeh, no color fringing,
 no wireframe, no sketch style, no illustration,
-no multiple products, no accessories
+no multiple products, no accessories,
+no diagonal view, no angled composition, no 3/4 view,
+no perspective distortion, no tilted camera, no oblique angle
 ```
 
 ---

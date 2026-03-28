@@ -28,11 +28,11 @@ The light is OFF — the product exists as a pure sculptural object. The diffuse
 Background: clean, uniform warm off-white (#E8E5E1), seamless infinite studio backdrop with no visible horizon line.
 Lighting: soft, even studio lighting from above-left at 45 degrees. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
 
-Composition: centered in frame, product fills approximately {fillRatio}% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: {camera_angle}.
+Composition: centered in frame, product fills approximately {fillRatio}% of the image area. The product must have at least 15% padding from all edges (top, bottom, left, right) of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face. No diagonal, no 3/4 view, no angled perspective.
 
 Style: photorealistic product photography with Apple-level precision and cleanliness. Geometric symmetry. Ultra-clean rendering.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture.
+No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera.
 ```
 
 ---
@@ -53,24 +53,32 @@ Background: deep warm black (#12100E), seamless infinite studio backdrop. No vis
 The product is the ONLY light source in the entire scene. All illumination comes from the product's glowing diffuser.
 Nearby surfaces (wall behind, floor below) catch subtle warm amber reflections from the product's light.
 
-Composition: centered in frame, product fills approximately {fillRatio}% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: {camera_angle}.
+Composition: centered in frame, product fills approximately {fillRatio}% of the image area. The product must have at least 15% padding from all edges (top, bottom, left, right) of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face. No diagonal, no 3/4 view, no angled perspective.
 
 Style: photorealistic product photography with dramatic chiaroscuro lighting. Cinematic, atmospheric mood. The contrast between the warm glowing product and the deep dark surroundings is the visual focus.
 A small 4-pointed star symbol (✦) appears as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera.
 ```
 
 ---
 
-## Camera Angle Reference
+## Camera Angle Rule (CRITICAL)
 
-| Mounting | camera_angle |
-|----------|-------------|
-| ceiling (flush-mount) | Slight low angle, looking upward at approximately 15 degrees from horizontal |
-| wall (wall-mount) | Straight-on at eye level, perpendicular to the wall surface |
-| stand (floor-standing) | Slight high angle, looking downward at approximately 10 degrees |
-| desk (freestanding) | Three-quarter overhead view, approximately 30 degrees from horizontal |
+**모든 제품은 설치 방식에 관계없이 정면 구도(straight-on frontal view)를 사용한다.**
+
+```
+Straight-on frontal view, perfectly centered, perpendicular to the product face.
+No diagonal, no 3/4 view, no angled perspective.
+```
+
+대각선 구도, 기울어진 앵글, 원근 왜곡 금지.
+
+## Padding Boundary Rule (CRITICAL)
+
+제품은 프레임 가장자리에서 최소 15% 안쪽에 위치:
+- 좌/우: 이미지 폭의 15% 이상
+- 상/하: 이미지 높이의 15% 이상
 
 ---
 
@@ -89,11 +97,11 @@ The light is OFF — the product exists as a pure sculptural object. The diffuse
 Background: clean, uniform warm off-white (#E8E5E1), seamless infinite studio backdrop with no visible horizon line.
 Lighting: soft, even studio lighting from above-left at 45 degrees. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
 
-Composition: centered in frame, product fills approximately 60% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: Slight low angle, looking upward at approximately 15 degrees from horizontal.
+Composition: centered in frame, product fills approximately 60% of the image area. The product must have at least 15% padding from all edges of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face.
 
 Style: photorealistic product photography with Apple-level precision and cleanliness. Geometric symmetry. Ultra-clean rendering.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture.
+No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition.
 ```
 
 ### Example 2: Product #1 — Night Mode
@@ -101,7 +109,7 @@ No environment, no text, no logos, no reflections, no lens flare, no bokeh, no c
 ```
 A minimalist circular ceiling ring lighting fixture, in the style of Dieter Rams and Bauhaus industrial design.
 
-A shallow cylindrical ring mounted flush to the ceiling. The ring has a flat outer band (matte black, ~5cm height) with a large circular frosted glass diffuser recessed inside. Diameter ~40cm. Clean geometric circle viewed from slightly below.
+A shallow cylindrical ring mounted flush to the ceiling. The ring has a flat outer band (matte black, ~5cm height) with a large circular frosted glass diffuser recessed inside. Diameter ~40cm. Clean geometric circle viewed straight-on.
 
 Material: matte black anodized aluminum frame. The diffuser is now actively glowing with warm light.
 The light is ON, emitting warm 3800K color temperature light — a soft amber-white tone (#FFC66E).
@@ -112,12 +120,12 @@ Background: deep warm black (#12100E), seamless infinite studio backdrop. No vis
 The product is the ONLY light source in the entire scene. All illumination comes from the product's glowing diffuser.
 Nearby surfaces (wall behind, floor below) catch subtle warm amber reflections from the product's light.
 
-Composition: centered in frame, product fills approximately 60% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: Slight low angle, looking upward at approximately 15 degrees from horizontal.
+Composition: centered in frame, product fills approximately 60% of the image area. The product must have at least 15% padding from all edges of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face.
 
 Style: photorealistic product photography with dramatic chiaroscuro lighting. Cinematic, atmospheric mood. The contrast between the warm glowing product and the deep dark surroundings is the visual focus.
 A small 4-pointed star symbol (✦) appears as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition.
 ```
 
 ### Example 3: Product #9 — Day Mode
@@ -133,11 +141,11 @@ The light is OFF — the product exists as a pure sculptural object. The diffuse
 Background: clean, uniform warm off-white (#E8E5E1), seamless infinite studio backdrop with no visible horizon line.
 Lighting: soft, even studio lighting from above-left at 45 degrees. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
 
-Composition: centered in frame, product fills approximately 55% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: Straight-on at eye level, perpendicular to the wall surface.
+Composition: centered in frame, product fills approximately 55% of the image area. The product must have at least 15% padding from all edges of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face.
 
 Style: photorealistic product photography with Apple-level precision and cleanliness. Geometric symmetry. Ultra-clean rendering.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture.
+No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition.
 ```
 
 ### Example 4: Product #15 — Night Mode
@@ -156,12 +164,12 @@ Background: deep warm black (#12100E), seamless infinite studio backdrop. No vis
 The product is the ONLY light source in the entire scene. All illumination comes from the product's glowing diffuser.
 Nearby surfaces (wall behind, floor below) catch subtle warm amber reflections from the product's light.
 
-Composition: centered in frame, product fills approximately 45% of the image area. 3:4 portrait aspect ratio (1024x1365px).
-Camera: Three-quarter overhead view, approximately 30 degrees from horizontal.
+Composition: centered in frame, product fills approximately 45% of the image area. The product must have at least 15% padding from all edges of the frame. 3:4 portrait aspect ratio (1024x1365px).
+Camera: Straight-on frontal view, perfectly centered, perpendicular to the product face.
 
 Style: photorealistic product photography with dramatic chiaroscuro lighting. Cinematic, atmospheric mood. The contrast between the warm glowing product and the deep dark surroundings is the visual focus.
 A small 4-pointed star symbol (✦) appears as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition.
 ```
 
 ---

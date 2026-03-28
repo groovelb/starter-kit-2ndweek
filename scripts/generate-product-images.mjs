@@ -2,15 +2,18 @@
  * Lumenstate Product Image Generator
  *
  * Gemini API (Nano Banana 2)를 사용하여 제품 이미지를 생성하는 스크립트.
- * Day/Night 쌍으로 생성하며, 2K 해상도, 3:4 비율.
+ *
+ * 생성 워크플로우:
+ *   1. Day 이미지를 텍스트 프롬프트로 생성
+ *   2. Day 이미지를 레퍼런스로 + Night 프롬프트로 Night 이미지 생성
+ *   → 동일 제품 형태의 일관된 Day/Night 쌍 보장
  *
  * Usage:
- *   node scripts/generate-product-images.mjs                  # 전체 제품 생성
- *   node scripts/generate-product-images.mjs --ids 1,2,3      # 특정 제품만 생성
- *   node scripts/generate-product-images.mjs --mode day        # Day 모드만 생성
- *   node scripts/generate-product-images.mjs --mode night      # Night 모드만 생성
- *   node scripts/generate-product-images.mjs --ids 1 --mode day # 제품 1의 Day만 생성
- *   node scripts/generate-product-images.mjs --dry-run         # 프롬프트만 출력 (API 호출 없음)
+ *   node scripts/generate-product-images.mjs                  # 전체 제품 Day→Night 순차 생성
+ *   node scripts/generate-product-images.mjs --ids 1,2,3      # 특정 제품만
+ *   node scripts/generate-product-images.mjs --mode day        # Day만 생성
+ *   node scripts/generate-product-images.mjs --mode night      # Night만 (기존 Day 이미지 레퍼런스)
+ *   node scripts/generate-product-images.mjs --dry-run         # 프롬프트만 출력
  */
 
 import { GoogleGenAI } from '@google/genai';
@@ -25,7 +28,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
-// Load .env.local
 dotenv.config({ path: path.join(ROOT, '.env.local') });
 
 const API_KEY = process.env.GEMINI_API_KEY;
@@ -36,7 +38,7 @@ if (!API_KEY) {
 
 const MODEL = 'gemini-3.1-flash-image-preview';
 const OUTPUT_DIR = path.join(ROOT, 'src/assets/product');
-const DELAY_MS = 3000; // API 호출 간 딜레이 (rate limit 방지)
+const DELAY_MS = 3000;
 
 // ---------- Common Style Constants ----------
 
@@ -49,14 +51,9 @@ const STYLE = {
   resolution: '2K',
 };
 
-// ---------- Camera Angles by Mounting Type ----------
+// ---------- Camera Angle ----------
 
-const CAMERA_ANGLES = {
-  'flush-mount': 'Slight low angle, looking upward at approximately 15 degrees from horizontal',
-  'wall-mount': 'Straight-on at eye level, perpendicular to the wall surface',
-  'floor-standing': 'Slight high angle, looking downward at approximately 10 degrees',
-  'freestanding': 'Three-quarter overhead view, approximately 30 degrees from horizontal',
-};
+const CAMERA_ANGLE = 'Straight-on frontal view, perfectly centered, perpendicular to the product face. No diagonal, no 3/4 view, no angled perspective.';
 
 // ---------- Product Specifications ----------
 
@@ -66,7 +63,7 @@ const PRODUCTS = [
     form: 'circular ceiling ring',
     mounting: 'flush-mount',
     fillRatio: 60,
-    formDetail: 'A shallow cylindrical ring mounted flush to the ceiling. The ring has a flat outer band (matte black, ~5cm height) with a large circular frosted glass diffuser recessed inside. Diameter ~40cm. Clean geometric circle viewed from slightly below.',
+    formDetail: 'A shallow cylindrical ring mounted flush to the ceiling. The ring has a flat outer band (matte black, ~5cm height) with a large circular frosted glass diffuser recessed inside. Diameter ~40cm. Clean geometric circle viewed straight-on from the front.',
     lightPatternDetail: 'Warm amber light radiates downward from the frosted diffuser inside the ring. The inner surface of the ring catches a subtle warm reflection. A soft pool of light appears on the surface below. The ring frame becomes a dark silhouette framing the glowing disc.',
   },
   {
@@ -122,7 +119,7 @@ const PRODUCTS = [
     form: 'torus wall light',
     mounting: 'wall-mount',
     fillRatio: 50,
-    formDetail: 'A torus (donut) shaped ring mounted on a wall, viewed at a slight angle from above. White frosted outer surface, smooth continuous ring form. Outer diameter ~20cm, inner diameter ~10cm, ring cross-section ~5cm. No visible mounting hardware. The torus appears to float on the wall surface.',
+    formDetail: 'A torus (donut) shaped ring mounted on a wall, viewed straight-on from the front. White frosted outer surface, smooth continuous ring form. Outer diameter ~20cm, inner diameter ~10cm, ring cross-section ~5cm. No visible mounting hardware. The torus appears to float on the wall surface.',
     lightPatternDetail: 'The entire torus ring glows with warm amber light from its frosted surface. The inner hole creates a bright focal point with light converging inward. An outer halo of warm light surrounds the ring on the wall. Creates a luminous eclipse-like effect — a glowing ring with a bright center void.',
   },
   {
@@ -138,7 +135,7 @@ const PRODUCTS = [
     form: 'tall cylindrical column with frosted body',
     mounting: 'floor-standing',
     fillRatio: 55,
-    formDetail: 'A tall cylinder standing upright, like a column or bollard. White frosted glass body (~12cm diameter x 35cm tall) with thin black metal top cap and base ring. Simple, monolithic cylindrical form. No visible seams or joints. Viewed at a slight three-quarter angle.',
+    formDetail: 'A tall cylinder standing upright, like a column or bollard. White frosted glass body (~12cm diameter x 35cm tall) with thin black metal top cap and base ring. Simple, monolithic cylindrical form. No visible seams or joints. Viewed straight-on from the front.',
     lightPatternDetail: 'The entire frosted glass cylinder body glows uniformly with warm amber light. Light radiates in all directions (360 degrees), creating a soft ambient glow. The floor beneath catches a circular pool of warm light. The black top cap and base ring frame the glowing column above and below.',
   },
   {
@@ -154,7 +151,7 @@ const PRODUCTS = [
     form: 'dome ceiling flush-mount',
     mounting: 'flush-mount',
     fillRatio: 45,
-    formDetail: 'A hemispherical dome mounted flush to the ceiling. Upper dome is white frosted glass, lower edge has a thin black metal ring band. Below the band, a secondary smaller frosted glass lens faces downward. Total diameter ~30cm, dome height ~10cm. Viewed from slightly below.',
+    formDetail: 'A hemispherical dome mounted flush to the ceiling. Upper dome is white frosted glass, lower edge has a thin black metal ring band. Below the band, a secondary smaller frosted glass lens faces downward. Total diameter ~30cm, dome height ~10cm. Viewed straight-on from the front.',
     lightPatternDetail: 'Warm amber light glows from both the upper dome and lower lens. The dome radiates light upward (reflected off the ceiling), while the lower lens projects light downward. The black ring band creates a dark equatorial line. Creates a warm floating orb effect on the ceiling.',
   },
   {
@@ -186,7 +183,6 @@ const PRODUCTS = [
 // ---------- Prompt Builders ----------
 
 function buildDayPrompt(product) {
-  const camera = CAMERA_ANGLES[product.mounting];
   return `A minimalist ${product.form} lighting fixture, in the style of Dieter Rams and Bauhaus industrial design.
 
 ${product.formDetail}
@@ -197,39 +193,35 @@ The light is OFF — the product exists as a pure sculptural object. The diffuse
 Background: clean, uniform warm off-white (${STYLE.dayBg}), seamless infinite studio backdrop with no visible horizon line.
 Lighting: soft, even studio lighting from above-left at 45 degrees. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
 
-Composition: centered in frame, product fills approximately ${product.fillRatio}% of the image area. 3:4 portrait aspect ratio.
-Camera: ${camera}.
+Composition: centered in frame, product fills approximately ${product.fillRatio}% of the image area. The product must have at least 15% padding from all edges (top, bottom, left, right) of the frame. 3:4 portrait aspect ratio.
+Camera: ${CAMERA_ANGLE}
 
 Style: photorealistic product photography with Apple-level precision and cleanliness. Geometric symmetry. Ultra-clean rendering.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture.`;
+No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera.`;
 }
 
 function buildNightPrompt(product) {
-  const camera = CAMERA_ANGLES[product.mounting];
-  return `A minimalist ${product.form} lighting fixture, in the style of Dieter Rams and Bauhaus industrial design.
+  return `Transform this product lighting fixture image into a night/dark mode version. Keep the EXACT same product shape, frontal angle, composition, and position.
 
-${product.formDetail}
+Changes to apply:
+- Background: change to deep warm black (${STYLE.nightBg}), uniform and seamless.
+- Light state: turn the light ON. The frosted glass diffuser now emits warm ${STYLE.colorTemp} color temperature light — soft amber-white tone (${STYLE.emissionColor}).
+- Light behavior: ${product.lightPatternDetail}
+- The product is the ONLY light source in the scene. All illumination comes from the product's glowing diffuser.
+- Nearby surfaces (wall, ceiling, floor) catch subtle warm amber reflections from the product's emitted light.
+- Mood: dramatic chiaroscuro, cinematic atmosphere. The warm glowing product contrasts with the deep dark surroundings.
+- Add a small 4-pointed star symbol as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
 
-Material: matte black anodized aluminum frame. The diffuser is now actively glowing with warm light.
-The light is ON, emitting warm ${STYLE.colorTemp} color temperature light — a soft amber-white tone (${STYLE.emissionColor}).
-
-Light behavior: ${product.lightPatternDetail}
-
-Background: deep warm black (${STYLE.nightBg}), seamless infinite studio backdrop. No visible environment.
-The product is the ONLY light source in the entire scene. All illumination comes from the product's glowing diffuser.
-Nearby surfaces (wall behind, floor below) catch subtle warm amber reflections from the product's light.
-
-Composition: centered in frame, product fills approximately ${product.fillRatio}% of the image area. 3:4 portrait aspect ratio.
-Camera: ${camera}.
-
-Style: photorealistic product photography with dramatic chiaroscuro lighting. Cinematic, atmospheric mood. The contrast between the warm glowing product and the deep dark surroundings is the visual focus.
-A small 4-pointed star symbol appears as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture.`;
+Keep unchanged: product form, material (matte black aluminum frame), straight-on frontal camera angle, composition with 15% padding from all edges, aspect ratio.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion.`;
 }
 
 // ---------- Image Generation ----------
 
-async function generateImage(ai, prompt, outputPath) {
+/**
+ * Day 이미지 생성: 텍스트 프롬프트만 사용
+ */
+async function generateDayImage(ai, prompt, outputPath) {
   const response = await ai.models.generateContent({
     model: MODEL,
     contents: prompt,
@@ -242,6 +234,48 @@ async function generateImage(ai, prompt, outputPath) {
     },
   });
 
+  return extractAndSaveImage(response, outputPath);
+}
+
+/**
+ * Night 이미지 생성: Day 이미지를 레퍼런스로 + Night 프롬프트
+ */
+async function generateNightImage(ai, prompt, dayImagePath, outputPath) {
+  const dayImageData = fs.readFileSync(dayImagePath);
+  const base64Image = dayImageData.toString('base64');
+
+  const response = await ai.models.generateContent({
+    model: MODEL,
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            inlineData: {
+              mimeType: 'image/png',
+              data: base64Image,
+            },
+          },
+          { text: prompt },
+        ],
+      },
+    ],
+    config: {
+      responseModalities: ['TEXT', 'IMAGE'],
+      imageConfig: {
+        aspectRatio: STYLE.aspectRatio,
+        imageSize: STYLE.resolution,
+      },
+    },
+  });
+
+  return extractAndSaveImage(response, outputPath);
+}
+
+/**
+ * API 응답에서 이미지 추출 후 파일 저장
+ */
+function extractAndSaveImage(response, outputPath) {
   const parts = response.candidates?.[0]?.content?.parts;
   if (!parts) {
     throw new Error('No response parts received from API');
@@ -258,13 +292,13 @@ async function generateImage(ai, prompt, outputPath) {
   throw new Error('No image data in response');
 }
 
-// ---------- CLI Argument Parsing ----------
+// ---------- CLI ----------
 
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
-    ids: null,     // null = all products
-    mode: 'both',  // 'day', 'night', or 'both'
+    ids: null,
+    mode: 'both',
     dryRun: false,
   };
 
@@ -283,6 +317,10 @@ function parseArgs() {
       console.log(`
 Lumenstate Product Image Generator
 
+Workflow:
+  1. Day image: generated from text prompt only
+  2. Night image: Day image as reference + Night transformation prompt
+
 Usage:
   node scripts/generate-product-images.mjs [options]
 
@@ -291,6 +329,11 @@ Options:
   --mode <mode>  'day', 'night', or 'both' (default: both)
   --dry-run      Print prompts without calling API
   --help         Show this help message
+
+Examples:
+  --ids 1,2,3              Generate products 1, 2, 3 (day + night)
+  --ids 1,2 --mode day     Generate only day images for products 1, 2
+  --mode night             Generate night images using existing day images as reference
 `);
       process.exit(0);
     }
@@ -298,8 +341,6 @@ Options:
 
   return options;
 }
-
-// ---------- Utilities ----------
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -326,81 +367,111 @@ async function main() {
     process.exit(1);
   }
 
-  // Build task list
-  const tasks = [];
-  for (const product of products) {
-    if (options.mode === 'day' || options.mode === 'both') {
-      tasks.push({
-        product,
-        mode: 'day',
-        prompt: buildDayPrompt(product),
-        outputPath: path.join(OUTPUT_DIR, `${product.id}.png`),
-      });
-    }
-    if (options.mode === 'night' || options.mode === 'both') {
-      tasks.push({
-        product,
-        mode: 'night',
-        prompt: buildNightPrompt(product),
-        outputPath: path.join(OUTPUT_DIR, `${product.id}-1.png`),
-      });
-    }
-  }
+  const generateDay = options.mode === 'day' || options.mode === 'both';
+  const generateNight = options.mode === 'night' || options.mode === 'both';
+
+  // Count total tasks
+  let totalTasks = 0;
+  if (generateDay) totalTasks += products.length;
+  if (generateNight) totalTasks += products.length;
 
   console.log(`\n  Lumenstate Image Generator`);
   console.log(`  Model: ${MODEL}`);
   console.log(`  Resolution: ${STYLE.resolution} (${STYLE.aspectRatio})`);
   console.log(`  Products: ${products.map((p) => p.id).join(', ')}`);
   console.log(`  Mode: ${options.mode}`);
-  console.log(`  Tasks: ${tasks.length} images\n`);
+  console.log(`  Workflow: ${generateDay && generateNight ? 'Day (text) → Night (day ref + prompt)' : generateDay ? 'Day (text prompt)' : 'Night (day ref + prompt)'}`);
+  console.log(`  Tasks: ${totalTasks} images\n`);
 
-  // Dry run: just print prompts
+  // Dry run
   if (options.dryRun) {
-    for (const task of tasks) {
-      console.log(`${'='.repeat(60)}`);
-      console.log(`  Product #${task.product.id} — ${task.mode.toUpperCase()} MODE`);
-      console.log(`  Output: ${path.basename(task.outputPath)}`);
-      console.log(`${'='.repeat(60)}\n`);
-      console.log(task.prompt);
-      console.log('\n');
+    for (const product of products) {
+      if (generateDay) {
+        console.log(`${'='.repeat(60)}`);
+        console.log(`  Product #${product.id} — DAY MODE (text-to-image)`);
+        console.log(`  Output: ${product.id}.png`);
+        console.log(`${'='.repeat(60)}\n`);
+        console.log(buildDayPrompt(product));
+        console.log('\n');
+      }
+      if (generateNight) {
+        console.log(`${'='.repeat(60)}`);
+        console.log(`  Product #${product.id} — NIGHT MODE (image ref: ${product.id}.png + prompt)`);
+        console.log(`  Output: ${product.id}-1.png`);
+        console.log(`${'='.repeat(60)}\n`);
+        console.log(buildNightPrompt(product));
+        console.log('\n');
+      }
     }
     console.log('Dry run complete. No API calls were made.');
     return;
   }
 
-  // Confirm output directory
+  // Ensure output dir
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Initialize API client
   const ai = new GoogleGenAI({ apiKey: API_KEY });
-
-  // Generate images
   let completed = 0;
   let failed = 0;
+  let taskIndex = 0;
 
-  for (const task of tasks) {
-    const label = `[${completed + failed + 1}/${tasks.length}] Product #${task.product.id} (${task.mode})`;
-    process.stdout.write(`  ${label} ... `);
+  for (const product of products) {
+    const dayPath = path.join(OUTPUT_DIR, `${product.id}.png`);
+    const nightPath = path.join(OUTPUT_DIR, `${product.id}-1.png`);
 
-    try {
-      const result = await generateImage(ai, task.prompt, task.outputPath);
-      console.log(`OK (${formatBytes(result.size)}) -> ${path.basename(task.outputPath)}`);
-      completed++;
-    } catch (error) {
-      console.log(`FAILED: ${error.message}`);
-      failed++;
+    // --- Day ---
+    if (generateDay) {
+      taskIndex++;
+      const label = `[${taskIndex}/${totalTasks}] Product #${product.id} (day)`;
+      process.stdout.write(`  ${label} ... `);
+
+      try {
+        const result = await generateDayImage(ai, buildDayPrompt(product), dayPath);
+        console.log(`OK (${formatBytes(result.size)}) -> ${product.id}.png`);
+        completed++;
+      } catch (error) {
+        console.log(`FAILED: ${error.message}`);
+        failed++;
+      }
+
+      if (taskIndex < totalTasks) await sleep(DELAY_MS);
     }
 
-    // Rate limit delay (skip after last task)
-    if (completed + failed < tasks.length) {
-      await sleep(DELAY_MS);
+    // --- Night (uses day image as reference) ---
+    if (generateNight) {
+      taskIndex++;
+      const label = `[${taskIndex}/${totalTasks}] Product #${product.id} (night <- ${product.id}.png ref)`;
+      process.stdout.write(`  ${label} ... `);
+
+      // Check day image exists
+      if (!fs.existsSync(dayPath)) {
+        console.log(`SKIPPED: day image ${product.id}.png not found (generate day first)`);
+        failed++;
+        if (taskIndex < totalTasks) await sleep(DELAY_MS);
+        continue;
+      }
+
+      try {
+        const result = await generateNightImage(
+          ai,
+          buildNightPrompt(product),
+          dayPath,
+          nightPath
+        );
+        console.log(`OK (${formatBytes(result.size)}) -> ${product.id}-1.png`);
+        completed++;
+      } catch (error) {
+        console.log(`FAILED: ${error.message}`);
+        failed++;
+      }
+
+      if (taskIndex < totalTasks) await sleep(DELAY_MS);
     }
   }
 
-  // Summary
-  console.log(`\n  Done: ${completed} succeeded, ${failed} failed out of ${tasks.length} total`);
+  console.log(`\n  Done: ${completed} succeeded, ${failed} failed out of ${totalTasks} total`);
   if (completed > 0) {
     console.log(`  Output: ${OUTPUT_DIR}/`);
   }
