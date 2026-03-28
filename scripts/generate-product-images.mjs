@@ -183,6 +183,46 @@ const PRODUCTS = [
     formDetail: 'Five rectangular blocks with rounded corners assembled in an asymmetric grid composition. Each block varies in size (roughly 4x8cm to 8x12cm). Blocks are arranged like an abstract Tetris formation or Mondrian-inspired layout. White frosted faces with black (~3mm) edge frames. The composition stands freely on a surface.',
     lightPatternDetail: 'Each block\'s frosted face glows individually with warm amber light. Different blocks may glow at slightly different intensities, creating depth variation. Light seeps through the gaps between blocks. The overall composition becomes a warm, luminous sculptural cluster. The surface beneath catches a complex warm light pattern from multiple sources.',
   },
+  {
+    id: 16,
+    form: 'cubic pendant',
+    mounting: 'flush-mount',
+    fillRatio: 45,
+    formDetail: 'A cube-shaped pendant light hanging from a single thin matte black cord/rod from the ceiling. The cube (~15cm) has a matte black aluminum frame structure at the top portion and edges, with white frosted opaline glass panels forming the lower portion and sides. The black metal frame wraps around the top and vertical edges like a cage holding the glass cube. Viewed straight-on from the front. The cord extends upward from the center top. Clean, sharp 90-degree geometry. Perfect bilateral symmetry.',
+    lightPatternDetail: 'The frosted glass faces of the cube glow with warm amber light from an internal source. Light radiates in all four visible directions through the glass panels. The black frame edges remain as dark geometric lines against the warm glow. A soft pool of warm light falls on the surface below. The cube becomes a floating lantern of warm geometric light.',
+  },
+  {
+    id: 17,
+    form: 'hemisphere desk lamp',
+    mounting: 'freestanding',
+    fillRatio: 40,
+    formDetail: 'A hemisphere of white frosted opaline glass (~18cm diameter) placed dome-down on a thin circular matte black aluminum base plate (~20cm diameter, ~5mm thick). The glass dome sits like an inverted bowl on the base — a mushroom or jellyfish silhouette. The frosted glass shows subtle translucency and internal light scattering. The base plate extends slightly beyond the dome edge, creating a thin black ring visible around the bottom. Viewed straight-on from the front at eye level. Perfect radial symmetry.',
+    lightPatternDetail: 'The hemisphere glows from within with warm amber light. The curved glass creates a natural gradient — brightest at the apex, softening toward the base where the glass meets the black plate. Light spills out from the gap between the dome edge and the base plate, casting a warm ring of light on the desk surface. A soft, intimate warm glow.',
+  },
+  {
+    id: 18,
+    form: 'capsule floor lamp',
+    mounting: 'floor-standing',
+    fillRatio: 65,
+    formDetail: 'A horizontal capsule/pill shape (~20cm wide x 10cm tall) made of white frosted opaline glass, mounted atop a thin vertical matte black aluminum rod (~120cm tall, ~1cm diameter). The rod stands on a small circular base plate (~15cm diameter). The capsule is a rounded rectangle — a rectangle with perfectly semicircular ends, oriented horizontally. The capsule sits centered on top of the rod. The frosted glass shows subtle translucency. Viewed straight-on from the front at eye level. Perfect bilateral symmetry.',
+    lightPatternDetail: 'The capsule glows with warm amber light from within, radiating horizontally in both directions. The rounded ends emit softer light, the flat center faces emit the most. The thin black rod below remains dark, making the capsule appear to float. Warm light washes outward to both sides.',
+  },
+  {
+    id: 19,
+    form: 'stacked disc wall light',
+    mounting: 'wall-mount',
+    fillRatio: 45,
+    formDetail: 'Three identical circular discs (~18cm diameter, ~1.5cm thick each) mounted on a wall, stacked vertically with ~6mm gaps between them. Each disc is white frosted opaline glass with a thin matte black aluminum edge ring (~2mm). The three discs are aligned on the same vertical center axis, connected by a hidden wall mount bracket behind. The gaps between discs are uniform and precise. Each disc has subtle convex curvature on its frosted glass face. Viewed perfectly straight-on. Perfect bilateral symmetry.',
+    lightPatternDetail: 'The gaps between the three stacked discs emit warm amber light — three horizontal lines of light. The disc faces themselves remain as dark silhouettes. Light washes the wall above and below the stack and spills through each gap horizontally. Creates three parallel luminous lines — a rhythmic pattern of light and dark.',
+  },
+  {
+    id: 20,
+    form: 'pyramid prism desk lamp',
+    mounting: 'freestanding',
+    fillRatio: 15,
+    formDetail: 'A small, compact square-base pyramid (~10cm base, ~8cm tall) sitting on a surface, viewed straight-on from the front at eye level. A tiny desk object. The pyramid has 4 triangular faces rising from a square base to a single apex point at the top center. Each triangular face is white frosted opaline glass. All edges — the 4 base edges and 4 rising edges meeting at the apex — are thin matte black aluminum frames (~2mm). The black frame lines create a geometric wireframe skeleton holding the glass faces. From this frontal view, the front face is fully visible, with the two side faces angling away symmetrically. The apex point is at the top center of the composition. Small and precious. Perfect bilateral symmetry.',
+    lightPatternDetail: 'All frosted glass faces glow with warm amber light from an internal source. The black edge frames create dark geometric lines against the warm glow. The apex is the brightest convergence point. Light washes downward onto the surface below in a square pattern. A luminous geometric solid.',
+  },
 ];
 
 // ---------- Prompt Builders ----------
