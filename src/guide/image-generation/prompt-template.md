@@ -174,33 +174,99 @@ No text, no logos, no lens flare, no gradient in background, no additional light
 
 ---
 
-## Landscape / Mood Image Template
+## Brand Moodboard Template
 
-제품이 실제 공간에 배치된 무드 이미지 생성용 (별도 필요 시):
+제품이 실제 공간에 배치된 에디토리얼 무드 이미지 생성용.
+제품 Day/Night 이미지를 `inlineData` 레퍼런스로 첨부하여 형태/재질/비율 100% 일치시킨다.
 
-### Day Landscape
+---
+
+### Common Style (공통 규칙)
+
 ```
-A minimalist modern living room interior with large floor-to-ceiling windows.
-Natural daylight fills the space. White/light gray walls, warm wood flooring.
-A {form} by Lumenstate is {placement_description}.
-The light is OFF. The fixture exists as a design object in the bright space.
-A person is casually reading in an armchair nearby.
-Style: editorial interior photography, Kinfolk magazine aesthetic.
-Warm, natural, serene atmosphere. 16:9 landscape aspect ratio.
+[MOOD_BASE] + [SCENE_DETAIL] + [NEGATIVE]
 ```
 
-### Night Landscape
+#### MOOD_BASE (모든 무드보드에 적용)
+
 ```
-The same minimalist modern living room interior, now at night.
-No natural light — the windows show darkness outside.
-A {form} by Lumenstate is {placement_description}.
-The light is ON, emitting warm 3800K amber-white light.
-The fixture is the PRIMARY light source. It illuminates only its immediate area,
-creating a cozy island of warm light. The rest of the room fades into soft shadow.
-A person is casually reading in an armchair under the warm glow.
-Style: editorial interior photography, cinematic night scene.
-Warm, intimate, contemplative atmosphere. 16:9 landscape aspect ratio.
-A small 4-pointed star symbol (✦) watermark in the bottom-right corner.
+This is a reference image of the product. Generate an editorial interior photograph featuring this EXACT product — same shape, proportions, material (matte black aluminum frame, white frosted glass diffuser), and every detail.
+
+Photography style: Kinfolk / Cereal magazine editorial. Muted, desaturated color palette. Subtle film grain. High dynamic range but soft contrast.
+
+Color grading: warm neutral tones. Whites lean slightly warm (#F0EDE8 range). Shadows are warm gray, never pure black. No saturated colors anywhere.
+
+Composition: {composition_type}. Generous negative space — at least 40% of the frame is empty wall/floor/ceiling. The product and person together occupy no more than 60% of the frame.
+
+Person: {person_description}. Face NOT visible (turned away, cropped, or in shadow). The person is part of the environment, not the subject. Natural, unposed posture.
+
+Space: minimalist architecture. White or light warm gray walls. Floors are light concrete, pale wood, or polished stone. Ceiling height ≥ 3m. Furniture is minimal — only what the scene requires.
+
+Lighting: {lighting_description}
+
+No text, no logos, no brand names, no watermarks, no clutter, no decorative objects, no bright colors, no glossy surfaces.
+```
+
+#### NEGATIVE (금지 요소)
+
+```
+No stock photo look, no posed model, no smile, no eye contact with camera, no bright saturated colors, no busy backgrounds, no multiple light sources competing, no HDR over-processing, no lens flare, no vignette, no split toning, no teal-and-orange grading.
+```
+
+---
+
+### Moodboard Scenes (개별 장면)
+
+#### Scene 1: #2 Arc Floor Lamp — Night, Side
+
+```
+composition_type: Side view (측면). Lamp base at frame left edge, arc curves overhead to right. Person in right 1/3 of frame.
+aspect_ratio: 16:9 landscape (1820×1024)
+
+person_description: A UX designer sitting on a low linen sofa, drawing wireframes in a large sketchbook with a pencil. Bare feet on the concrete floor. Wearing neutral linen clothing.
+
+lighting_description: Night scene. No natural light — windows show dark sky. The arc lamp is the ONLY light source, emitting warm 3800K amber-white light (#FFC66E) from its horizontal light bar. A focused warm pool illuminates the sketchbook and the person's hands. The rest of the room falls into deep warm shadow. The thin black arc rod is barely visible.
+
+Scene: A minimalist living room with floor-to-ceiling glass windows. Polished concrete floor. A single low sofa. No other furniture. The arc lamp stands beside the sofa, its parabolic curve reaching over the person. A small side table with two stacked books.
+```
+
+#### Scene 2: #17 Hemisphere Desk Lamp — Day, Frontal
+
+```
+composition_type: Frontal view (정면). Desk centered horizontally in lower 1/3. Person centered. Wall behind fills upper 2/3.
+aspect_ratio: 4:3 portrait (1024×1365)
+
+person_description: A developer sitting at a wide light oak desk, typing on a laptop. Seen from directly in front. Wearing a simple dark crew-neck sweater. Head slightly bowed toward the screen.
+
+lighting_description: Daytime. Soft natural daylight enters from a large window on the left side (not directly visible). Even, diffused illumination across the space. No harsh shadows. The hemisphere lamp sits on the desk — light is OFF. The lamp exists as a sculptural design object in the bright space.
+
+Scene: A minimal home studio. Wide light oak desk (~180cm), a single Wegner-style chair, the hemisphere lamp on the desk to the person's left, a laptop, and a single ceramic mug. White walls. Light concrete floor. Nothing else in the room. Ceiling height ~4m. The space feels vast and quiet.
+```
+
+#### Scene 3: #11 Arch Portal Wall Light — Night, Frontal
+
+```
+composition_type: Frontal view (정면), perfect bilateral symmetry. Arch centered on far wall. Person centered below the arch.
+aspect_ratio: 3:4 portrait (1024×1365)
+
+person_description: An architect sitting on the polished concrete floor, leaning back against the wall directly beneath the arch. Holding a large hardcover architecture book open on their lap. Wearing dark clothing that blends into the shadows.
+
+lighting_description: Night scene. No ambient light. The arch's concealed LED (behind the frame, between frame and wall) emits warm 3800K amber light (#FFC66E) onto the wall surface, creating an arch-shaped halo of warm light. The matte black arch frame itself remains a dark silhouette. The warm glow illuminates the person's shoulders, hands, and the open book. The corridor recedes into darkness in both directions.
+
+Scene: A long, narrow gallery-like corridor. White walls, polished concrete floor. The arch is mounted on the far wall at eye level. No other fixtures, no furniture, no decoration. The architecture is minimal and monumental. The arch's warm backlight creates a luminous portal effect — the only island of warmth in an austere space.
+```
+
+#### Scene 4: #16 Cubic Pendant — Dusk, Side
+
+```
+composition_type: Side view (측면). Pendant hangs from top 1/4 of frame, centered. Person at table in lower half, slightly right of center.
+aspect_ratio: 16:9 landscape (1820×1024)
+
+person_description: An industrial designer standing at a large wooden worktable, assembling a small mockup model with their hands. Seen from the side. Wearing a simple apron over neutral clothing. Focused on the work — head bowed, hands active.
+
+lighting_description: Late afternoon transitioning to dusk. Warm natural light from a tall window behind the person (backlit, soft). The cubic pendant is ON, emitting warm 3800K amber-white light (#FFC66E) downward. Two light sources merge — golden natural light from behind, warm amber from the pendant above. The pendant's glow creates a focused warm pool on the worktable surface.
+
+Scene: A clean workshop / maker space. High ceiling (~5m), white walls, a single large wooden worktable (~200cm). The cubic pendant hangs from a thin black cord directly above the table. A few neatly arranged tools on the table. A tall window behind fills the background with soft backlight. The space is spare and purposeful.
 ```
 
 ---
