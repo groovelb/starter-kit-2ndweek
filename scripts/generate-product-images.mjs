@@ -84,7 +84,7 @@ const PRODUCTS = [
     form: 'horizontal rectangular wall sconce',
     mounting: 'wall-mount',
     fillRatio: 45,
-    formDetail: 'A wide horizontal rectangle mounted flat on a wall, viewed perfectly straight-on so it appears as a flat 2D shape with no visible side edges or depth. Matte white front face (~30cm wide x 8cm tall) with a narrow horizontal black slit running across the center. Clean geometric rectangle with sharp edges. Perfect bilateral symmetry.',
+    formDetail: 'A wide horizontal rectangle mounted flat on a wall, viewed perfectly straight-on. Matte white frosted glass front face (~30cm wide x 8cm tall) with a thin black metal frame border (~2mm) and a narrow horizontal black slit running across the center. The frosted glass surface has subtle internal light diffusion — not flat paint, but real translucent glass. Sharp edges with fine chamfers that catch light. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light washes upward from the top edge and downward from the bottom edge. The central black slit remains dark, creating a striking horizontal division. Light creates a symmetrical glow pattern on the wall above and below the fixture.',
   },
   {
@@ -92,7 +92,7 @@ const PRODUCTS = [
     form: 'slim horizontal linear wall bar',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A very slim horizontal linear bar mounted on a wall, viewed perfectly straight-on so it appears as a flat 2D line shape with no visible depth. Two parallel thin black metal rails (~40cm wide x 2cm total height) with a narrow white frosted gap between them. Appears as a precise horizontal line — pure geometric abstraction. Perfect bilateral symmetry.',
+    formDetail: 'A very slim horizontal linear bar mounted on a wall, viewed perfectly straight-on. Two parallel thin black anodized aluminum rails (~40cm wide x 2cm total height) with a narrow white frosted glass strip between them. The frosted glass strip shows subtle translucency and internal light scattering. The metal rails have fine brushed texture. Extremely thin and linear. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light emanates from the narrow gap between the two parallel rails. Light washes the wall to left and right, creating a wide horizontal glow band. The fixture appears as a thin luminous line floating on the dark wall.',
   },
   {
@@ -100,7 +100,7 @@ const PRODUCTS = [
     form: 'flat rectangular wall panel',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A flat vertical rectangle mounted flush on a wall, viewed perfectly straight-on so it appears as a pure 2D rectangular shape with absolutely no visible side edges or depth. White frosted front face (~20cm wide x 28cm tall) with a thin matte black border frame (~2mm). The surface is perfectly flat and uniform. Appears like a Malevich painting — a pure white rectangle on the wall. Perfect bilateral symmetry.',
+    formDetail: 'A vertical rectangular panel mounted flush on a wall, viewed perfectly straight-on. White frosted glass front face (~20cm wide x 28cm tall) with a thin matte black aluminum border frame (~2mm). The frosted glass has subtle depth — not flat paint, but real opaline glass with soft internal light scattering visible as a gentle luminosity gradient from center to edges. The black frame has fine chamfered edges that catch a hairline of light. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light radiates upward from behind the top edge and downward from behind the bottom edge, washing the wall. The front face remains a dark silhouette. Creates a glowing halo effect around the rectangular perimeter.',
   },
   {
@@ -116,16 +116,16 @@ const PRODUCTS = [
     form: 'square wall panel with rounded corners',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A square panel with generously rounded corners (~radius 8mm), mounted flat on a wall, viewed perfectly straight-on so it appears as a flat 2D shape with no visible depth or side edges. White frosted face (~18cm x 18cm). Subtle black edge border (~2mm). Appears as a pure rounded square — like a Malevich geometric form. Perfect bilateral symmetry.',
+    formDetail: 'A square panel with generously rounded corners (~radius 8mm), mounted on a wall, viewed perfectly straight-on. White frosted glass face (~18cm x 18cm) with a subtle matte black aluminum edge border (~2mm). The frosted glass shows soft internal light diffusion — a gentle luminous quality distinct from flat paint. The rounded corners have smooth, precision-machined transitions. The edge border has a fine beveled profile that catches a thin line of light. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light radiates from all four edges outward onto the wall surface. Creates a dramatic cross-shaped or diamond-shaped glow pattern. The panel face becomes a dark square, while the surrounding wall catches the warm light in all four cardinal directions.',
   },
   {
     id: 8,
-    form: 'torus wall light',
+    form: 'split disc wall light',
     mounting: 'wall-mount',
     fillRatio: 50,
-    formDetail: 'A torus (donut) shaped ring mounted on a wall, viewed straight-on from the front. White frosted outer surface, smooth continuous ring form. Outer diameter ~20cm, inner diameter ~10cm, ring cross-section ~5cm. No visible mounting hardware. The torus appears to float on the wall surface.',
-    lightPatternDetail: 'The entire torus ring glows with warm amber light from its frosted surface. The inner hole creates a bright focal point with light converging inward. An outer halo of warm light surrounds the ring on the wall. Creates a luminous eclipse-like effect — a glowing ring with a bright center void.',
+    formDetail: 'A circular disc (~25cm diameter) mounted on a wall, split horizontally into two equal halves with a precise ~8mm gap running through the exact center. The top half-disc and bottom half-disc are each white frosted opaline glass with thin matte black aluminum edge frames (~2mm). The gap between the two halves reveals darkness — a void cutting through the circle. Each half-disc has subtle convex curvature on its frosted glass surface. The frosted glass shows real translucency and internal light scattering. The precision gap creates geometric tension — a perfect circle interrupted by a single clean cut. Viewed perfectly straight-on. Perfect bilateral symmetry.',
+    lightPatternDetail: 'Both half-discs glow with warm amber light from within. The critical visual: warm amber light also emanates from the horizontal gap between the two halves, creating a bright luminous line bisecting the circle. The gap becomes a slit of intense light — as if the circle is cracking open to reveal light within. The wall behind catches a horizontal band of warm light projected through the gap. Creates a dramatic split-sun or eclipse-like effect.',
   },
   {
     id: 9,
@@ -145,19 +145,19 @@ const PRODUCTS = [
   },
   {
     id: 11,
-    form: 'square bracket spotlight',
+    form: 'arch portal wall light',
     mounting: 'wall-mount',
-    fillRatio: 35,
-    formDetail: 'A small square bracket (~10cm x 10cm x 8cm) mounted on a wall. Open-front square housing in matte white with a cylindrical inner lamp holder (matte gray). The cylinder is recessed inside the square frame. Compact, cubic geometry. Viewed straight-on.',
-    lightPatternDetail: 'Warm amber light projects downward from the cylindrical lamp inside the bracket. A focused cone of warm light illuminates the wall below the fixture. The square housing catches subtle internal reflections. The top and sides of the bracket remain in shadow.',
+    fillRatio: 40,
+    formDetail: 'A pure arch shape mounted on a wall, viewed perfectly straight-on. An open inverted-U form — a semicircular arc on top continuing into two straight vertical legs (~12cm wide x 18cm tall overall). The entire visible surface is ONLY solid matte black anodized aluminum — a single-material bar with a half-round cross section (~1.5cm wide). NO glass, NO white, NO frosted surface, NO translucent material visible from the front. The front face is 100% matte black metal. The two vertical legs end cleanly at the bottom, not connected. A concealed LED strip is hidden on the back side between the frame and the wall, invisible from the front. In this Day image the light is OFF — so it is purely a matte black metal arch sculpture on the wall, nothing else. Perfect bilateral symmetry.',
+    lightPatternDetail: 'The hidden LED filament behind the arch frame activates, casting warm amber light onto the wall surface behind and around the arch. The matte black frame itself remains dark — a silhouette — while the wall behind glows with an arch-shaped halo of warm amber light. Light spills from behind the frame edges, creating a dramatic backlit effect. The arch becomes a dark portal outlined by warm light.',
   },
   {
     id: 12,
-    form: 'dome ceiling flush-mount',
+    form: 'rectangular ceiling panel',
     mounting: 'flush-mount',
-    fillRatio: 45,
-    formDetail: 'A hemispherical dome mounted flush to the ceiling, viewed from directly below looking straight up. From below, it appears as concentric circles — a large outer white frosted glass dome ring, a thin black metal band ring, and a smaller central frosted glass lens disc. Total diameter ~30cm. The view from below creates perfect radial symmetry, like concentric geometric rings.',
-    lightPatternDetail: 'Warm amber light glows from both the upper dome and lower lens. The dome radiates light upward (reflected off the ceiling), while the lower lens projects light downward. The black ring band creates a dark equatorial line. Creates a warm floating orb effect on the ceiling.',
+    fillRatio: 50,
+    formDetail: 'A long rectangular panel mounted flush to the ceiling, viewed from directly below looking straight up. Matte black aluminum outer frame (~45cm wide x 15cm tall, frame width ~1.5cm) with a white frosted glass diffuser filling the interior. The rectangle has an approximately 3:1 aspect ratio — clearly distinct from any circular form. The frosted glass shows subtle internal light scattering and depth — not flat white, but real translucent opaline glass with a gentle luminosity. The black frame has precision-machined edges with fine chamfers catching thin lines of light. Perfect bilateral symmetry.',
+    lightPatternDetail: 'The rectangular frosted glass panel glows with warm amber light downward. The elongated shape creates a wide, even wash of amber light below. The 3:1 proportions make it read as a horizontal bar of warm light. The black frame becomes a sharp dark border silhouette. Light on the surface below forms a soft rectangular pool.',
   },
   {
     id: 13,
@@ -172,8 +172,8 @@ const PRODUCTS = [
     form: 'multi-tier horizontal wall fixture',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'Two parallel horizontal bars with cylindrical end caps, stacked vertically and mounted on a wall bracket. Each bar is ~30cm wide. Chrome-like matte silver finish with subtle black accents. The bars are spaced ~3cm apart. Viewed straight-on.',
-    lightPatternDetail: 'Warm amber light emanates from between and around the horizontal bars. Light washes the wall above and below the fixture. The bars create a layered shadow/light pattern with two distinct glow lines. End caps catch subtle warm reflections.',
+    formDetail: 'Two parallel horizontal rectangular bars stacked vertically on a wall, viewed perfectly straight-on. Each bar is a flat rectangle (~30cm wide x 4cm tall) with sharp 90-degree corners. Matte black aluminum frame borders (~2mm) with white frosted opaline glass front face. The two bars are spaced ~4cm apart, centered on a minimal wall mount bracket. Clean geometric rectangles with no rounded ends, no cylindrical shapes. The frosted glass shows subtle internal light scattering. Perfect bilateral symmetry.',
+    lightPatternDetail: 'Warm amber light emanates from each rectangular bar\'s frosted glass face. Light washes the wall above and below the fixture. The two bars create parallel horizontal glow lines with a dark gap between them. The wall behind catches a layered warm wash pattern.',
   },
   {
     id: 15,
@@ -202,8 +202,8 @@ Lighting: soft, even studio lighting from directly above. Subtle soft contact sh
 Composition: perfectly centered in frame with mathematical precision. Product fills approximately ${product.fillRatio}% of the image area. Minimum 15% clear padding from all edges (top, bottom, left, right). 3:4 portrait aspect ratio.
 Camera: ${camera}
 
-Style: photorealistic product photography with extreme geometric precision. Perfect bilateral symmetry. Apple-level cleanliness. The product reads as a pure geometric form — circle, rectangle, line, or arc.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera, no visible side edges, no oblique angle.`;
+Style: photorealistic product photography with extreme geometric precision. Perfect bilateral symmetry. Apple-level cleanliness. The product is a real physical 3D object — frosted glass shows subtle internal light diffusion and refraction, matte aluminum shows fine micro-grain texture, edges catch soft light highlights. Physical dimensionality is conveyed through material rendering, not camera angle.
+No environment, no text, no logos, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera, no oblique angle.`;
 }
 
 function buildNightPrompt(product) {
