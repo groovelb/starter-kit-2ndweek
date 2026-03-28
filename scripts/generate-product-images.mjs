@@ -51,9 +51,14 @@ const STYLE = {
   resolution: '2K',
 };
 
-// ---------- Camera Angle ----------
+// ---------- Camera Angles (설치 방식별 대칭 구도) ----------
 
-const CAMERA_ANGLE = 'Straight-on frontal view, perfectly centered, perpendicular to the product face. No diagonal, no 3/4 view, no angled perspective.';
+const CAMERA_ANGLES = {
+  'flush-mount': 'Viewed from directly below, looking straight up at the ceiling-mounted product. The product appears as a perfect geometric shape with complete bilateral symmetry. No perspective distortion, no tilted angle.',
+  'wall-mount': 'Viewed perfectly straight-on, perpendicular to the wall surface. No visible side edges, no visible depth — the product appears completely flat, like a 2D geometric shape on the wall. Perfect bilateral symmetry.',
+  'floor-standing': 'Viewed straight-on from the front at eye level. Perfect bilateral symmetry along the vertical axis. No tilted or angled perspective.',
+  'freestanding': 'Viewed straight-on from the front at eye level. Perfect bilateral symmetry. No tilted or angled perspective.',
+};
 
 // ---------- Product Specifications ----------
 
@@ -63,7 +68,7 @@ const PRODUCTS = [
     form: 'circular ceiling ring',
     mounting: 'flush-mount',
     fillRatio: 60,
-    formDetail: 'A shallow cylindrical ring mounted flush to the ceiling. The ring has a flat outer band (matte black, ~5cm height) with a large circular frosted glass diffuser recessed inside. Diameter ~40cm. Clean geometric circle viewed straight-on from the front.',
+    formDetail: 'A circular ring mounted flush to the ceiling, viewed from directly below looking straight up. The ring appears as a perfect geometric circle — matte black outer ring frame with a large circular white frosted glass diffuser filling the interior. Diameter ~40cm. Viewed from below, it reads as a pure circle within a circle: a black annulus framing a white disc. Perfect radial symmetry.',
     lightPatternDetail: 'Warm amber light radiates downward from the frosted diffuser inside the ring. The inner surface of the ring catches a subtle warm reflection. A soft pool of light appears on the surface below. The ring frame becomes a dark silhouette framing the glowing disc.',
   },
   {
@@ -79,7 +84,7 @@ const PRODUCTS = [
     form: 'horizontal rectangular wall sconce',
     mounting: 'wall-mount',
     fillRatio: 45,
-    formDetail: 'A wide horizontal rectangular box mounted on a wall. Matte white outer shell (~30cm wide x 8cm tall x 5cm deep) with a narrow horizontal black slit running across the center front face. Clean geometric rectangle with sharp edges. Viewed straight-on.',
+    formDetail: 'A wide horizontal rectangle mounted flat on a wall, viewed perfectly straight-on so it appears as a flat 2D shape with no visible side edges or depth. Matte white front face (~30cm wide x 8cm tall) with a narrow horizontal black slit running across the center. Clean geometric rectangle with sharp edges. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light washes upward from the top edge and downward from the bottom edge. The central black slit remains dark, creating a striking horizontal division. Light creates a symmetrical glow pattern on the wall above and below the fixture.',
   },
   {
@@ -87,7 +92,7 @@ const PRODUCTS = [
     form: 'slim horizontal linear wall bar',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A very slim horizontal linear bar mounted on a wall. Two parallel thin black metal rails (~40cm wide x 2cm total height) with a narrow luminous gap between them. Minimal depth (~2cm from wall). Extremely thin and linear. Viewed straight-on.',
+    formDetail: 'A very slim horizontal linear bar mounted on a wall, viewed perfectly straight-on so it appears as a flat 2D line shape with no visible depth. Two parallel thin black metal rails (~40cm wide x 2cm total height) with a narrow white frosted gap between them. Appears as a precise horizontal line — pure geometric abstraction. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light emanates from the narrow gap between the two parallel rails. Light washes the wall to left and right, creating a wide horizontal glow band. The fixture appears as a thin luminous line floating on the dark wall.',
   },
   {
@@ -95,7 +100,7 @@ const PRODUCTS = [
     form: 'flat rectangular wall panel',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A flat vertical rectangular panel mounted flush on a wall. White frosted face (~20cm wide x 28cm tall x 3cm deep) with no visible frame or border. Sharp 90-degree edges. The surface is perfectly flat and uniform. Appears almost like a blank white canvas on the wall.',
+    formDetail: 'A flat vertical rectangle mounted flush on a wall, viewed perfectly straight-on so it appears as a pure 2D rectangular shape with absolutely no visible side edges or depth. White frosted front face (~20cm wide x 28cm tall) with a thin matte black border frame (~2mm). The surface is perfectly flat and uniform. Appears like a Malevich painting — a pure white rectangle on the wall. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light radiates upward from behind the top edge and downward from behind the bottom edge, washing the wall. The front face remains a dark silhouette. Creates a glowing halo effect around the rectangular perimeter.',
   },
   {
@@ -111,7 +116,7 @@ const PRODUCTS = [
     form: 'square wall panel with rounded corners',
     mounting: 'wall-mount',
     fillRatio: 40,
-    formDetail: 'A square panel with generously rounded corners (~radius 8mm), mounted flat on a wall. White frosted face (~18cm x 18cm x 3cm deep). Subtle black edge border (~2mm). The square appears as a softened geometric form, almost like a large rounded button. Viewed straight-on at eye level.',
+    formDetail: 'A square panel with generously rounded corners (~radius 8mm), mounted flat on a wall, viewed perfectly straight-on so it appears as a flat 2D shape with no visible depth or side edges. White frosted face (~18cm x 18cm). Subtle black edge border (~2mm). Appears as a pure rounded square — like a Malevich geometric form. Perfect bilateral symmetry.',
     lightPatternDetail: 'Warm amber light radiates from all four edges outward onto the wall surface. Creates a dramatic cross-shaped or diamond-shaped glow pattern. The panel face becomes a dark square, while the surrounding wall catches the warm light in all four cardinal directions.',
   },
   {
@@ -151,7 +156,7 @@ const PRODUCTS = [
     form: 'dome ceiling flush-mount',
     mounting: 'flush-mount',
     fillRatio: 45,
-    formDetail: 'A hemispherical dome mounted flush to the ceiling. Upper dome is white frosted glass, lower edge has a thin black metal ring band. Below the band, a secondary smaller frosted glass lens faces downward. Total diameter ~30cm, dome height ~10cm. Viewed straight-on from the front.',
+    formDetail: 'A hemispherical dome mounted flush to the ceiling, viewed from directly below looking straight up. From below, it appears as concentric circles — a large outer white frosted glass dome ring, a thin black metal band ring, and a smaller central frosted glass lens disc. Total diameter ~30cm. The view from below creates perfect radial symmetry, like concentric geometric rings.',
     lightPatternDetail: 'Warm amber light glows from both the upper dome and lower lens. The dome radiates light upward (reflected off the ceiling), while the lower lens projects light downward. The black ring band creates a dark equatorial line. Creates a warm floating orb effect on the ceiling.',
   },
   {
@@ -183,25 +188,26 @@ const PRODUCTS = [
 // ---------- Prompt Builders ----------
 
 function buildDayPrompt(product) {
-  return `A minimalist ${product.form} lighting fixture, in the style of Dieter Rams and Bauhaus industrial design.
+  const camera = CAMERA_ANGLES[product.mounting];
+  return `A minimalist ${product.form} lighting fixture. Extreme geometric precision in the tradition of Bauhaus, Dieter Rams, and Suprematist composition. Pure geometric abstraction rendered as a real physical object.
 
 ${product.formDetail}
 
 Material: matte black anodized aluminum frame with white frosted glass diffuser.
-The light is OFF — the product exists as a pure sculptural object. The diffuser surface is opaque white, showing no illumination.
+The light is OFF — the product exists as a pure sculptural geometric object. The diffuser surface is opaque white, showing no illumination.
 
 Background: clean, uniform warm off-white (${STYLE.dayBg}), seamless infinite studio backdrop with no visible horizon line.
-Lighting: soft, even studio lighting from above-left at 45 degrees. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
+Lighting: soft, even studio lighting from directly above. Subtle soft contact shadow beneath the product (opacity 15%, soft edge).
 
-Composition: centered in frame, product fills approximately ${product.fillRatio}% of the image area. The product must have at least 15% padding from all edges (top, bottom, left, right) of the frame. 3:4 portrait aspect ratio.
-Camera: ${CAMERA_ANGLE}
+Composition: perfectly centered in frame with mathematical precision. Product fills approximately ${product.fillRatio}% of the image area. Minimum 15% clear padding from all edges (top, bottom, left, right). 3:4 portrait aspect ratio.
+Camera: ${camera}
 
-Style: photorealistic product photography with Apple-level precision and cleanliness. Geometric symmetry. Ultra-clean rendering.
-No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera.`;
+Style: photorealistic product photography with extreme geometric precision. Perfect bilateral symmetry. Apple-level cleanliness. The product reads as a pure geometric form — circle, rectangle, line, or arc.
+No environment, no text, no logos, no reflections, no lens flare, no bokeh, no color fringing, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no tilted camera, no visible side edges, no oblique angle.`;
 }
 
 function buildNightPrompt(product) {
-  return `Transform this product lighting fixture image into a night/dark mode version. Keep the EXACT same product shape, frontal angle, composition, and position.
+  return `Transform this product lighting fixture image into an avant-garde night/dark mode version. Keep the EXACT same product shape, symmetric angle, composition, and position.
 
 Changes to apply:
 - Background: change to deep warm black (${STYLE.nightBg}), uniform and seamless.
@@ -209,11 +215,11 @@ Changes to apply:
 - Light behavior: ${product.lightPatternDetail}
 - The product is the ONLY light source in the scene. All illumination comes from the product's glowing diffuser.
 - Nearby surfaces (wall, ceiling, floor) catch subtle warm amber reflections from the product's emitted light.
-- Mood: dramatic chiaroscuro, cinematic atmosphere. The warm glowing product contrasts with the deep dark surroundings.
+- Mood: avant-garde light art in the spirit of James Turrell and Dan Flavin. Dramatic chiaroscuro. The glowing geometric form floats in absolute darkness like a luminous sculpture. Light itself is the medium.
 - Add a small 4-pointed star symbol as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
 
-Keep unchanged: product form, material (matte black aluminum frame), straight-on frontal camera angle, composition with 15% padding from all edges, aspect ratio.
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion.`;
+Keep unchanged: product form, material (matte black aluminum frame), symmetric camera angle with bilateral symmetry, centered composition with 15% padding from all edges, aspect ratio.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no visible side edges.`;
 }
 
 // ---------- Image Generation ----------
