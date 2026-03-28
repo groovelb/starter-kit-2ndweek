@@ -268,6 +268,32 @@ Keep unchanged: product form, product size, material (matte black aluminum frame
 No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no perspective distortion.`;
 }
 
+function buildBgUnifyDayPrompt() {
+  return `Keep the EXACT same product — same shape, size, position, angle, material, lighting, shadow, and every detail. Change ONLY the background.
+
+CRITICAL — Background must be EXACTLY this color:
+- Hex: ${STYLE.dayBg}
+- RGB: R:232, G:229, B:225
+- A warm off-white / light warm gray.
+
+The background must be perfectly uniform, flat, and seamless from edge to edge. No gradient, no horizon line, no floor plane, no visible surface boundary. One single solid color filling every pixel that is not the product or its shadow.
+
+Do NOT alter the product in any way. Do NOT change the lighting on the product. Do NOT change the shadow. Only replace the background color.`;
+}
+
+function buildBgUnifyNightPrompt() {
+  return `Keep the EXACT same product — same shape, size, position, angle, material, glow, emission, and every detail. Change ONLY the background.
+
+CRITICAL — Background must be EXACTLY this color:
+- Hex: ${STYLE.nightBg}
+- RGB: R:18, G:16, B:14
+- A deep warm black.
+
+The background must be perfectly uniform, flat, and seamless from edge to edge. No gradient, no variation. One single solid color filling every pixel that is not the product or its glow/reflection.
+
+Do NOT alter the product in any way. Do NOT change the glow intensity or color. Do NOT change the ambient reflection on surfaces. Only replace the background color.`;
+}
+
 // ---------- Image Generation ----------
 
 /**
@@ -378,7 +404,7 @@ Usage:
 
 Options:
   --ids <ids>    Comma-separated product IDs (default: all)
-  --mode <mode>  'day', 'night', or 'both' (default: both)
+  --mode <mode>  'day', 'night', 'both', or 'bg-unify' (default: both)
   --dry-run      Print prompts without calling API
   --help         Show this help message
 
@@ -419,11 +445,13 @@ async function main() {
     process.exit(1);
   }
 
-  const generateDay = options.mode === 'day' || options.mode === 'both';
-  const generateNight = options.mode === 'night' || options.mode === 'both';
+  const isBgUnify = options.mode === 'bg-unify';
+  const generateDay = !isBgUnify && (options.mode === 'day' || options.mode === 'both');
+  const generateNight = !isBgUnify && (options.mode === 'night' || options.mode === 'both');
 
   // Count total tasks
   let totalTasks = 0;
+  if (isBgUnify) totalTasks += products.length * 2; // day + night per product
   if (generateDay) totalTasks += products.length;
   if (generateNight) totalTasks += products.length;
 
@@ -432,7 +460,7 @@ async function main() {
   console.log(`  Resolution: ${STYLE.resolution} (${STYLE.aspectRatio})`);
   console.log(`  Products: ${products.map((p) => p.id).join(', ')}`);
   console.log(`  Mode: ${options.mode}`);
-  console.log(`  Workflow: ${generateDay && generateNight ? 'Day (text) → Night (day ref + prompt)' : generateDay ? 'Day (text prompt)' : 'Night (day ref + prompt)'}`);
+  console.log(`  Workflow: ${isBgUnify ? 'Background unify (image ref + bg prompt)' : generateDay && generateNight ? 'Day (text) → Night (day ref + prompt)' : generateDay ? 'Day (text prompt)' : 'Night (day ref + prompt)'}`);
   console.log(`  Tasks: ${totalTasks} images\n`);
 
   // Dry run
@@ -472,6 +500,48 @@ async function main() {
   for (const product of products) {
     const dayPath = path.join(OUTPUT_DIR, `${product.id}.png`);
     const nightPath = path.join(OUTPUT_DIR, `${product.id}-1.png`);
+
+    // --- Background Unify ---
+    if (isBgUnify) {
+      // Day bg unify
+      taskIndex++;
+      const dayLabel = `[${taskIndex}/${totalTasks}] Product #${product.id} (bg-unify day)`;
+      process.stdout.write(`  ${dayLabel} ... `);
+      if (!fs.existsSync(dayPath)) {
+        console.log(`SKIPPED: ${product.id}.png not found`);
+        failed++;
+      } else {
+        try {
+          const result = await generateNightImage(ai, buildBgUnifyDayPrompt(), dayPath, dayPath);
+          console.log(`OK (${formatBytes(result.size)}) -> ${product.id}.png`);
+          completed++;
+        } catch (error) {
+          console.log(`FAILED: ${error.message}`);
+          failed++;
+        }
+      }
+      if (taskIndex < totalTasks) await sleep(DELAY_MS);
+
+      // Night bg unify
+      taskIndex++;
+      const nightLabel = `[${taskIndex}/${totalTasks}] Product #${product.id} (bg-unify night)`;
+      process.stdout.write(`  ${nightLabel} ... `);
+      if (!fs.existsSync(nightPath)) {
+        console.log(`SKIPPED: ${product.id}-1.png not found`);
+        failed++;
+      } else {
+        try {
+          const result = await generateNightImage(ai, buildBgUnifyNightPrompt(), nightPath, nightPath);
+          console.log(`OK (${formatBytes(result.size)}) -> ${product.id}-1.png`);
+          completed++;
+        } catch (error) {
+          console.log(`FAILED: ${error.message}`);
+          failed++;
+        }
+      }
+      if (taskIndex < totalTasks) await sleep(DELAY_MS);
+      continue;
+    }
 
     // --- Day ---
     if (generateDay) {

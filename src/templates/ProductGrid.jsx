@@ -7,7 +7,7 @@ import { ProductCard } from '../components/product/ProductCard';
  * 시각적 상수 (ProductGrid 전용)
  */
 const GRID = {
-  SPACING: 1.5,                       // 그리드 간격
+  SPACING: 8,                          // 그리드 간격
   SIZE: { xs: 6, sm: 4, md: 3 },    // 반응형 열 크기 (xs: 2열, sm: 3열, md: 4열)
 };
 

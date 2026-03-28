@@ -109,7 +109,7 @@ export function TimeBlendImage({
       } }
       { ...props }
     >
-      {/* 낮 이미지 (하단 레이어) - 0.85 스케일 + 가장자리 페이드 */}
+      {/* 낮 이미지 (하단 레이어) - 공간 확보 + 표시 */}
       { dayImage && (
         <Box
           component="img"
@@ -117,20 +117,18 @@ export function TimeBlendImage({
           alt={ `${alt} - Day` }
           sx={ {
             position: isAutoRatio ? 'relative' : 'absolute',
-            ...(isAutoRatio ? {} : { top: '7.5%', left: '7.5%', height: '85%' }),
-            width: isAutoRatio ? '85%' : '85%',
-            height: isAutoRatio ? 'auto' : '85%',
+            ...(isAutoRatio ? {} : { top: 0, left: 0, height: '100%' }),
+            width: '100%',
+            height: isAutoRatio ? 'auto' : '100%',
             display: 'block',
             objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: dayOpacity,
-            mixBlendMode: 'darken',
             transition: 'opacity 600ms ease-out',
-            ...(isAutoRatio && { margin: '0 auto' }),
           } }
         />
       ) }
 
-      {/* 밤 이미지 (상단 레이어) - 0.85 스케일 + 가장자리 페이드 */}
+      {/* 밤 이미지 (상단 레이어) - 낮 이미지 위에 포개기 */}
       { nightImage && (
         <Box
           component="img"
@@ -138,34 +136,17 @@ export function TimeBlendImage({
           alt={ `${alt} - Night` }
           sx={ {
             position: 'absolute',
-            top: '7.5%',
-            left: '7.5%',
-            width: '85%',
-            height: '85%',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
             display: 'block',
             objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: nightOpacity,
-            mixBlendMode: 'lighten',
             transition: 'opacity 600ms ease-out',
           } }
         />
       ) }
-
-      {/* 이미지 경계 페이드: 상하좌우 배경색 → 투명 그라디언트 마스크 */}
-      <Box
-        sx={ {
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background: `
-            linear-gradient(to bottom, ${blendedBg} 0%, ${blendedBg} 7.5%, transparent 20%),
-            linear-gradient(to top, ${blendedBg} 0%, ${blendedBg} 7.5%, transparent 20%),
-            linear-gradient(to right, ${blendedBg} 0%, ${blendedBg} 7.5%, transparent 20%),
-            linear-gradient(to left, ${blendedBg} 0%, ${blendedBg} 7.5%, transparent 20%)
-          `,
-          transition: 'background 600ms ease-out',
-        } }
-      />
     </Box>
   );
 }
