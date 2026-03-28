@@ -139,7 +139,7 @@ const ProductGallery = forwardRef(function ProductGallery(
                   width: 6,
                   height: 6,
                   borderRadius: 0,
-                  backgroundColor: index === currentIndex ? '#F5F2EE' : 'rgba(245, 242, 238, 0.4)',
+                  backgroundColor: index === currentIndex ? '#E8E5E1' : 'rgba(245, 242, 238, 0.4)',
                   transition: 'background-color 200ms',
                 }}
               />

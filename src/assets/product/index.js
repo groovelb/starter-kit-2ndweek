@@ -29,6 +29,16 @@ import product14 from './14.png';
 import product14_1 from './14-1.png';
 import product15 from './15.png';
 import product15_1 from './15-1.png';
+import product16 from './16.png';
+import product16_1 from './16-1.png';
+import product17 from './17.png';
+import product17_1 from './17-1.png';
+import product18 from './18.png';
+import product18_1 from './18-1.png';
+import product19 from './19.png';
+import product19_1 from './19-1.png';
+import product20 from './20.png';
+import product20_1 from './20-1.png';
 
 // Product Videos
 import video1 from './1-motion.mp4';
@@ -106,5 +116,25 @@ export const productAssets = {
   15: {
     images: [product15, product15_1],
     video: video15,
+  },
+  16: {
+    images: [product16, product16_1],
+    video: null,
+  },
+  17: {
+    images: [product17, product17_1],
+    video: null,
+  },
+  18: {
+    images: [product18, product18_1],
+    video: null,
+  },
+  19: {
+    images: [product19, product19_1],
+    video: null,
+  },
+  20: {
+    images: [product20, product20_1],
+    video: null,
   },
 };

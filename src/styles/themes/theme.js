@@ -7,7 +7,7 @@
  * 4색만 사용 (그래디언트/글로우/블러 금지).
  *
  * ## 컬러 토큰
- * - Wall Tint White (#F5F2EE): 라이트 배경
+ * - Wall Tint White (#E8E5E1): 라이트 배경
  * - 3800K White (#F2E9DA): 다크 모드 텍스트
  * - Warm Black (#12100E): 다크 배경 / 라이트 모드 텍스트
  * - 3800K Accent (#FFC66E): 액센트
@@ -23,7 +23,7 @@ import { createTheme } from '@mui/material/styles';
 // Lumenstate Brand Colors (4색 제한)
 // ============================================================
 const BRAND_COLORS = {
-  wallTintWhite: '#F5F2EE',   // 라이트 배경
+  wallTintWhite: '#E8E5E1',   // 라이트 배경 (제품 Day 이미지 배경과 동일)
   warmWhite: '#F2E9DA',       // 3800K White (다크 모드 텍스트)
   warmBlack: '#12100E',       // 다크 배경 / 라이트 모드 텍스트
   accent: '#FFC66E',          // 3800K Accent
@@ -83,7 +83,7 @@ const palette = {
   // Grey 스케일 (Warm tone으로 조정)
   grey: {
     50: '#FAF9F7',
-    100: '#F5F2EE',    // Wall Tint White
+    100: '#E8E5E1',    // Wall Tint White
     200: '#E8E4DF',
     300: '#D4CFC8',
     400: '#B8B2A9',
@@ -92,7 +92,7 @@ const palette = {
     700: '#5A554E',
     800: '#3D3835',
     900: '#12100E',    // Warm Black
-    A100: '#F5F2EE',
+    A100: '#E8E5E1',
     A200: '#E8E4DF',
     A400: '#B8B2A9',
     A700: '#5A554E',
@@ -107,8 +107,8 @@ const palette = {
 
   // 배경 색상
   background: {
-    default: BRAND_COLORS.wallTintWhite,  // #F5F2EE
-    paper: BRAND_COLORS.wallTintWhite,    // #F5F2EE
+    default: BRAND_COLORS.wallTintWhite,  // #E8E5E1
+    paper: BRAND_COLORS.wallTintWhite,    // #E8E5E1
   },
 
   // 구분선

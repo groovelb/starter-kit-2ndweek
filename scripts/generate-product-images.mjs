@@ -55,7 +55,7 @@ const STYLE = {
 
 const CAMERA_ANGLES = {
   'flush-mount': 'Viewed from directly below, looking straight up at the ceiling-mounted product. The product appears as a perfect geometric shape with complete bilateral symmetry. No perspective distortion, no tilted angle.',
-  'wall-mount': 'Viewed perfectly straight-on, perpendicular to the wall surface. No visible side edges, no visible depth — the product appears completely flat, like a 2D geometric shape on the wall. Perfect bilateral symmetry.',
+  'wall-mount': 'Viewed perfectly straight-on, perpendicular to the wall surface. The product is a real physical 3D object mounted on the wall — subtle depth, edge thickness, and material dimensionality are visible. Perfect bilateral symmetry.',
   'floor-standing': 'Viewed straight-on from the front at eye level. Perfect bilateral symmetry along the vertical axis. No tilted or angled perspective.',
   'freestanding': 'Viewed straight-on from the front at eye level. Perfect bilateral symmetry. No tilted or angled perspective.',
 };
@@ -247,19 +247,25 @@ No environment, no text, no logos, no lens flare, no bokeh, no color fringing, n
 }
 
 function buildNightPrompt(product) {
-  return `Transform this product lighting fixture image into an avant-garde night/dark mode version. Keep the EXACT same product shape, symmetric angle, composition, and position.
+  return `Transform this product lighting fixture image into a night/dark mode version. Keep the EXACT same product shape, angle, composition, position, and size.
+
+CRITICAL — Color & Tone Consistency (must be identical across all products):
+- Background: uniform deep warm black, exactly ${STYLE.nightBg}. No gradient, no variation, no visible environment. Seamless infinite backdrop.
+- Emission color: exactly ${STYLE.colorTemp} color temperature, hex ${STYLE.emissionColor}. Soft amber-white. NOT orange, NOT yellow, NOT pure white.
+- Diffuser center brightness: 100% (near white with warm tint).
+- Diffuser edge brightness: 80% (amber tone strengthens toward edges).
+- Wall/surface ambient reflection: 20-30% brightness, soft amber pool, radius ~1.5x product size.
+- Shadow: none (product is the only light source, no external lighting).
 
 Changes to apply:
-- Background: change to deep warm black (${STYLE.nightBg}), uniform and seamless.
-- Light state: turn the light ON. The frosted glass diffuser now emits warm ${STYLE.colorTemp} color temperature light — soft amber-white tone (${STYLE.emissionColor}).
+- Background: change to ${STYLE.nightBg}, uniform and seamless.
+- Light state: turn the light ON. The frosted glass diffuser now emits warm ${STYLE.colorTemp} light (${STYLE.emissionColor}).
 - Light behavior: ${product.lightPatternDetail}
-- The product is the ONLY light source in the scene. All illumination comes from the product's glowing diffuser.
-- Nearby surfaces (wall, ceiling, floor) catch subtle warm amber reflections from the product's emitted light.
-- Mood: avant-garde light art in the spirit of James Turrell and Dan Flavin. Dramatic chiaroscuro. The glowing geometric form floats in absolute darkness like a luminous sculpture. Light itself is the medium.
-- Add a small 4-pointed star symbol as a subtle watermark in the bottom-right corner (warm gray #C0B8A8, ~3% of frame height).
-
-Keep unchanged: product form, material (matte black aluminum frame), symmetric camera angle with bilateral symmetry, centered composition with 15% padding from all edges, aspect ratio.
-No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no 3/4 view, no perspective distortion, no visible side edges.`;
+- The product is the ONLY light source in the entire scene. No studio lighting remains.
+- Nearby surfaces catch subtle warm amber reflections from the product (opacity ~25%, soft falloff).
+- Matte black aluminum frame remains dark — visible only as a silhouette against the glow.
+Keep unchanged: product form, product size, material (matte black aluminum frame), camera angle, centered composition with 15% padding from all edges, aspect ratio.
+No text, no logos, no lens flare, no gradient in background, no additional light sources, no people, no furniture, no diagonal view, no angled composition, no perspective distortion.`;
 }
 
 // ---------- Image Generation ----------

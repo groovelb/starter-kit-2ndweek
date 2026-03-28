@@ -35,7 +35,7 @@ const darkPalette = {
   // 브랜드 Primary - Wall Tint White (라이트 모드 배경색)
   primary: {
     light: '#FFFAF5',
-    main: BRAND_COLORS.wallTintWhite, // #F5F2EE
+    main: BRAND_COLORS.wallTintWhite, // #E8E5E1
     dark: '#E8E4DF',
     contrastText: BRAND_COLORS.warmBlack,
   },
@@ -88,7 +88,7 @@ const darkPalette = {
     600: '#9C958B',
     700: '#B8B2A9',
     800: '#D4CFC8',
-    900: '#F5F2EE',   // Wall Tint White
+    900: '#E8E5E1',   // Wall Tint White
     A100: '#1A1816',
     A200: '#2A2725',
     A400: '#5A554E',
