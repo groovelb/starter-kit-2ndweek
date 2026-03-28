@@ -25,6 +25,10 @@ src/
     media/              # 미디어 렌더러 (MediaRenderer 등)
 
   guide/                # 중요한 컴포넌트를 생성할때 적용된 가이드 저장&업데이트
+    image-generation/   # 제품 이미지 생성 가이드 (Gemini API 프롬프트 템플릿)
+      common-style.md   # 공통 비주얼 스타일 규칙 (배경색, 구도, 재질, 색온도)
+      product-specs.md  # 15개 제품별 형태 상세 명세
+      prompt-template.md # Gemini API 프롬프트 템플릿 (Day/Night Mode)
   templates/            # 다수의 컴포넌트들이 합쳐진 템플릿 컴포넌트
   sections/             # 페이지 내 주요 섹션에 해당하는 컴포넌트
   hooks/                # 커스텀 React 훅(hook) 모음
@@ -37,6 +41,9 @@ stories/                # 스토리북 스토리 전용 폴더
 
 docs/                   # 프로젝트 문서
   storybook-writing-guide.md # Storybook 작성 가이드
+
+scripts/                # 유틸리티 스크립트
+  generate-product-images.mjs # Gemini API 제품 이미지 생성 스크립트
 
 .storybook/             # Storybook 설정
   main.js               # Storybook 메인 설정
