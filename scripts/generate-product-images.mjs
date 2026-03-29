@@ -294,6 +294,161 @@ The background must be perfectly uniform, flat, and seamless from edge to edge. 
 Do NOT alter the product in any way. Do NOT change the glow intensity or color. Do NOT change the ambient reflection on surfaces. Only replace the background color.`;
 }
 
+// ---------- Moodboard Scenes ----------
+
+const MOOD_NEGATIVE = 'No stock photo look, no posed model, no smile, no eye contact with camera, no bright saturated colors, no busy backgrounds, no multiple light sources competing, no HDR over-processing, no lens flare, no vignette, no split toning, no teal-and-orange grading.';
+
+function buildMoodboardPrompt(scene) {
+  return `This is a reference image of the product. Generate an editorial interior photograph featuring this EXACT product — same shape, proportions, material (matte black aluminum frame, white frosted glass diffuser), and every detail.
+
+Photography style: Kinfolk / Cereal magazine editorial. Muted, desaturated color palette. Subtle film grain. High dynamic range but soft contrast.
+
+Color grading: warm neutral tones. Whites lean slightly warm (#F0EDE8 range). Shadows are warm gray, never pure black. No saturated colors anywhere.
+
+Composition: ${scene.compositionType}. Generous negative space — at least 40% of the frame is empty wall/floor/ceiling. The product and person together occupy no more than 60% of the frame.
+
+Person: ${scene.personDescription}. Face NOT visible (turned away, cropped, or in shadow). The person is part of the environment, not the subject. Natural, unposed posture.
+
+Space: minimalist architecture. White or light warm gray walls. Floors are light concrete, pale wood, or polished stone. Ceiling height ≥ 3m. Furniture is minimal — only what the scene requires.
+
+Lighting: ${scene.lightingDescription}
+
+Scene: ${scene.sceneDescription}
+
+${MOOD_NEGATIVE}`;
+}
+
+function buildMoodboardNightPrompt(scene) {
+  return `Transform this editorial interior photograph into a night version. Keep the EXACT same composition, camera angle, person pose, person position, product position, furniture placement, and spatial layout.
+
+CRITICAL — Lighting Transition (must be identical across all moodboard night images):
+- Remove ALL natural daylight. Windows now show dark night sky — no blue, just warm black darkness.
+- The product light is now ON. It is the PRIMARY and DOMINANT light source in the scene.
+- Emission color: exactly ${STYLE.colorTemp} color temperature, hex ${STYLE.emissionColor}. Soft amber-white. NOT orange, NOT yellow, NOT pure white.
+- Product emission brightness: 100% at diffuser center, 80% at diffuser edges.
+
+CRITICAL — Ambient & Tone Consistency:
+- Overall room darkness: 85-90% dark. Only the area immediately around the product is illuminated.
+- Product light illumination radius: ~2x product size. Beyond this radius, surfaces fade to deep warm shadow.
+- Wall/floor ambient tone: deep warm gray (#1A1816 range), NOT pure black. Subtle warmth preserved.
+- Person visibility: only surfaces directly lit by the product are visible (hands, book, nearby clothing). Unlit parts of the person blend into shadow.
+- Nearby surfaces (desk, floor, wall near product): catch warm amber reflections at 20-30% brightness, soft falloff.
+- Distant surfaces: barely visible, 5-10% brightness, warm undertone.
+
+Color grading: warm, intimate. No cool tones anywhere. Shadows are warm dark brown/gray, never blue-black. Film grain slightly more visible than day version.
+
+Scene-specific lighting: ${scene.lightingDescription}
+
+Keep UNCHANGED: composition, camera angle, person pose and position, product position and form, furniture layout, aspect ratio, framing.
+Do NOT add any light source that wasn't in the original scene. Do NOT change the person's clothing or posture. Do NOT move any object.
+
+${MOOD_NEGATIVE}`;
+}
+
+const MOODBOARD_SCENES = [
+  {
+    id: 'mood-1',
+    productId: 2,
+    aspectRatio: '16:9',
+    compositionType: 'Side view. Lamp base at frame left edge, arc curves overhead to right. Person in right 1/3 of frame.',
+    personDescription: 'A UX designer sitting on a low linen sofa, drawing wireframes in a large sketchbook with a pencil. Bare feet on the concrete floor. Wearing neutral linen clothing',
+    lightingDescription: 'Night scene. No natural light — windows show dark sky. The arc lamp is the ONLY light source, emitting warm 3800K amber-white light (#FFC66E) from its horizontal light bar. A focused warm pool illuminates the sketchbook and the person\'s hands. The rest of the room falls into deep warm shadow. The thin black arc rod is barely visible.',
+    sceneDescription: 'A minimalist living room with floor-to-ceiling glass windows. Polished concrete floor. A single low sofa. No other furniture. The arc lamp stands beside the sofa, its parabolic curve reaching over the person. A small side table with two stacked books.',
+  },
+  {
+    id: 'mood-2',
+    productId: 17,
+    aspectRatio: '3:4',
+    compositionType: 'Frontal view. Desk centered horizontally in lower 1/3. Person centered. Wall behind fills upper 2/3.',
+    personDescription: 'A developer sitting at a wide light oak desk, typing on a laptop. Seen from directly in front. Wearing a simple dark crew-neck sweater. Head slightly bowed toward the screen',
+    lightingDescription: 'Daytime. Soft natural daylight enters from a large window on the left side (not directly visible). Even, diffused illumination across the space. No harsh shadows. The hemisphere lamp sits on the desk — light is OFF. The lamp exists as a sculptural design object in the bright space.',
+    sceneDescription: 'A minimal home studio. Wide light oak desk (~180cm), a single Wegner-style chair, the hemisphere lamp on the desk to the person\'s left, a laptop, and a single ceramic mug. White walls. Light concrete floor. Nothing else in the room. Ceiling height ~4m. The space feels vast and quiet.',
+  },
+  {
+    id: 'mood-3',
+    productId: 11,
+    aspectRatio: '3:4',
+    compositionType: 'Frontal view, perfect bilateral symmetry. Arch centered on far wall. Person centered below the arch.',
+    personDescription: 'An architect sitting casually on the polished concrete floor, leaning back comfortably against the wall beneath the arch. Holding a large hardcover architecture book open on their lap. Wearing a light beige linen shirt and relaxed trousers. Relaxed, contemplative posture',
+    lightingDescription: 'Night scene. No ambient light. The arch\'s concealed LED (behind the frame, between frame and wall) emits warm 3800K amber light (#FFC66E) onto the wall surface, creating an arch-shaped halo of warm light. The matte black arch frame itself remains a dark silhouette. The warm glow illuminates the person\'s shoulders, hands, and the open book. The corridor recedes into darkness in both directions.',
+    sceneDescription: 'A long, narrow gallery-like corridor. White walls, polished concrete floor. The arch is mounted on the far wall at eye level. No other fixtures, no furniture, no decoration. The architecture is minimal and monumental. The arch\'s warm backlight creates a luminous portal effect — the only island of warmth in an austere space.',
+  },
+  {
+    id: 'mood-4',
+    productId: 16,
+    aspectRatio: '16:9',
+    compositionType: 'Side view. Pendant hangs from top 1/4 of frame, centered. Person at table in lower half, slightly right of center.',
+    personDescription: 'An industrial designer standing at a large wooden worktable, assembling a small mockup model with their hands. Seen from the side. Wearing a simple apron over neutral clothing. Focused on the work — head bowed, hands active',
+    lightingDescription: 'Late afternoon transitioning to dusk. Warm natural light from a tall window behind the person (backlit, soft). The cubic pendant is ON, emitting warm 3800K amber-white light (#FFC66E) downward. Two light sources merge — golden natural light from behind, warm amber from the pendant above. The pendant\'s glow creates a focused warm pool on the worktable surface.',
+    sceneDescription: 'A clean workshop / maker space. High ceiling (~5m), white walls, a single large wooden worktable (~200cm). The cubic pendant hangs from a thin black cord directly above the table. A few neatly arranged tools on the table. A tall window behind fills the background with soft backlight. The space is spare and purposeful.',
+  },
+  // --- Day Mode, Strict Camera ---
+  {
+    id: 'mood-5',
+    productId: 2,
+    aspectRatio: '16:9',
+    compositionType: 'Perfect 90-degree side view. Camera is exactly perpendicular to the wall, at eye level. The image reads like an architectural elevation drawing. Lamp on the left, person on the right. No diagonal, no 3/4 angle, no perspective convergence.',
+    personDescription: 'A UX designer sitting on a low linen sofa, sketching wireframes in a large sketchbook with a pencil. Bare feet on the light concrete floor. Wearing neutral linen clothing. Seen in perfect profile — a silhouette-like side view',
+    lightingDescription: 'Daytime. Bright, even natural daylight fills the entire space from floor-to-ceiling windows behind the camera. Soft diffused light, no harsh shadows. The arc lamp is OFF — it exists as a pure sculptural object. Its matte black frame and white frosted light bar are clearly visible as design objects in the bright space.',
+    sceneDescription: 'A minimalist living room with floor-to-ceiling glass windows. Light concrete floor, white walls. A single low linen sofa. The arc floor lamp stands beside the sofa — thin black rod rises from a square stone base, curves in a parabolic arc overhead, terminates in a horizontal light bar above the seated person. A small side table with two stacked books. No other furniture.',
+  },
+  {
+    id: 'mood-6',
+    productId: 6,
+    aspectRatio: '3:4',
+    compositionType: 'Perfect 100% frontal view. Camera faces the wall head-on at eye level. The tall cylindrical lamp stands on the left, the person sits on the right. Balanced asymmetry within a frontal frame.',
+    personDescription: 'A creative director sitting cross-legged on a low cushion on the floor, reviewing printed photographs spread on the pale wooden floor in front of them. Wearing a light cream linen shirt with rolled-up sleeves and relaxed light trousers. Calm, focused posture — head tilted down toward the prints',
+    lightingDescription: 'Daytime. Bright, soft natural daylight enters from a large window on the right side. Even, airy illumination. The tall cylindrical column lamp stands nearby — light is OFF. The frosted vertical panel and matte black body are clearly visible as a sculptural column in the bright space.',
+    sceneDescription: 'A minimal creative studio. Pale oak floor, white walls, very high ceiling (~5m). The tall cylindrical column lamp (~120cm) stands upright on the left side of the frame. The person sits on the floor to the right, surrounded by large printed photographs laid out in a grid. No furniture except a low cushion. The space is vast and serene.',
+  },
+  {
+    id: 'mood-7',
+    productId: 11,
+    aspectRatio: '3:4',
+    compositionType: 'Perfect 100% frontal view, absolute bilateral symmetry. Camera faces the wall head-on. The arch is centered exactly in the middle of the frame. Person is centered directly below the arch. The composition is perfectly symmetric left-right.',
+    personDescription: 'An architect sitting on the polished concrete floor, leaning back against the wall directly beneath the arch. Holding a large hardcover architecture book open on their lap. Wearing light neutral clothing',
+    lightingDescription: 'Daytime. Bright, even natural daylight fills the corridor from skylights or high windows (not directly visible). The arch wall light is OFF — it is a pure matte black metal sculpture on the white wall. The black arch frame is clearly visible against the bright white wall.',
+    sceneDescription: 'A long, narrow gallery-like corridor. White walls, polished concrete floor. The matte black arch frame is mounted on the far wall at eye level — a pure geometric sculpture. No other fixtures, no furniture, no decoration. The architecture is minimal and monumental. Daylight makes the space feel open and serene.',
+  },
+  {
+    id: 'mood-8',
+    productId: 16,
+    aspectRatio: '16:9',
+    compositionType: 'Perfect 90-degree side view. Camera is exactly perpendicular to the worktable length. The pendant hangs from the top 1/4 of frame. Person stands at the table in the lower half. No diagonal, no 3/4 angle, no perspective convergence.',
+    personDescription: 'An industrial designer standing at a large wooden worktable, assembling a small mockup model with their hands. Seen in perfect profile from the side. Wearing a simple apron over neutral clothing. Head bowed, hands active',
+    lightingDescription: 'Daytime. Bright natural daylight from a tall window behind the person (soft backlight) and from the left. Even, airy illumination. The cubic pendant is OFF — it hangs as a geometric sculpture. Its matte black frame edges and white frosted glass faces are clearly visible.',
+    sceneDescription: 'A clean workshop / maker space. High ceiling (~5m), white walls, a single large wooden worktable (~200cm). The cubic pendant hangs from a thin black cord directly above the table. A few neatly arranged tools on the table. A tall window fills the background with soft natural light. Spare and purposeful.',
+  },
+  // --- Day Mode, Additional ---
+  {
+    id: 'mood-9',
+    productId: 18,
+    aspectRatio: '16:9',
+    compositionType: 'Perfect 90-degree side view. Camera exactly perpendicular to the wall at eye level. The capsule lamp stands on the left 1/3, person on the right 2/3. No perspective convergence.',
+    personDescription: 'A photographer sitting on the floor with legs stretched out, leaning against a white wall, reviewing large printed photos spread around them. Wearing a light sand-colored cotton shirt and loose pale trousers. Relaxed, absorbed in the prints',
+    lightingDescription: 'Daytime. Bright, even natural daylight from a tall window on the right (partially visible). Soft diffused light fills the space. The capsule floor lamp is OFF — the horizontal frosted glass capsule and thin black vertical rod are clearly visible as a sculptural object.',
+    sceneDescription: 'A minimal loft with very high ceilings (~6m), white brick walls, pale concrete floor. The capsule floor lamp stands upright — its horizontal glass capsule at eye height on a thin black rod. Large format photographs scattered on the floor around the seated person. No furniture. Raw, open, airy.',
+  },
+  {
+    id: 'mood-10',
+    productId: 8,
+    aspectRatio: '3:4',
+    compositionType: 'Perfect 100% frontal view. Camera faces the wall head-on. The split disc is mounted on the wall, centered in the upper half of the frame. Person sits below. Perfect bilateral symmetry.',
+    personDescription: 'A graphic designer sitting cross-legged on a woven floor mat directly beneath the wall light, sketching in a small notebook with a pencil. Wearing a white linen top and light beige pants. Calm, meditative posture — head slightly bowed',
+    lightingDescription: 'Daytime. Soft natural daylight enters from the left. Even, quiet illumination. The split disc wall light is OFF — two white frosted half-discs with the horizontal gap between them are clearly visible against the white wall. A geometric sculpture.',
+    sceneDescription: 'A minimal meditation/creative room. White plaster walls, light oak floor. The split disc (~25cm) is mounted centered on the wall at about 150cm height. Below it, the person sits on a simple woven mat. A single ceramic cup beside them. Nothing else in the room. Serene and still.',
+  },
+  {
+    id: 'mood-11',
+    productId: 20,
+    aspectRatio: '16:9',
+    compositionType: 'Perfect 90-degree side view. Camera exactly perpendicular to the desk length, at seated eye level. Person seen in perfect profile on the right, desk extends horizontally across the frame. No diagonal, no 3/4 angle, no overhead view.',
+    personDescription: 'A product designer seen in perfect side profile, sitting at a desk, leaning slightly forward and sketching geometric forms on paper with a pencil. Wearing a light cream linen shirt with rolled-up sleeves. Calm, focused posture — one hand drawing, the other resting on the desk',
+    lightingDescription: 'Daytime. Soft natural daylight from a large window behind the camera. Even, bright illumination across the desk. The pyramid prism desk lamp is OFF — the small glass pyramid with black frame edges sits on the desk as a precious geometric object, clearly visible.',
+    sceneDescription: 'A designer\'s workspace seen from the side. Long light birch desk against a white wall. The small pyramid lamp (~10cm) sits on the desk to the left of the person. Sheets of paper, a ruler, and a few pencils neatly placed. The person sits in a simple wooden chair. White wall behind, light concrete floor below. Minimal and focused.',
+  },
+];
+
 // ---------- Image Generation ----------
 
 /**
@@ -342,6 +497,41 @@ async function generateNightImage(ai, prompt, dayImagePath, outputPath) {
       responseModalities: ['TEXT', 'IMAGE'],
       imageConfig: {
         aspectRatio: STYLE.aspectRatio,
+        imageSize: STYLE.resolution,
+      },
+    },
+  });
+
+  return extractAndSaveImage(response, outputPath);
+}
+
+/**
+ * 무드보드 이미지 생성: 제품 이미지를 레퍼런스로 + 무드보드 프롬프트 + 커스텀 비율
+ */
+async function generateMoodboardImage(ai, prompt, refImagePath, outputPath, aspectRatio) {
+  const refImageData = fs.readFileSync(refImagePath);
+  const base64Image = refImageData.toString('base64');
+
+  const response = await ai.models.generateContent({
+    model: MODEL,
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            inlineData: {
+              mimeType: 'image/png',
+              data: base64Image,
+            },
+          },
+          { text: prompt },
+        ],
+      },
+    ],
+    config: {
+      responseModalities: ['TEXT', 'IMAGE'],
+      imageConfig: {
+        aspectRatio,
         imageSize: STYLE.resolution,
       },
     },
@@ -404,7 +594,7 @@ Usage:
 
 Options:
   --ids <ids>    Comma-separated product IDs (default: all)
-  --mode <mode>  'day', 'night', 'both', or 'bg-unify' (default: both)
+  --mode <mode>  'day', 'night', 'both', 'bg-unify', or 'moodboard' (default: both)
   --dry-run      Print prompts without calling API
   --help         Show this help message
 
@@ -445,13 +635,15 @@ async function main() {
     process.exit(1);
   }
 
+  const isMoodboard = options.mode === 'moodboard';
   const isBgUnify = options.mode === 'bg-unify';
-  const generateDay = !isBgUnify && (options.mode === 'day' || options.mode === 'both');
-  const generateNight = !isBgUnify && (options.mode === 'night' || options.mode === 'both');
+  const generateDay = !isBgUnify && !isMoodboard && (options.mode === 'day' || options.mode === 'both');
+  const generateNight = !isBgUnify && !isMoodboard && (options.mode === 'night' || options.mode === 'both');
 
   // Count total tasks
   let totalTasks = 0;
-  if (isBgUnify) totalTasks += products.length * 2; // day + night per product
+  if (isMoodboard) totalTasks = MOODBOARD_SCENES.length;
+  if (isBgUnify) totalTasks += products.length * 2;
   if (generateDay) totalTasks += products.length;
   if (generateNight) totalTasks += products.length;
 
@@ -460,7 +652,7 @@ async function main() {
   console.log(`  Resolution: ${STYLE.resolution} (${STYLE.aspectRatio})`);
   console.log(`  Products: ${products.map((p) => p.id).join(', ')}`);
   console.log(`  Mode: ${options.mode}`);
-  console.log(`  Workflow: ${isBgUnify ? 'Background unify (image ref + bg prompt)' : generateDay && generateNight ? 'Day (text) → Night (day ref + prompt)' : generateDay ? 'Day (text prompt)' : 'Night (day ref + prompt)'}`);
+  console.log(`  Workflow: ${isMoodboard ? 'Moodboard (product ref + editorial prompt)' : isBgUnify ? 'Background unify (image ref + bg prompt)' : generateDay && generateNight ? 'Day (text) → Night (day ref + prompt)' : generateDay ? 'Day (text prompt)' : 'Night (day ref + prompt)'}`);
   console.log(`  Tasks: ${totalTasks} images\n`);
 
   // Dry run
@@ -496,6 +688,53 @@ async function main() {
   let completed = 0;
   let failed = 0;
   let taskIndex = 0;
+
+  // --- Moodboard ---
+  if (isMoodboard) {
+    const landscapeDir = path.join(ROOT, 'src/assets/landscape');
+    if (!fs.existsSync(landscapeDir)) {
+      fs.mkdirSync(landscapeDir, { recursive: true });
+    }
+
+    // --ids로 씬 번호 필터링 (1-4 → mood-1 ~ mood-4)
+    const scenes = options.ids
+      ? MOODBOARD_SCENES.filter((s) => options.ids.includes(parseInt(s.id.replace('mood-', ''))))
+      : MOODBOARD_SCENES;
+    totalTasks = scenes.length;
+
+    for (const scene of scenes) {
+      taskIndex++;
+      const refPath = path.join(OUTPUT_DIR, `${scene.productId}.png`);
+      const outPath = path.join(landscapeDir, `${scene.id}.png`);
+      const label = `[${taskIndex}/${totalTasks}] ${scene.id} (product #${scene.productId}, ${scene.aspectRatio})`;
+      process.stdout.write(`  ${label} ... `);
+
+      if (!fs.existsSync(refPath)) {
+        console.log(`SKIPPED: ${scene.productId}.png not found`);
+        failed++;
+        if (taskIndex < totalTasks) await sleep(DELAY_MS);
+        continue;
+      }
+
+      try {
+        const prompt = buildMoodboardPrompt(scene);
+        const result = await generateMoodboardImage(ai, prompt, refPath, outPath, scene.aspectRatio);
+        console.log(`OK (${formatBytes(result.size)}) -> ${scene.id}.png`);
+        completed++;
+      } catch (error) {
+        console.log(`FAILED: ${error.message}`);
+        failed++;
+      }
+
+      if (taskIndex < totalTasks) await sleep(DELAY_MS);
+    }
+
+    console.log(`\n  Done: ${completed} succeeded, ${failed} failed out of ${totalTasks} total`);
+    if (completed > 0) {
+      console.log(`  Output: ${landscapeDir}/`);
+    }
+    return;
+  }
 
   for (const product of products) {
     const dayPath = path.join(OUTPUT_DIR, `${product.id}.png`);

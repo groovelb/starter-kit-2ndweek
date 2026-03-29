@@ -271,6 +271,51 @@ Scene: A clean workshop / maker space. High ceiling (~5m), white walls, a single
 
 ---
 
+### Moodboard Night Transformation (무드보드 다크모드 전환)
+
+Day 무드보드 이미지를 `inlineData` 레퍼런스로 첨부 + 아래 프롬프트로 Night 버전 생성.
+
+#### MOOD_NIGHT_BASE (모든 무드보드 Night에 적용)
+
+```
+Transform this editorial interior photograph into a night version. Keep the EXACT same composition, camera angle, person pose, person position, product position, furniture placement, and spatial layout.
+
+CRITICAL — Lighting Transition (must be identical across all moodboard night images):
+- Remove ALL natural daylight. Windows now show dark night sky — no blue, just warm black darkness.
+- The product light is now ON. It is the PRIMARY and DOMINANT light source in the scene.
+- Emission color: exactly 3800K color temperature, hex #FFC66E. Soft amber-white. NOT orange, NOT yellow, NOT pure white.
+- Product emission brightness: 100% at diffuser center, 80% at diffuser edges.
+
+CRITICAL — Ambient & Tone Consistency:
+- Overall room darkness: 85-90% dark. Only the area immediately around the product is illuminated.
+- Product light illumination radius: ~2x product size. Beyond this radius, surfaces fade to deep warm shadow.
+- Wall/floor ambient tone: deep warm gray (#1A1816 range), NOT pure black. Subtle warmth preserved.
+- Person visibility: only surfaces directly lit by the product are visible (hands, book, nearby clothing). Unlit parts of the person blend into shadow.
+- Nearby surfaces (desk, floor, wall near product): catch warm amber reflections at 20-30% brightness, soft falloff.
+- Distant surfaces: barely visible, 5-10% brightness, warm undertone.
+
+Color grading: warm, intimate. No cool tones anywhere. Shadows are warm dark brown/gray, never blue-black. Film grain slightly more visible than day version.
+
+Scene-specific lighting: {lighting_description}
+
+Keep UNCHANGED: composition, camera angle, person pose and position, product position and form, furniture layout, aspect ratio, framing.
+```
+
+#### 통일 수치 요약
+
+| 항목 | 값 |
+|------|-----|
+| 전체 어둡기 | 85-90% |
+| 발광 중심 밝기 | 100% |
+| 발광 가장자리 | 80% |
+| 조명 반경 | ~2x 제품 크기 |
+| 근접 표면 반사 | 20-30% brightness |
+| 원거리 표면 | 5-10% brightness |
+| 벽/바닥 톤 | #1A1816 (warm gray) |
+| 발광 색온도 | 3800K (#FFC66E) |
+
+---
+
 ## API Usage Notes
 
 ### Gemini API (Nano Banana 2) 설정 권장값

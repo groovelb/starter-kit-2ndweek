@@ -51,28 +51,30 @@ export function TimeBlendImage({
   /**
    * timeline 값(0-1)을 12시간 주기에 따른 opacity 값으로 변환
    *
-   * 시간 매핑 (선형 블렌딩):
+   * 시간 매핑 (S-커브 블렌딩):
    * - timeline 0.0 = 12pm (정오) → dayOpacity: 1, nightOpacity: 0
-   * - timeline 0.5 = 8pm (저녁) → dayOpacity: 0.5, nightOpacity: 0.5
+   * - timeline 0.33 = 4pm (오후) → 낮 ~80% + 밤 ~20% (낮 유지)
+   * - timeline 0.67 = 8pm (저녁) → 낮 ~20% + 밤 ~80% (밤 전환)
    * - timeline 1.0 = 12am (자정) → dayOpacity: 0, nightOpacity: 1
    *
-   * 시간이 지날수록 점점 어두워짐 (낮→밤 단방향 전환)
+   * smootherstep 커브로 4pm은 낮을, 8pm은 밤을 강조
    */
   const { dayOpacity, nightOpacity, blendedBg } = useMemo(() => {
-    // 선형 블렌딩: timeline이 증가할수록 밤 이미지 opacity 증가
-    const t = timeline;
+    // S-커브 블렌딩: 밤 쪽으로 편향된 smootherstep
+    const t = Math.pow(timeline, 0.75);
+    const nightT = t * t * t * (t * (t * 6 - 15) + 10);
 
     // Light (#E8E5E1) → Dark (#12100E) 랜딩페이지 배경색과 동일하게 보간
     const dayR = 0xE8, dayG = 0xE5, dayB = 0xE1;
     const nightR = 0x12, nightG = 0x10, nightB = 0x0E;
-    const r = Math.round(dayR + (nightR - dayR) * t);
-    const g = Math.round(dayG + (nightG - dayG) * t);
-    const b = Math.round(dayB + (nightB - dayB) * t);
+    const r = Math.round(dayR + (nightR - dayR) * nightT);
+    const g = Math.round(dayG + (nightG - dayG) * nightT);
+    const b = Math.round(dayB + (nightB - dayB) * nightT);
     const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 
     return {
-      dayOpacity: 1 - t,
-      nightOpacity: t,
+      dayOpacity: 1 - nightT,
+      nightOpacity: nightT,
       blendedBg: hex,
     };
   }, [timeline]);
