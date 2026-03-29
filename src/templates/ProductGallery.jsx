@@ -7,7 +7,7 @@ import { ProductGrid } from './ProductGrid';
  * 시각적 상수 (ProductGallery 전용)
  */
 const LAYOUT = {
-  CENTER_SIZE: 9,      // 중앙 그리드 크기 (aside: 1, center: 10, empty: 1)
+  CENTER_SIZE: 10,     // 중앙 그리드 크기 (aside: 1, center: 10, empty: 1)
   SPACING: 0,           // 그리드 간격
   STICKY_TOP: 88,       // sticky 위치 (GNB 64px + 여백 24px)
 };

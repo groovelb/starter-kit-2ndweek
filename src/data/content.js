@@ -2,9 +2,19 @@
  * Centralized content for the entire application
  */
 
-// Import video assets
-import product9Motion from '../assets/product/9-motion.mp4';
-import landscapeMotion from '../assets/landscape/landscape-motion.mp4';
+// Import brand moodboard images (day)
+import arcLampLiving from '../assets/brand-mood/arc-lamp-living.png';
+import columnLampStudio from '../assets/brand-mood/column-lamp-studio.png';
+import archLightGallery from '../assets/brand-mood/arch-light-gallery.png';
+import splitDiscMeditation from '../assets/brand-mood/split-disc-meditation.png';
+import capsuleLampLoft from '../assets/brand-mood/capsule-lamp-loft.png';
+
+// Import brand moodboard images (night)
+import arcLampLivingNight from '../assets/brand-mood/arc-lamp-living-night.png';
+import columnLampStudioNight from '../assets/brand-mood/column-lamp-studio-night.png';
+import archLightGalleryNight from '../assets/brand-mood/arch-light-gallery-night.png';
+import splitDiscMeditationNight from '../assets/brand-mood/split-disc-meditation-night.png';
+import capsuleLampLoftNight from '../assets/brand-mood/capsule-lamp-loft-night.png';
 
 export const content = {
   // Brand information
@@ -26,9 +36,17 @@ export const content = {
   hero: {
     title: 'Lumenstate',
     subtitle: 'Light defines the space.',
-    videos: {
-      row1Col1: landscapeMotion,
-      row1Col2: product9Motion,
+    moodboard: {
+      hero: arcLampLiving,
+      heroNight: arcLampLivingNight,
+      side: archLightGallery,
+      sideNight: archLightGalleryNight,
+      sideAlt: 'Arch light in gallery space',
+      gallery: [
+        { src: archLightGallery, srcNight: archLightGalleryNight, alt: 'Arch light in gallery space' },
+        { src: splitDiscMeditation, srcNight: splitDiscMeditationNight, alt: 'Split disc in meditation room' },
+        { src: capsuleLampLoft, srcNight: capsuleLampLoftNight, alt: 'Capsule lamp in loft workspace' },
+      ],
     },
   },
 

@@ -143,3 +143,58 @@ no perspective distortion, no tilted camera, no oblique angle
 | Color Space | sRGB |
 | Bit Depth | 8-bit |
 | 파일명 규칙 | `{id}.png` (Day), `{id}-1.png` (Night) |
+
+---
+
+## 10. Brand Moodboard Image Specifications
+
+제품 이미지와 별도로, 브랜드 에디토리얼 무드보드 이미지에 적용되는 규칙.
+
+### 이미지 유형 및 비율
+
+| 유형 | Aspect Ratio | 용도 | Grid 배치 |
+|------|-------------|------|----------|
+| Hero Landscape | **3:2** (실제 출력: 2048×1365) | 히어로 섹션 메인 이미지 | 8/12 컬럼 |
+| Portrait | **3:4** (실제 출력: 1792×2400, 즉 56:75) | 히어로 사이드 / 갤러리 | 4/12 컬럼 |
+
+### Grid 높이 매칭 규칙 (CRITICAL)
+
+8:4 그리드에서 양쪽 이미지 높이를 일치시키려면:
+- 우측 (4/12): 56:75 (width:height)
+- 좌측 (8/12): 가로 2배 → 112:75 ≈ **3:2** (API 지원 비율 중 가장 근사)
+- 실제 높이 차이: ~0.45% (~2px at 1200px viewport)
+
+### 표시 규칙 (CRITICAL)
+
+- 모든 이미지는 **원본 비율 그대로** 표시: `width: 100%`, `height: auto`
+- `object-fit: cover`로 컨테이너에 억지로 맞추지 않음
+- 같은 행에 배치되는 이미지는 동일 비율이거나 수학적으로 높이가 맞는 비율 사용
+
+### 파일 위치 및 네이밍
+
+| 항목 | 값 |
+|------|-----|
+| 디렉토리 | `src/assets/brand-mood/` |
+| Day 파일명 | `{brand-mood-name}.png` (예: `arc-lamp-living.png`) |
+| Night 파일명 | `{brand-mood-name}-night.png` (예: `arc-lamp-living-night.png`) |
+
+### 현재 무드보드 이미지 목록
+
+| Name | 비율 | 제품 | 구도 |
+|------|------|------|------|
+| arc-lamp-living | 3:2 | #2 Arc Floor Lamp | Side, 우측 배치, 좌상단 여백 |
+| column-lamp-studio | 3:4 | #6 Column Lamp | Frontal |
+| arch-light-gallery | 3:4 | #11 Arch Light | Frontal, 대칭 |
+| cube-pendant-workshop | 16:9 | #16 Cube Pendant | Side |
+| capsule-lamp-loft | 16:9 | #18 Capsule Lamp | Side |
+| split-disc-meditation | 3:4 | #8 Split Disc | Frontal, 대칭 |
+| prism-lamp-desk | 16:9 | #20 Prism Lamp | Side |
+
+### Hero 이미지 구도 규칙
+
+히어로 메인 이미지는 좌측 상단에 타이틀 오버레이가 겹치므로:
+- 인물+조명: 우측 중앙~하단에 배치
+- 좌측 상단: 완전 빈 벽 (구조물, 빔, 천장선 없음)
+- 배경 벽: 완전 평평한 단일 면 (코너, 단차 없음)
+- 천장: 프레임 내에 보이지 않을 정도로 높게
+- 공간: 일반 실내의 2배 이상 규모감

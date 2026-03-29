@@ -4,24 +4,27 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import LineGrid from '../components/layout/LineGrid';
-import { ScrollVideo } from '../components/shared/ScrollVideo';
+import { TimeBlendImage } from '../components/media/TimeBlendImage';
+import { useTimeline } from '../hooks/useTimeline';
 import { content } from '../data/content';
 
 /**
  * HeroSection 컴포넌트
  *
- * 스크롤 기반 비디오 스크러빙과 타이틀 오버레이를 포함한 히어로 섹션.
- * LineGrid를 사용한 2컬럼 레이아웃 (2:1 비율).
+ * 브랜드 무드보드 이미지와 타이틀을 포함한 에디토리얼 히어로 섹션.
+ * LineGrid를 사용한 2컬럼 레이아웃. 타임라인에 따라 낮/밤 이미지 크로스페이드.
  *
- * 사이즈 규칙:
- * - 전체 컨테이너: 100% 너비
- * - 컬럼 비율: 2:1 (8:4)
- * - 비디오: 원본 비율 유지 (width: 100%, height: auto)
+ * 레이아웃:
+ * - 좌측 (8/12): 히어로 랜드스케이프 이미지 (3:2) + 브랜드명/태그라인 오버레이
+ * - 우측 (4/12): 포트레이트 무드보드 이미지 (56:75)
+ * - 모든 이미지는 원본 비율(width:100%, height:auto)로 표시, cover 크롭 없음
+ * - 타임라인 값(0-1)에 따라 TimeBlendImage로 낮↔밤 크로스페이드
  *
  * @param {object} sx - 추가 스타일 [Optional]
  */
 const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
-  const { title, subtitle, videos } = content.hero;
+  const { title, subtitle, moodboard } = content.hero;
+  const { timeline, isDarkMode } = useTimeline();
 
   return (
     <Box
@@ -33,46 +36,65 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
       {...props}
     >
       <LineGrid container gap={0} sx={{ width: '100%' }}>
-        {/* 첫 번째 컬럼 - 랜드스케이프 비디오 + 타이틀 오버레이 (2:1 비율 중 2) */}
+        {/* Row 1 Left - 히어로 랜드스케이프 + 타이틀 오버레이 */}
         <Grid size={{ xs: 12, md: 8 }} sx={{ position: 'relative' }}>
-          <ScrollVideo src={videos.row1Col1} ratio={1.58999} startInView isTimeline />
-          {/* 타이틀 오버레이 - 좌측 상단 */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              p: { xs: 3, md: 4 },
-            }}
-          >
-            <Typography
-              variant="h1"
+          <Box sx={{ position: 'relative' }}>
+            <TimeBlendImage
+              dayImage={moodboard.hero}
+              nightImage={moodboard.heroNight}
+              timeline={timeline}
+              alt="Lumenstate brand mood"
+              aspectRatio="auto"
+            />
+            {/* 타이틀 오버레이 - 좌측 상단 */}
+            <Box
               sx={{
-                fontWeight: 700,
-                color: 'text.primary',
-                mb: 1,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                p: { xs: 4, md: 8 },
               }}
             >
-              {title}
-            </Typography>
-            <Typography
-              variant="h3"
-              sx={{
-                color: 'text.secondary',
-                fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
-                fontWeight: 100,
-                pl: 0.5,
-              }}
-            >
-              {subtitle}
-            </Typography>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 500,
+                  color: isDarkMode ? 'common.white' : 'common.black',
+                  transition: 'color 600ms ease-out',
+                  mb: 1,
+                }}
+              >
+                {title}
+              </Typography>
+              <Typography
+                variant="h3"
+                sx={{
+                  color: isDarkMode ? 'common.white' : 'common.black',
+                  transition: 'color 600ms ease-out',
+                  fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
+                  fontWeight: 100,
+                  opacity: 0.7,
+                  wordSpacing: '0.3em',
+                  pl: 0.5,
+                }}
+              >
+                {subtitle}
+              </Typography>
+            </Box>
           </Box>
         </Grid>
 
-        {/* 두 번째 컬럼 - 제품 비디오 (2:1 비율 중 1) */}
+        {/* Row 1 Right - 포트레이트 무드보드 */}
         <Grid size={{ xs: 12, md: 4 }}>
-          <ScrollVideo src={videos.row1Col2} startInView />
+          <TimeBlendImage
+            dayImage={moodboard.side}
+            nightImage={moodboard.sideNight}
+            timeline={timeline}
+            alt={moodboard.sideAlt}
+            aspectRatio="auto"
+          />
         </Grid>
+
       </LineGrid>
     </Box>
   );

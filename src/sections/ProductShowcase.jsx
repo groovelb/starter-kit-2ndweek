@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 import { SectionContainer } from "../components/container/SectionContainer";
 import { ProductGallery } from "../templates/ProductGallery";
-import { TimelineSlider } from "../components/shared/TimelineSlider";
+
 import { useTimeline } from "../hooks/useTimeline";
 import { products } from "../data/products";
 import { content } from "../data/content";
@@ -55,7 +55,7 @@ const ProductShowcase = forwardRef(function ProductShowcase(
 	);
 
 	return (
-		<SectionContainer ref={ref} sx={sx} {...props}>
+		<SectionContainer ref={ref} maxWidth={false} sx={sx} {...props}>
 			{/* 헤더 영역 */}
 			<Box sx={{ textAlign: "center" }}>
 				<Typography
@@ -78,18 +78,6 @@ const ProductShowcase = forwardRef(function ProductShowcase(
 				>
 					{sectionSubtitle}
 				</Typography>
-			</Box>
-
-			{/* TimelineSlider */}
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-				}}
-			>
-				<Box sx={{ width: 600, maxWidth: "100%" }}>
-					<TimelineSlider />
-				</Box>
 			</Box>
 
 			{/* ProductGallery (필터 + 그리드) */}

@@ -38,8 +38,11 @@ export function ProductFilter({ selected = 'all', onChange, showAll = true, sx }
           '& .MuiTabs-indicator': {
             left: 0,
             right: 'auto',
-            height: '25%',
-            top: '37.5%',
+            width: 6,
+            height: '6px !important',
+            borderRadius: '50%',
+            marginTop: '13px',
+            transition: 'top 300ms cubic-bezier(0.4, 0, 0.2, 1)',
           },
           '& .MuiTab-root': {
             textTransform: 'none',

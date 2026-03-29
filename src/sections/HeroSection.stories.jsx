@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 
 import { HeroSection } from './HeroSection';
-import { TimelineProvider } from '../hooks/useTimeline';
 
 export default {
   title: 'Section/HeroSection',
@@ -14,19 +13,20 @@ export default {
         component: `
 ## HeroSection
 
-스크롤 기반 비디오 스크러빙과 타이틀 오버레이를 포함한 히어로 섹션.
+브랜드 무드보드 이미지와 타이틀을 포함한 에디토리얼 히어로 섹션.
 
 ### 구조
-- LineGrid 2컬럼 레이아웃 (7.5 : 4.5)
-- 첫 번째 컬럼: 랜드스케이프 비디오 + 타이틀 오버레이
-- 두 번째 컬럼: 제품 비디오
-- 두 비디오가 동일한 스크롤 진행도로 동기화
+- LineGrid 2컬럼 레이아웃 (8:4)
+- 좌측 (8/12): 히어로 랜드스케이프 이미지 (3:2) + 브랜드명/태그라인 오버레이
+- 우측 (4/12): 포트레이트 무드보드 이미지 (56:75)
 
-### 동작
-1. 스크롤 시작 → 비디오 0% (첫 프레임)
-2. 스크롤 중 → 비디오 프레임 시킹
-3. 스크롤 끝 → 비디오 100% (마지막 프레임)
-- TimelineContext는 Storybook 글로벌 decorator에서 제공
+### 이미지 비율
+- 좌측 3:2, 우측 56:75 → 수학적으로 높이가 ~0.45% 차이 (~2px at 1200px)
+- 모든 이미지는 \`width: 100%; height: auto\`로 원본 비율 유지 (cover 크롭 없음)
+
+### 타이틀 오버레이
+- 히어로 이미지 좌측 상단에 position: absolute로 겹침
+- 이미지 생성 시 좌상단을 빈 벽으로 구성하여 가독성 확보
         `,
       },
     },
@@ -40,33 +40,12 @@ export default {
 };
 
 /**
- * 기본 사용법 - 스크롤하여 비디오 재생 확인
+ * 기본 사용법 - 무드보드 에디토리얼 레이아웃
  */
 export const Default = {
   render: () => (
-    <Box sx={{ minHeight: '400vh', backgroundColor: 'background.default' }}>
+    <Box sx={{ backgroundColor: 'background.default' }}>
       <HeroSection />
-      {/* 하단 여백 - 스크롤 테스트용 */}
-      <Box sx={{ height: '100vh' }} />
     </Box>
   ),
-};
-
-/**
- * 다크 모드 (저녁 시간대)
- */
-export const DarkMode = {
-  render: () => (
-    <Box sx={{ minHeight: '400vh', backgroundColor: 'background.default' }}>
-      <HeroSection />
-      <Box sx={{ height: '100vh' }} />
-    </Box>
-  ),
-  decorators: [
-    (Story) => (
-      <TimelineProvider initialTimeline={0.75}>
-        <Story />
-      </TimelineProvider>
-    ),
-  ],
 };

@@ -135,6 +135,14 @@ const darkPalette = {
   // Lumenstate 커스텀 토큰
   brand: BRAND_COLORS,
 
+  // 시간대별 배경색 토큰 (라이트 테마와 동일 — 테마 독립적 보간값)
+  timeline: {
+    noon: '#E8E5E1',
+    afternoon: '#979491',
+    evening: '#2A2826',
+    midnight: '#12100E',
+  },
+
   contrastThreshold: 3,
   tonalOffset: 0.2,
 };

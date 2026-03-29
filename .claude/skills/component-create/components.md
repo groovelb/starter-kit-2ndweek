@@ -1,15 +1,8 @@
 # Components Reference
 
-프로젝트 내 컴포넌트 목록 참조 문서.
-
----
-
 ## Part 1: Starter-Kit (범용)
 
-브랜드 독립적인 재사용 가능한 기본 UI 컴포넌트.
-
 ### Layout
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | PhiSplit | 황금비 분할 레이아웃 | `components/layout/PhiSplit.jsx` |
@@ -22,7 +15,6 @@
 | FullPageContainer | 전체 페이지 컨테이너 | `components/layout/FullPageContainer.jsx` |
 
 ### Container
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | PageContainer | 반응형 페이지 컨테이너 | `components/container/PageContainer.jsx` |
@@ -30,14 +22,12 @@
 | CarouselContainer | 캐로셀 컨테이너 | `components/container/CarouselContainer.jsx` |
 
 ### Card
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | CardContainer | 카드 기본 컨테이너 | `components/card/CardContainer.jsx` |
 | CustomCard | 미디어+콘텐츠 카드 | `components/card/CustomCard.jsx` |
 
 ### Input
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | FileDropzone | 파일 드래그&드롭 영역 | `components/input/FileDropzone.jsx` |
@@ -47,7 +37,6 @@
 | UnderlineSelect | 밑줄만 있는 셀렉트 | `components/shared/UnderlineSelect.jsx` |
 
 ### Media
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | AspectMedia | 비율 기반 미디어 컨테이너 | `components/media/AspectMedia.jsx` |
@@ -57,14 +46,12 @@
 | CarouselIndicator | 캐로셀 인디케이터 | `components/media/CarouselIndicator.jsx` |
 
 ### Navigation
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | NavMenu | 네비게이션 메뉴 | `components/navigation/NavMenu.jsx` |
 | CategoryTab | 카테고리 탭 | `components/navigation/CategoryTab.jsx` |
 
 ### Typography
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | FitText | 컨테이너에 맞춤 텍스트 | `components/typography/FitText.jsx` |
@@ -75,8 +62,7 @@
 | Title | 타이틀 컴포넌트 | `components/typography/Title.jsx` |
 | QuotedContainer | 인용 컨테이너 | `components/typography/QuotedContainer.jsx` |
 
-### Shared (범용)
-
+### Shared
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | QuantitySelector | 수량 선택기 | `components/shared/QuantitySelector.jsx` |
@@ -88,31 +74,25 @@
 
 ## Part 2: Lumenstate Brand (브랜드 전용)
 
-환경 반응형 조명 브랜드 Lumenstate 전용 컴포넌트.
-
 ### Context
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | TimelineContext | 시간대 값(0-1) 전역 상태 관리 | `hooks/useTimeline.jsx` |
 | CartContext | 장바구니 상태 관리 | `context/CartContext.jsx` |
 
-### Shared (Lumenstate 전용)
-
+### Shared (Lumenstate)
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | TimelineSlider | 4단계 시간대 슬라이더 | `components/shared/TimelineSlider.jsx` |
 | MinimalTimelineSlider | 헤더용 간소화 타임라인 슬라이더 | `components/shared/MinimalTimelineSlider.jsx` |
 | ScrollVideo | 스크롤 위치 기반 비디오 프레임 시킹 | `components/shared/ScrollVideo.jsx` |
 
-### Media (Lumenstate 전용)
-
+### Media (Lumenstate)
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | TimeBlendImage | 타임라인 기반 낮/밤 이미지 크로스페이드 | `components/media/TimeBlendImage.jsx` |
 
 ### Product
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | ProductCard | 제품 카드 | `components/product/ProductCard.jsx` |
@@ -124,7 +104,6 @@
 | ProductFilter | 제품 타입 필터 | `components/navigation/ProductFilter.jsx` |
 
 ### Cart
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | CartDrawer | 장바구니 슬라이드 패널 | `components/cart/CartDrawer.jsx` |
@@ -134,7 +113,6 @@
 | CartCheckoutButton | 체크아웃 버튼 | `components/cart/CartCheckoutButton.jsx` |
 
 ### Checkout
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | CheckoutLayout | 체크아웃 2컬럼 레이아웃 | `components/checkout/CheckoutLayout.jsx` |
@@ -142,8 +120,7 @@
 | ShippingForm | 배송지 폼 | `components/checkout/ShippingForm.jsx` |
 | OrderSummary | 주문 요약 패널 | `components/checkout/OrderSummary.jsx` |
 
-### Navigation (Lumenstate 전용)
-
+### Navigation (Lumenstate)
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | GNB | 글로벌 네비게이션 바 | `components/navigation/GNB.jsx` |
@@ -151,7 +128,6 @@
 | Footer | 푸터 | `components/navigation/Footer.jsx` |
 
 ### Templates
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | ProductDetailTemplate | 제품 상세 페이지 템플릿 | `templates/ProductDetailTemplate.jsx` |
@@ -160,7 +136,6 @@
 | CheckoutTemplate | 체크아웃 페이지 템플릿 | `templates/CheckoutTemplate.jsx` |
 
 ### Sections
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | HeroSection | 히어로 섹션 | `sections/HeroSection.jsx` |
@@ -170,7 +145,6 @@
 | CheckoutSection | 체크아웃 섹션 | `sections/CheckoutSection.jsx` |
 
 ### Pages
-
 | 컴포넌트 | 설명 | 경로 |
 |---------|------|------|
 | LandingPage | 랜딩 페이지 | `pages/LandingPage.jsx` |

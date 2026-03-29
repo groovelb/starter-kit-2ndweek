@@ -44,9 +44,10 @@ const TimelineContext = createContext({
  * 1. TimelineContext에서 timeline 값과 setter 반환
  * 2. isDarkMode로 현재 테마 상태 확인
  * 3. timeInfo로 현재 시간의 상세 정보 확인
+ * 4. timelineBg로 현재 timeline에 해당하는 보간된 배경색 확인
  *
  * Example usage:
- * const { timeline, setTimeline, isDarkMode } = useTimeline();
+ * const { timeline, setTimeline, isDarkMode, timelineBg } = useTimeline();
  *
  * @returns {TimelineContextValue} 타임라인 컨텍스트 값
  */
@@ -69,6 +70,28 @@ const TIME_PRESETS = [
   { timeline: 0.67, hour: 20, label: '8pm', lux: 180, kelvin: 3200 },
   { timeline: 1.00, hour: 24, label: '12am', lux: 80, kelvin: 2700 },
 ];
+
+/**
+ * timeline 값에서 보간된 배경색 계산
+ *
+ * TimeBlendImage와 동일한 smootherstep 곡선 사용.
+ * Day(#E8E5E1) ↔ Night(#12100E) 사이를 연속 보간.
+ *
+ * @param {number} timeline - 0-1 값
+ * @returns {string} 보간된 배경색 hex 문자열
+ */
+const getTimelineBg = (timeline) => {
+  const t = Math.pow(Math.max(0, Math.min(1, timeline)), 0.75);
+  const nightT = t * t * t * (t * (t * 6 - 15) + 10);
+
+  const dayR = 0xE8, dayG = 0xE5, dayB = 0xE1;
+  const nightR = 0x12, nightG = 0x10, nightB = 0x0E;
+  const r = Math.round(dayR + (nightR - dayR) * nightT);
+  const g = Math.round(dayG + (nightG - dayG) * nightT);
+  const b = Math.round(dayB + (nightB - dayB) * nightT);
+
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+};
 
 /**
  * timeline 값에서 시간 정보 계산
@@ -163,6 +186,12 @@ export const TimelineProvider = ({ children, initialTimeline = 0 }) => {
   const timeInfo = useMemo(() => getTimeInfo(timeline), [timeline]);
 
   /**
+   * 현재 timeline에 해당하는 보간된 배경색
+   * TimeBlendImage와 동일한 smootherstep 곡선 사용
+   */
+  const timelineBg = useMemo(() => getTimelineBg(timeline), [timeline]);
+
+  /**
    * 현재 테마 선택
    */
   const currentTheme = useMemo(
@@ -179,8 +208,9 @@ export const TimelineProvider = ({ children, initialTimeline = 0 }) => {
       setTimeline,
       isDarkMode,
       timeInfo,
+      timelineBg,
     }),
-    [timeline, setTimeline, isDarkMode, timeInfo]
+    [timeline, setTimeline, isDarkMode, timeInfo, timelineBg]
   );
 
   return (
@@ -194,6 +224,6 @@ export const TimelineProvider = ({ children, initialTimeline = 0 }) => {
 };
 
 // 상수 내보내기 (Storybook/테스트용)
-export { TIME_PRESETS, getTimeInfo };
+export { TIME_PRESETS, getTimeInfo, getTimelineBg };
 
 export default useTimeline;
