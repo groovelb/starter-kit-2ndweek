@@ -1,9 +1,9 @@
-import { forwardRef, useCallback, useState } from 'react';
+import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import { TimeBlendImage } from '../media/TimeBlendImage';
-import TimelineSlider from '../shared/TimelineSlider';
+import { useTimeline } from '../../hooks/useTimeline';
 
 /**
  * ProductImageViewer 컴포넌트
@@ -41,18 +41,11 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
   },
   ref
 ) {
-  const [timeline, setTimeline] = useState(0);
+  const { timeline } = useTimeline();
 
   // 낮/밤 이미지 분리
   const dayImage = images[0] || null;
   const nightImage = images[1] || images[0] || null;
-
-  /**
-   * 타임라인 변경 핸들러
-   */
-  const handleTimelineChange = useCallback((newValue) => {
-    setTimeline(newValue);
-  }, []);
 
   return (
     <Box
@@ -74,72 +67,29 @@ const ProductImageViewer = forwardRef(function ProductImageViewer(
         sx={ { width: '100%', height: '100%' } }
       />
 
-      {/* Overlay Container - 이미지 위에 패딩 적용된 레이어 */}
-      <Box
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 10,
-          p: { xs: 3, md: 4 },
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          pointerEvents: 'none',
-        }}
-      >
-        {/* Bottom Gradient */}
+      {/* Lux / Kelvin 정보 - 우측 상단 */}
+      {(lux || kelvin) && (
         <Box
           sx={{
             position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '30%',
-            background: 'linear-gradient(to top, rgba(18, 16, 14, 0.8) 0%, rgba(18, 16, 14, 0) 100%)',
-          }}
-        />
-
-        {/* Lux / Kelvin 정보 - 우측 상단 */}
-        {(lux || kelvin) && (
-          <Box
-            sx={{
-              position: 'absolute',
-              top: { xs: 16, md: 24 },
-              right: { xs: 16, md: 24 },
-            }}
-          >
-            <Typography
-              sx={{
-                fontFamily: 'monospace',
-                fontSize: '0.8125rem',
-                color: '#F2E9DA',
-              }}
-            >
-              {lux && `${lux} lx`}
-              {lux && kelvin && ' · '}
-              {kelvin && `${kelvin} K`}
-            </Typography>
-          </Box>
-        )}
-
-        {/* 하단 컨트롤 영역 - 슬라이더 */}
-        <Box
-          sx={{
-            position: 'relative',
-            pointerEvents: 'auto',
+            top: { xs: 16, md: 24 },
+            right: { xs: 16, md: 24 },
+            zIndex: 10,
           }}
         >
-          {/* TimelineSlider */}
-          <TimelineSlider
-            value={timeline}
-            onChange={handleTimelineChange}
-            useGlobalState={false}
-            showLabels={false}
-            color="#F2E9DA"
-            sx={{ width: '100%', position: 'relative', zIndex: 1 }}
-          />
+          <Typography
+            sx={{
+              fontFamily: 'monospace',
+              fontSize: '0.8125rem',
+              color: '#F2E9DA',
+            }}
+          >
+            {lux && `${lux} lx`}
+            {lux && kelvin && ' · '}
+            {kelvin && `${kelvin} K`}
+          </Typography>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 });

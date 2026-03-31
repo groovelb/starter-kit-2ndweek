@@ -21,8 +21,8 @@ export const Doc = {
       LandingPage: {
         TopSection: {
           HeroSection: {
-            ScrollVideo: '스크롤 연동 비디오',
-            TimelineSlider: '타임라인 슬라이더',
+            TimeBlendImage: '낮/밤 크로스페이드 무드보드 이미지',
+            LineGrid: '라인 그리드 오버레이',
           },
           BrandValueSection: {
             BrandValueCard: '브랜드 가치 카드 ×3',

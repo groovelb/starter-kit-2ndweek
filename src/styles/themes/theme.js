@@ -138,13 +138,12 @@ const palette = {
   // Lumenstate 커스텀 토큰
   brand: BRAND_COLORS,
 
-  // 시간대별 배경색 토큰 (smootherstep 곡선 기반 Day↔Night 보간)
-  // TimeBlendImage와 동일한 공식: t = pow(timeline, 0.75), nightT = smootherstep(t)
+  // 시간대별 배경색 토큰 (Day↔Night 4등분 선형 보간)
   timeline: {
-    noon: '#E8E5E1',      // 12pm (nightT=0.000) — 완전 Day
-    afternoon: '#979491',  // 4pm  (nightT=0.380) — Day 62% + Night 38%
-    evening: '#2A2826',    // 8pm  (nightT=0.886) — Day 11% + Night 89%
-    midnight: '#12100E',   // 12am (nightT=1.000) — 완전 Night
+    noon: '#E8E5E1',      // 12pm
+    afternoon: '#928F8D',  // 4pm
+    evening: '#383735',    // 8pm
+    midnight: '#12100E',   // 12am
   },
 
   contrastThreshold: 3,

@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { SectionContainer } from "../components/container/SectionContainer";
 import { ProductGallery } from "../templates/ProductGallery";
 
-import { useTimeline } from "../hooks/useTimeline";
+import { useTimeline, TIMELINE_TRANSITION } from "../hooks/useTimeline";
 import { products } from "../data/products";
 import { content } from "../data/content";
 
@@ -64,7 +64,7 @@ const ProductShowcase = forwardRef(function ProductShowcase(
 						fontWeight: 700,
 						mb: 1,
 						color: "text.primary",
-						transition: "color 600ms ease",
+						transition: `color ${TIMELINE_TRANSITION.css}`,
 					}}
 				>
 					{sectionTitle}
@@ -73,7 +73,7 @@ const ProductShowcase = forwardRef(function ProductShowcase(
 					variant="body1"
 					sx={{
 						color: "text.secondary",
-						transition: "color 600ms ease",
+						transition: `color ${TIMELINE_TRANSITION.css}`,
 					}}
 				>
 					{sectionSubtitle}

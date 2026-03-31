@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import { GNB } from './GNB';
 import { Footer } from './Footer';
+import { FloatingTimeline } from '../shared/FloatingTimeline';
 
 /**
  * AppShell 컴포넌트
@@ -70,6 +71,9 @@ const AppShell = forwardRef(function AppShell({
 
       {/* Footer */}
       <Footer onSubscribe={onSubscribe} />
+
+      {/* 글로벌 타임라인 컨트롤러 */}
+      <FloatingTimeline />
     </Box>
   );
 });

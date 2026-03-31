@@ -74,21 +74,36 @@ const TIME_PRESETS = [
 /**
  * timeline 값에서 보간된 배경색 계산
  *
- * TimeBlendImage와 동일한 smootherstep 곡선 사용.
- * Day(#E8E5E1) ↔ Night(#12100E) 사이를 연속 보간.
+ * 4개 시간대 프리셋(12pm/4pm/8pm/12am)의 실측 배경색을 기반으로
+ * 구간별 선형 보간.
  *
  * @param {number} timeline - 0-1 값
  * @returns {string} 보간된 배경색 hex 문자열
  */
-const getTimelineBg = (timeline) => {
-  const t = Math.pow(Math.max(0, Math.min(1, timeline)), 0.75);
-  const nightT = t * t * t * (t * (t * 6 - 15) + 10);
+const BG_STOPS = [
+  { t: 0.00, r: 0xE8, g: 0xE5, b: 0xE1 },  // 12pm #E8E5E1
+  { t: 0.33, r: 0x92, g: 0x8F, b: 0x8D },  // 4pm  #928F8D
+  { t: 0.67, r: 0x38, g: 0x37, b: 0x35 },  // 8pm  #383735
+  { t: 1.00, r: 0x12, g: 0x10, b: 0x0E },  // 12am #12100E
+];
 
-  const dayR = 0xE8, dayG = 0xE5, dayB = 0xE1;
-  const nightR = 0x12, nightG = 0x10, nightB = 0x0E;
-  const r = Math.round(dayR + (nightR - dayR) * nightT);
-  const g = Math.round(dayG + (nightG - dayG) * nightT);
-  const b = Math.round(dayB + (nightB - dayB) * nightT);
+const getTimelineBg = (timeline) => {
+  const clamped = Math.max(0, Math.min(1, timeline));
+
+  // 해당 구간 찾기
+  let i = 0;
+  for (; i < BG_STOPS.length - 2; i++) {
+    if (clamped < BG_STOPS[i + 1].t) break;
+  }
+
+  const from = BG_STOPS[i];
+  const to = BG_STOPS[i + 1];
+  const range = to.t - from.t;
+  const t = range > 0 ? (clamped - from.t) / range : 0;
+
+  const r = Math.round(from.r + (to.r - from.r) * t);
+  const g = Math.round(from.g + (to.g - from.g) * t);
+  const b = Math.round(from.b + (to.b - from.b) * t);
 
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 };
@@ -223,7 +238,19 @@ export const TimelineProvider = ({ children, initialTimeline = 0 }) => {
   );
 };
 
+/**
+ * 타임라인 트랜지션 상수
+ *
+ * 배경색, 이미지 opacity, 텍스트 color 등
+ * 시간대 전환에 관련된 모든 트랜지션에 동일하게 적용.
+ */
+const TIMELINE_TRANSITION = {
+  duration: 600,
+  easing: 'ease-out',
+  css: '600ms ease-out',
+};
+
 // 상수 내보내기 (Storybook/테스트용)
-export { TIME_PRESETS, getTimeInfo, getTimelineBg };
+export { TIME_PRESETS, getTimeInfo, getTimelineBg, TIMELINE_TRANSITION };
 
 export default useTimeline;

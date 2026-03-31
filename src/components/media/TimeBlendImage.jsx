@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import Box from '@mui/material/Box';
+import { TIMELINE_TRANSITION } from '../../hooks/useTimeline';
 
 /**
  * TimeBlendImage 컴포넌트
@@ -60,9 +61,8 @@ export function TimeBlendImage({
    * smootherstep 커브로 4pm은 낮을, 8pm은 밤을 강조
    */
   const { dayOpacity, nightOpacity, blendedBg } = useMemo(() => {
-    // S-커브 블렌딩: 밤 쪽으로 편향된 smootherstep
-    const t = Math.pow(timeline, 0.75);
-    const nightT = t * t * t * (t * (t * 6 - 15) + 10);
+    // 선형 블렌딩: timeline 0-1을 그대로 nightT로 사용 (4등분 균등)
+    const nightT = Math.max(0, Math.min(1, timeline));
 
     // Light (#E8E5E1) → Dark (#12100E) 랜딩페이지 배경색과 동일하게 보간
     const dayR = 0xE8, dayG = 0xE5, dayB = 0xE1;
@@ -106,7 +106,7 @@ export function TimeBlendImage({
         ...(!isAutoRatio && { aspectRatio }),
         overflow: 'hidden',
         backgroundColor: blendedBg,
-        transition: 'background-color 600ms ease-out',
+        transition: `background-color ${TIMELINE_TRANSITION.css}`,
         ...sx,
       } }
       { ...props }
@@ -125,7 +125,7 @@ export function TimeBlendImage({
             display: 'block',
             objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: dayOpacity,
-            transition: 'opacity 600ms ease-out',
+            transition: `opacity ${TIMELINE_TRANSITION.css}`,
           } }
         />
       ) }
@@ -145,7 +145,7 @@ export function TimeBlendImage({
             display: 'block',
             objectFit: isAutoRatio ? 'contain' : objectFit,
             opacity: nightOpacity,
-            transition: 'opacity 600ms ease-out',
+            transition: `opacity ${TIMELINE_TRANSITION.css}`,
           } }
         />
       ) }

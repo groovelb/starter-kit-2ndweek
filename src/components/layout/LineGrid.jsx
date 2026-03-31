@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Stack, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { TIMELINE_TRANSITION } from '../../hooks/useTimeline';
 
 /**
  * LineGrid Component
@@ -45,7 +46,7 @@ const LineGrid = React.forwardRef(({
   container,
   children,
   gap = 0,
-  borderColor = 'text.primary',
+  borderColor = 'divider',
   equalHeight = false,
   rowHeights = null, // [1, 2, 1] means row ratios
   borderStart = false, // 시작 부분 border 표시
@@ -64,7 +65,7 @@ const LineGrid = React.forwardRef(({
           width: '100%',
           height: '1px',
           bgcolor: borderColor,
-          transition: 'background-color 1s ease',
+          transition: `background-color ${TIMELINE_TRANSITION.css}`,
         }}
       />
     );
@@ -162,7 +163,7 @@ const LineGrid = React.forwardRef(({
                 bottom: 0,
                 width: '1px',
                 bgcolor: borderColor,
-                transition: 'background-color 1s ease',
+                transition: `background-color ${TIMELINE_TRANSITION.css}`,
                 zIndex: 10,
               },
             }),
@@ -176,7 +177,7 @@ const LineGrid = React.forwardRef(({
                 right: 0,
                 height: '1px',
                 bgcolor: borderColor,
-                transition: 'background-color 1s ease',
+                transition: `background-color ${TIMELINE_TRANSITION.css}`,
                 zIndex: 10,
               },
             }),

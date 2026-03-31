@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { TimelineSlider } from './TimelineSlider';
-import { useTimeline } from '../../hooks/useTimeline';
+import { useTimeline, TIMELINE_TRANSITION } from '../../hooks/useTimeline';
 
 /**
  * FloatingTimeline 컴포넌트
@@ -40,7 +40,7 @@ export function FloatingTimeline({ sx }) {
           : '0 0 12px rgba(0,0,0,0.06)',
         px: 5,
         py: 2,
-        transition: 'all 600ms ease',
+        transition: `all ${TIMELINE_TRANSITION.css}`,
         ...sx,
       }}
     >

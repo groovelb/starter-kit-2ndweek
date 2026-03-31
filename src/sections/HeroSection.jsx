@@ -1,11 +1,13 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { TIMELINE_TRANSITION } from '../hooks/useTimeline';
 
 import LineGrid from '../components/layout/LineGrid';
 import { TimeBlendImage } from '../components/media/TimeBlendImage';
 import { useTimeline } from '../hooks/useTimeline';
+import { useParallax } from '../hooks/useParallax';
 import { content } from '../data/content';
 
 /**
@@ -13,6 +15,7 @@ import { content } from '../data/content';
  *
  * 브랜드 무드보드 이미지와 타이틀을 포함한 에디토리얼 히어로 섹션.
  * LineGrid를 사용한 2컬럼 레이아웃. 타임라인에 따라 낮/밤 이미지 크로스페이드.
+ * 타이틀이 이미지보다 느리게 스크롤되는 패럴럭스 효과 적용.
  *
  * 레이아웃:
  * - 좌측 (8/12): 히어로 랜드스케이프 이미지 (3:2) + 브랜드명/태그라인 오버레이
@@ -25,10 +28,16 @@ import { content } from '../data/content';
 const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
   const { title, subtitle, moodboard } = content.hero;
   const { timeline, isDarkMode } = useTimeline();
+  const sectionRef = useRef(null);
+  const parallaxY = useParallax(sectionRef, 0.7);
 
   return (
     <Box
-      ref={ref}
+      ref={(node) => {
+        sectionRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) ref.current = node;
+      }}
       sx={{
         width: '100%',
         ...sx,
@@ -38,7 +47,7 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
       <LineGrid container gap={0} sx={{ width: '100%' }}>
         {/* Row 1 Left - 히어로 랜드스케이프 + 타이틀 오버레이 */}
         <Grid size={{ xs: 12, md: 8 }} sx={{ position: 'relative' }}>
-          <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: 'relative', overflow: 'hidden' }}>
             <TimeBlendImage
               dayImage={moodboard.hero}
               nightImage={moodboard.heroNight}
@@ -46,13 +55,21 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
               alt="Lumenstate brand mood"
               aspectRatio="auto"
             />
-            {/* 타이틀 오버레이 - 좌측 상단 */}
+            {/* 타이틀 오버레이 - 패럴럭스 (배경보다 느리게) */}
             <Box
               sx={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                mt: { xs: -4, md: -8 },
                 p: { xs: 4, md: 8 },
+                transform: `translateY(${parallaxY}px)`,
+                willChange: 'transform',
               }}
             >
               <Typography
@@ -60,7 +77,7 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
                 sx={{
                   fontWeight: 500,
                   color: isDarkMode ? 'common.white' : 'common.black',
-                  transition: 'color 600ms ease-out',
+                  transition: `color ${TIMELINE_TRANSITION.css}`,
                   mb: 1,
                 }}
               >
@@ -70,7 +87,7 @@ const HeroSection = forwardRef(function HeroSection({ sx, ...props }, ref) {
                 variant="h3"
                 sx={{
                   color: isDarkMode ? 'common.white' : 'common.black',
-                  transition: 'color 600ms ease-out',
+                  transition: `color ${TIMELINE_TRANSITION.css}`,
                   fontFamily: '"Pretendard Variable", Pretendard, sans-serif',
                   fontWeight: 100,
                   opacity: 0.7,

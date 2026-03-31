@@ -70,12 +70,12 @@ export const Default = {
           <Box component="ol" sx={ { pl: 2, mb: 2 } }>
             <li><Typography variant="body2">브랜드명 "Lumenstate"</Typography></li>
             <li><Typography variant="body2">태그라인 "Light defines the space."</Typography></li>
-            <li><Typography variant="body2">배경 비디오로 조명이 공간에 미치는 영향 시각화</Typography></li>
+            <li><Typography variant="body2">무드보드 에디토리얼 이미지로 조명이 공간에 미치는 영향 시각화 (8:4 그리드)</Typography></li>
           </Box>
           <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>인터랙션</Typography>
           <Box component="ul" sx={ { pl: 2, mb: 4 } }>
-            <li><Typography variant="body2">스크롤 시 비디오가 낮 → 저녁 → 밤 장면으로 전환</Typography></li>
-            <li><Typography variant="body2">스크롤 시 화면 하단에 현재 시간(12:00pm → 12:00am) 표시</Typography></li>
+            <li><Typography variant="body2">타임라인에 따라 무드보드 이미지가 낮 ↔ 밤 버전으로 크로스페이드 (TimeBlendImage)</Typography></li>
+            <li><Typography variant="body2">좌측 상단에 브랜드명/태그라인 오버레이</Typography></li>
           </Box>
 
           <SectionTitle title="3. Brand Value Section" description="브랜드의 3가지 핵심 가치 전달" />
@@ -172,7 +172,7 @@ export const Default = {
           <Box component="ol" sx={ { pl: 2, mb: 4 } }>
             <li><Typography variant="body2">진입</Typography></li>
             <li><Typography variant="body2">브랜드 인지 (Hero - 로고, 태그라인)</Typography></li>
-            <li><Typography variant="body2">제품 분위기 체험 (Hero - 스크롤로 비디오 낮 → 밤 전환)</Typography></li>
+            <li><Typography variant="body2">제품 분위기 체험 (Hero - 무드보드 이미지 낮 ↔ 밤 크로스페이드)</Typography></li>
             <li><Typography variant="body2">브랜드 철학 이해 (Brand Value - 3가지 핵심 가치)</Typography></li>
             <li><Typography variant="body2">제품 탐색 (Product Showcase - 필터로 카테고리 선택)</Typography></li>
             <li><Typography variant="body2">시간대별 변화 체험 (Product Showcase - 슬라이더로 낮/밤 전환)</Typography></li>
@@ -190,9 +190,9 @@ export const Default = {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>스크롤</TableCell>
+                  <TableCell>타임라인</TableCell>
                   <TableCell>Hero</TableCell>
-                  <TableCell>비디오 프레임이 시간 흐름에 따라 변화</TableCell>
+                  <TableCell>무드보드 이미지가 낮 ↔ 밤 크로스페이드</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>타임라인 드래그</TableCell>

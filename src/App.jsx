@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route, useParams, useNavigate } from 'react-router-dom';
-import { useCallback } from 'react';
+import { BrowserRouter, Routes, Route, useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useCallback, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { TimelineProvider } from './hooks/useTimeline';
 import { CartProvider } from './context/CartContext';
 import { AppShell } from './components/navigation/AppShell';
@@ -32,6 +34,24 @@ function ProductDetailRoute() {
 }
 
 /**
+ * 라우트 변경 시 스크롤 초기화
+ * Lenis가 스크롤을 관리하므로 lenis.scrollTo 사용
+ */
+function ScrollToTop({ lenisRef }) {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenisRef]);
+
+  return null;
+}
+
+/**
  * 메인 앱 레이아웃 (GNB 포함)
  *
  * 동작 방식:
@@ -59,10 +79,29 @@ function AppLayout() {
 }
 
 function App() {
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    const lenis = new Lenis();
+    lenisRef.current = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
   return (
     <CartProvider>
       <TimelineProvider initialTimeline={0}>
         <BrowserRouter>
+          <ScrollToTop lenisRef={lenisRef} />
           <Routes>
             {/* Checkout - 독립 레이아웃 (GNB 없음) */}
             <Route path="/checkout" element={<CheckoutPage />} />

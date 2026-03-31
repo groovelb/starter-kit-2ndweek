@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import { ArrowRight, Instagram, Twitter } from 'lucide-react';
+import { useTimeline, TIMELINE_TRANSITION } from '../../hooks/useTimeline';
 import { content } from '../../data/content';
 
 /**
@@ -32,6 +33,7 @@ const Footer = forwardRef(function Footer({
 }, ref) {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { timelineBg } = useTimeline();
 
   const brandName = content.brand.name;
   const tagline = content.brand.tagline;
@@ -55,7 +57,8 @@ const Footer = forwardRef(function Footer({
       ref={ref}
       component="footer"
       sx={{
-        backgroundColor: 'grey.900',
+        backgroundColor: timelineBg,
+        transition: `background-color ${TIMELINE_TRANSITION.css}`,
         color: 'grey.100',
         py: { xs: 5, md: 6 },
         px: { xs: 3, md: 6 },

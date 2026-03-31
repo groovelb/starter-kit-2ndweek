@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { PageContainer } from '../components/container/PageContainer';
 import ProductDetailSection from '../sections/ProductDetailSection';
+import { useTimeline, TIMELINE_TRANSITION } from '../hooks/useTimeline';
 
 /**
  * ProductDetailPage 컴포넌트
@@ -35,8 +36,19 @@ const ProductDetailPage = forwardRef(function ProductDetailPage(
   },
   ref
 ) {
+  const { timelineBg } = useTimeline();
+
   return (
-    <PageContainer ref={ref} sx={sx} {...props}>
+    <PageContainer
+      ref={ref}
+      sx={{
+        backgroundColor: timelineBg,
+        transition: `background-color ${TIMELINE_TRANSITION.css}`,
+        minHeight: '100vh',
+        ...sx,
+      }}
+      {...props}
+    >
       <ProductDetailSection
         product={product}
         meta={meta}
