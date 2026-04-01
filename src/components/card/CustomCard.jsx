@@ -113,7 +113,7 @@ const CustomCard = forwardRef(function CustomCard({
     return {
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       '& .custom-card-media img, & .custom-card-media video, & .custom-card-media > *:first-of-type': {
-        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms ease-out',
       },
       '&:hover': hoverState,
     };
@@ -166,7 +166,6 @@ const CustomCard = forwardRef(function CustomCard({
     const base = {
       position: 'relative',
       overflow: 'hidden',
-      backgroundColor: 'grey.200',
     };
 
     if (layout === 'horizontal') {
