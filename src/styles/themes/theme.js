@@ -141,8 +141,8 @@ const palette = {
   // 시간대별 배경색 토큰 (Day↔Night 4등분 선형 보간)
   timeline: {
     noon: '#E8E5E1',      // 12pm
-    afternoon: '#928F8D',  // 4pm
-    evening: '#383735',    // 8pm
+    afternoon: '#A19F9B',  // 4pm (선형 보간)
+    evening: '#595654',    // 8pm (선형 보간)
     midnight: '#12100E',   // 12am
   },
 
@@ -424,7 +424,7 @@ const components = {
     styleOverrides: {
       root: {
         borderRadius: 0,
-        backgroundColor: BRAND_COLORS.wallTintWhite,
+        backgroundColor: 'transparent',
       },
     },
   },

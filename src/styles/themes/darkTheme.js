@@ -203,7 +203,7 @@ const darkComponents = {
     styleOverrides: {
       root: {
         borderRadius: 0,
-        backgroundColor: BRAND_COLORS.warmBlack,
+        backgroundColor: 'transparent',
       },
     },
   },
@@ -211,7 +211,6 @@ const darkComponents = {
     styleOverrides: {
       root: {
         borderRadius: 0,
-        backgroundColor: BRAND_COLORS.warmBlack,
       },
     },
   },

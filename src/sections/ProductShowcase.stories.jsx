@@ -43,7 +43,7 @@ TimelineSlider와 ProductGrid를 연동한 제품 쇼케이스 섹션.
         sx={{
           backgroundColor: 'background.default',
           minHeight: '100vh',
-          transition: 'background-color 600ms ease',
+          transition: 'background-color 600ms ease-out',
         }}
       >
         <Story {...context} />
@@ -101,7 +101,7 @@ export const DarkModeStart = {
           sx={{
             backgroundColor: 'background.default',
             minHeight: '100vh',
-            transition: 'background-color 600ms ease',
+            transition: 'background-color 600ms ease-out',
           }}
         >
           <Story {...context} />

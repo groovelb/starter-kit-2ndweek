@@ -74,36 +74,43 @@ const TIME_PRESETS = [
 /**
  * timeline 값에서 보간된 배경색 계산
  *
- * 4개 시간대 프리셋(12pm/4pm/8pm/12am)의 실측 배경색을 기반으로
- * 구간별 선형 보간.
+ * Day(#E8E5E1) → Night(#12100E) 선형 보간 + CSS↔이미지 색공간 보정.
+ * 브라우저가 CSS hex 색상과 이미지 픽셀을 다른 색공간 파이프라인으로
+ * 렌더링하므로, 블렌딩 구간에서 offset을 보정하여 시각적 일치를 보장.
+ *
+ * offset 보간: 12pm(0) → 4pm(+8) → 8pm(+12) → 12am(0)
  *
  * @param {number} timeline - 0-1 값
  * @returns {string} 보간된 배경색 hex 문자열
  */
-const BG_STOPS = [
-  { t: 0.00, r: 0xE8, g: 0xE5, b: 0xE1 },  // 12pm #E8E5E1
-  { t: 0.33, r: 0x92, g: 0x8F, b: 0x8D },  // 4pm  #928F8D
-  { t: 0.67, r: 0x38, g: 0x37, b: 0x35 },  // 8pm  #383735
-  { t: 1.00, r: 0x12, g: 0x10, b: 0x0E },  // 12am #12100E
+const BG_OFFSET_STOPS = [
+  { t: 0.00, v: 0 },
+  { t: 0.33, v: 8 },
+  { t: 0.67, v: 12 },
+  { t: 1.00, v: 0 },
 ];
 
 const getTimelineBg = (timeline) => {
-  const clamped = Math.max(0, Math.min(1, timeline));
+  const t = Math.max(0, Math.min(1, timeline));
 
-  // 해당 구간 찾기
+  // 색공간 보정 offset 계산 (구간별 선형 보간)
   let i = 0;
-  for (; i < BG_STOPS.length - 2; i++) {
-    if (clamped < BG_STOPS[i + 1].t) break;
+  for (; i < BG_OFFSET_STOPS.length - 2; i++) {
+    if (t < BG_OFFSET_STOPS[i + 1].t) break;
   }
-
-  const from = BG_STOPS[i];
-  const to = BG_STOPS[i + 1];
+  const from = BG_OFFSET_STOPS[i];
+  const to = BG_OFFSET_STOPS[i + 1];
   const range = to.t - from.t;
-  const t = range > 0 ? (clamped - from.t) / range : 0;
+  const lt = range > 0 ? (t - from.t) / range : 0;
+  const offset = Math.round(from.v + (to.v - from.v) * lt);
 
-  const r = Math.round(from.r + (to.r - from.r) * t);
-  const g = Math.round(from.g + (to.g - from.g) * t);
-  const b = Math.round(from.b + (to.b - from.b) * t);
+  const dayR = 0xE8, dayG = 0xE5, dayB = 0xE1;
+  const nightR = 0x12, nightG = 0x10, nightB = 0x0E;
+
+  const clamp = (v) => Math.max(0, Math.min(255, v));
+  const r = clamp(Math.round(dayR + (nightR - dayR) * t) + offset);
+  const g = clamp(Math.round(dayG + (nightG - dayG) * t) + offset);
+  const b = clamp(Math.round(dayB + (nightB - dayB) * t) + offset);
 
   return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 };

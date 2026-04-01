@@ -1,7 +1,6 @@
 import { PageContainer } from '../components/container/PageContainer';
 import { TopSection } from '../sections/TopSection';
 import { ProductShowcase } from '../sections/ProductShowcase';
-import { useTimeline, TIMELINE_TRANSITION } from '../hooks/useTimeline';
 
 /**
  * LandingPage 컴포넌트
@@ -13,23 +12,14 @@ import { useTimeline, TIMELINE_TRANSITION } from '../hooks/useTimeline';
  * - TopSection: 무드보드 히어로 섹션 + 브랜드 가치 카드
  * - ProductShowcase: 타임라인 슬라이더 + 제품 그리드
  *
- * 배경색은 timeline(0-1)에 따라 Day(#E8E5E1) → Night(#12100E)로 연속 보간.
- * 이미지 블렌딩 시각적 합성 결과 기준 4개 포인트 사이를 보간.
+ * 배경색은 Day(#E8E5E1) / Night(#12100E) 두 레이어를 opacity로 블렌딩.
+ * 이미지 블렌딩과 동일한 GPU compositor 파이프라인을 사용하여 전환 동기화.
  *
  * @param {object} sx - 추가 스타일 [Optional]
  */
 function LandingPage({ sx }) {
-  const { timelineBg } = useTimeline();
-
   return (
-    <PageContainer
-      sx={{
-        backgroundColor: timelineBg,
-        transition: `background-color ${TIMELINE_TRANSITION.css}`,
-        minHeight: '100vh',
-        ...sx,
-      }}
-    >
+    <PageContainer sx={sx}>
       <TopSection />
       <ProductShowcase />
     </PageContainer>

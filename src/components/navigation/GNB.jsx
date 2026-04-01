@@ -41,7 +41,6 @@ const GNB = forwardRef(function GNB({
 }, ref) {
   const theme = useTheme();
   const { totalItems } = useCart();
-
   // content.js에서 데이터 불러오기
   const brandName = content.brand.name;
 
@@ -59,10 +58,8 @@ const GNB = forwardRef(function GNB({
     justifyContent: 'space-between',
     height,
     px: { xs: 2, sm: 3, md: 4 },
-    backgroundColor: isTransparent ? 'transparent' : 'background.paper',
     borderBottom: hasBorder ? '1px solid' : 'none',
     borderColor: 'divider',
-    backdropFilter: isTransparent ? 'blur(12px)' : 'none',
     ...sx,
   };
 

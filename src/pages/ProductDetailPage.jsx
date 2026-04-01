@@ -1,13 +1,15 @@
 import { forwardRef } from 'react';
 import { PageContainer } from '../components/container/PageContainer';
 import ProductDetailSection from '../sections/ProductDetailSection';
-import { useTimeline, TIMELINE_TRANSITION } from '../hooks/useTimeline';
 
 /**
  * ProductDetailPage 컴포넌트
  *
  * 제품 상세 페이지. PageContainer + ProductDetailSection 조합.
  * GNB는 라우터 레벨에서 처리.
+ *
+ * 배경색은 Day/Night 두 레이어를 opacity로 블렌딩.
+ * 이미지 블렌딩과 동일한 GPU compositor 파이프라인 사용.
  *
  * Props:
  * @param {object} product - 제품 데이터 (products.js 구조) [Required]
@@ -36,19 +38,8 @@ const ProductDetailPage = forwardRef(function ProductDetailPage(
   },
   ref
 ) {
-  const { timelineBg } = useTimeline();
-
   return (
-    <PageContainer
-      ref={ref}
-      sx={{
-        backgroundColor: timelineBg,
-        transition: `background-color ${TIMELINE_TRANSITION.css}`,
-        minHeight: '100vh',
-        ...sx,
-      }}
-      {...props}
-    >
+    <PageContainer ref={ref} sx={sx} {...props}>
       <ProductDetailSection
         product={product}
         meta={meta}

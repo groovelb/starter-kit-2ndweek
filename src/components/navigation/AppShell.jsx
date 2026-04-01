@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { GNB } from './GNB';
 import { Footer } from './Footer';
 import { FloatingTimeline } from '../shared/FloatingTimeline';
+import { useTimeline, TIMELINE_TRANSITION } from '../../hooks/useTimeline';
 
 /**
  * AppShell 컴포넌트
@@ -36,10 +37,13 @@ const AppShell = forwardRef(function AppShell({
   sx,
   ...props
 }, ref) {
+  const { timeline } = useTimeline();
+
   return (
     <Box
       ref={ref}
       sx={{
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
@@ -47,6 +51,27 @@ const AppShell = forwardRef(function AppShell({
       }}
       {...props}
     >
+      {/* Day 배경 (항상 opacity: 1) */}
+      <Box
+        sx={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: '#E8E5E1',
+          zIndex: 0,
+        }}
+      />
+      {/* Night 배경 (opacity 블렌딩) */}
+      <Box
+        sx={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: '#12100E',
+          opacity: timeline,
+          transition: `opacity ${TIMELINE_TRANSITION.css}`,
+          zIndex: 0,
+        }}
+      />
+
       {/* GNB */}
       <GNB
         onCartClick={onCartClick}

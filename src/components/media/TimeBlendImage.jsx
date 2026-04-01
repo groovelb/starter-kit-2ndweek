@@ -73,7 +73,7 @@ export function TimeBlendImage({
     const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 
     return {
-      dayOpacity: 1 - nightT,
+      dayOpacity: 1,
       nightOpacity: nightT,
       blendedBg: hex,
     };
@@ -106,7 +106,6 @@ export function TimeBlendImage({
         ...(!isAutoRatio && { aspectRatio }),
         overflow: 'hidden',
         backgroundColor: blendedBg,
-        transition: `background-color ${TIMELINE_TRANSITION.css}`,
         ...sx,
       } }
       { ...props }

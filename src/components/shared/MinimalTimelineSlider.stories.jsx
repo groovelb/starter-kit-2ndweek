@@ -49,7 +49,7 @@ export default {
         sx={{
           p: 4,
           backgroundColor: 'background.default',
-          transition: 'background-color 600ms ease',
+          transition: 'background-color 600ms ease-out',
         }}
       >
         <Story {...context} />
@@ -85,13 +85,13 @@ export const InHeader = {
             borderColor: 'divider',
             minWidth: 400,
             backgroundColor: 'background.default',
-            transition: 'all 600ms ease',
+            transition: 'all 600ms ease-out',
           }}
         >
           <Typography
             variant="h6"
             fontWeight={700}
-            sx={{ transition: 'color 600ms ease' }}
+            sx={{ transition: 'color 600ms ease-out' }}
           >
             Lumenstate
           </Typography>
@@ -152,7 +152,7 @@ export const TimeStates = {
   render: () => (
     <Stack spacing={3}>
       <TimelineProvider initialTimeline={0}>
-        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease' }}>
+        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease-out' }}>
           <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
             12pm (Light Mode)
           </Typography>
@@ -160,7 +160,7 @@ export const TimeStates = {
         </Box>
       </TimelineProvider>
       <TimelineProvider initialTimeline={0.33}>
-        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease' }}>
+        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease-out' }}>
           <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
             4pm (Light Mode)
           </Typography>
@@ -168,7 +168,7 @@ export const TimeStates = {
         </Box>
       </TimelineProvider>
       <TimelineProvider initialTimeline={0.67}>
-        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease' }}>
+        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease-out' }}>
           <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
             8pm (Dark Mode)
           </Typography>
@@ -176,7 +176,7 @@ export const TimeStates = {
         </Box>
       </TimelineProvider>
       <TimelineProvider initialTimeline={1}>
-        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease' }}>
+        <Box sx={{ p: 2, backgroundColor: 'background.default', transition: 'background-color 600ms ease-out' }}>
           <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
             12am (Dark Mode)
           </Typography>
@@ -211,13 +211,13 @@ export const ThemeTransition = {
             py: 2,
             minWidth: 400,
             backgroundColor: 'background.default',
-            transition: 'all 600ms ease',
+            transition: 'all 600ms ease-out',
           }}
         >
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ transition: 'color 600ms ease' }}
+            sx={{ transition: 'color 600ms ease-out' }}
           >
             아이콘을 클릭하세요
           </Typography>
