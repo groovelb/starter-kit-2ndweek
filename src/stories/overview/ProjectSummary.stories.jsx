@@ -8,10 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import {
   DocumentTitle,
   PageContainer,
   SectionTitle,
+  TreeNode,
 } from '../../components/storybookDocumentation';
 
 export default {
@@ -23,165 +25,327 @@ export default {
 
 export const Default = {
   render: () => {
+    const siteMap = {
+      '/ (Landing Page)': {
+        'TopSection': {
+          'HeroSection': '브랜드명 + 태그라인 + 무드보드 이미지 (Day/Night 크로스페이드)',
+          'BrandValueSection': '3가지 핵심 가치 (Immanence, Continuity, Flexibility)',
+        },
+        'ProductShowcase': {
+          'TimelineSlider': '시간대 선택 (12pm → 12am)',
+          'ProductGallery': '타입별 필터 + 제품 그리드 (20개)',
+        },
+      },
+      '/product/:id (Product Detail)': {
+        'ProductDetailSection': {
+          'ProductHeroTemplate': '제품 스펙 카드 3개',
+          'ProductInfoTemplate': '메타 정보 + 옵션 선택 + 장바구니 추가',
+          'ProductImageViewer': 'Day/Night 블렌딩 이미지 + 타임라인',
+        },
+        'CartDrawer': '장바구니 슬라이드 패널',
+      },
+      '/checkout (Checkout)': {
+        'CheckoutSection': {
+          'ExpressCheckout': 'Shop Pay / Google Pay',
+          'ContactForm': '이메일 + 뉴스레터 수신',
+          'ShippingForm': '배송지 입력',
+          'OrderSummary': '주문 요약 + 결제',
+        },
+      },
+    };
+
     return (
       <>
         <DocumentTitle
           title="Project Summary"
           status="Available"
-          note="Starter Kit Basic overview and guidelines"
-          brandName="Design System"
-          systemName="Starter Kit"
+          note="Lumenstate 브랜드 웹사이트 프로젝트 요약"
+          brandName="Lumenstate"
+          systemName="Brand Guide"
           version="1.0"
         />
         <PageContainer>
           <Typography variant="h4" sx={ { fontWeight: 700, mb: 1 } }>
-            Starter Kit Basic
+            Lumenstate
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={ { mb: 4 } }>
-            React + MUI + Storybook 환경을 디자이너에게 마치 디자인 툴처럼 사용할 수 있도록 도와주는 개발 환경입니다.
+            환경 반응형 조명 브랜드 Lumenstate의 e-commerce 웹사이트 프로젝트
           </Typography>
 
-          <SectionTitle title="핵심 목적" />
-          <Stack spacing={ 2 } sx={ { mb: 4 } }>
-            <Box>
-              <Typography variant="subtitle2" sx={ { fontWeight: 600 } }>
-                1. UI 컴포넌트 체계적 관리
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                재사용 가능한 컴포넌트를 Storybook으로 문서화
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="subtitle2" sx={ { fontWeight: 600 } }>
-                2. 디자인 톤 일관성 유지
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                색상, 타이포그래피, 스타일을 중앙에서 관리
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="subtitle2" sx={ { fontWeight: 600 } }>
-                3. 로직과 UI 분리
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                제품의 비즈니스 로직과 UI 디자인 작업을 명확히 분리
-              </Typography>
-            </Box>
-          </Stack>
+          {/* 브랜드 컨셉 */}
+          <SectionTitle title="Brand Concept" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600, width: 160 } }>브랜드명</TableCell>
+                  <TableCell>Lumenstate</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>태그라인</TableCell>
+                  <TableCell>Light defines the space.</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>카테고리</TableCell>
+                  <TableCell>프리미엄 건축 조명 (환경 반응형)</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>핵심 기능</TableCell>
+                  <TableCell>타임라인 기반 조도/색온도 Day↔Night 자동 전환</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>제품 수</TableCell>
+                  <TableCell>20개 (Ceiling, Stand, Wall, Desk)</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-          <SectionTitle title="대상 사용자" />
-          <Stack direction="row" spacing={ 1 } sx={ { mb: 4 } }>
-            <Chip label="디자이너" variant="outlined" />
-            <Chip label="개발자" variant="outlined" />
-          </Stack>
-          <Typography variant="body2" color="text.secondary" sx={ { mb: 4 } }>
-            디자이너는 Storybook을 통해 컴포넌트를 시각적으로 탐색하고 테스트하며,
-            개발자는 체계적인 컴포넌트 구조와 스타일 가이드를 활용하여 개발합니다.
-          </Typography>
-
-          <SectionTitle title="기술 스택" />
+          {/* 브랜드 가치 */}
+          <SectionTitle title="Brand Value" description="3가지 핵심 가치" />
           <TableContainer sx={ { mb: 4 } }>
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={ { fontWeight: 600 } }>기술</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>버전</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>가치</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>English</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>설명</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>React</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Immanence</TableCell>
+                  <TableCell>Light quietly residing within the space.</TableCell>
+                  <TableCell>공간에 스며드는 은은한 빛</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Continuity</TableCell>
+                  <TableCell>Seamless & natural day to night flow.</TableCell>
+                  <TableCell>자연스러운 낮→밤 전환</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>Flexibility</TableCell>
+                  <TableCell>Auto by default, precise on demand.</TableCell>
+                  <TableCell>자동화 + 수동 정밀 제어</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Divider sx={ { my: 3 } } />
+
+          {/* 비주얼 디렉션 */}
+          <SectionTitle title="Visual Direction" />
+          <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
+            Color — 4색 팔레트 (그래디언트/글로우/블러 금지)
+          </Typography>
+          <TableContainer sx={ { mb: 3 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>색상</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Hex</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>용도</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <Box sx={ { display: 'flex', alignItems: 'center', gap: 1 } }>
+                      <Box sx={ { width: 14, height: 14, bgcolor: '#F5F2EE', border: '1px solid', borderColor: 'divider', borderRadius: '2px' } } />
+                      Wall Tint White
+                    </Box>
+                  </TableCell>
+                  <TableCell><code>#F5F2EE</code></TableCell>
+                  <TableCell>라이트 모드 배경</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Box sx={ { display: 'flex', alignItems: 'center', gap: 1 } }>
+                      <Box sx={ { width: 14, height: 14, bgcolor: '#F2E9DA', border: '1px solid', borderColor: 'divider', borderRadius: '2px' } } />
+                      3800K White
+                    </Box>
+                  </TableCell>
+                  <TableCell><code>#F2E9DA</code></TableCell>
+                  <TableCell>다크 모드 텍스트</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Box sx={ { display: 'flex', alignItems: 'center', gap: 1 } }>
+                      <Box sx={ { width: 14, height: 14, bgcolor: '#12100E', border: '1px solid', borderColor: 'divider', borderRadius: '2px' } } />
+                      Warm Black
+                    </Box>
+                  </TableCell>
+                  <TableCell><code>#12100E</code></TableCell>
+                  <TableCell>다크 모드 배경 / 라이트 모드 텍스트</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Box sx={ { display: 'flex', alignItems: 'center', gap: 1 } }>
+                      <Box sx={ { width: 14, height: 14, bgcolor: '#FFC66E', border: '1px solid', borderColor: 'divider', borderRadius: '2px' } } />
+                      3800K Accent
+                    </Box>
+                  </TableCell>
+                  <TableCell><code>#FFC66E</code></TableCell>
+                  <TableCell>CTA, 링크, 포커스</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Stack direction="row" spacing={ 1 } sx={ { mb: 4, flexWrap: 'wrap', gap: 1 } }>
+            <Chip label="Display: Cormorant Garamond" size="small" variant="outlined" />
+            <Chip label="Body: Pretendard Variable" size="small" variant="outlined" />
+            <Chip label="Icon: lucide-react (1.5px)" size="small" variant="outlined" />
+          </Stack>
+
+          <Divider sx={ { my: 3 } } />
+
+          {/* 정보 구조 (사이트맵) */}
+          <SectionTitle title="Information Architecture" description="사이트맵 — 3개 페이지, 섹션별 구성" />
+          <Box sx={ { p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 1, mb: 4 } }>
+            <Box sx={ { fontFamily: 'monospace' } }>
+              { Object.entries(siteMap).map(([key, value]) => (
+                <TreeNode
+                  key={ key }
+                  keyName={ key }
+                  value={ value }
+                  depth={ 0 }
+                  defaultOpen={ true }
+                />
+              )) }
+            </Box>
+          </Box>
+
+          {/* 타임라인 시스템 */}
+          <SectionTitle title="Timeline System" description="핵심 인터랙션 — 타임라인 값(0~1)에 따른 전환" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>시간</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Timeline</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>모드</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Lux</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Kelvin</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>12:00pm</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>0.00</TableCell>
+                  <TableCell>Light</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>480</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>4400K</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>4:00pm</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>0.33</TableCell>
+                  <TableCell>Light</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>380</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>3800K</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>8:00pm</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>0.67</TableCell>
+                  <TableCell>Dark</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>180</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>3200K</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>12:00am</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>1.00</TableCell>
+                  <TableCell>Dark</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>80</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace' } }>2700K</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Divider sx={ { my: 3 } } />
+
+          {/* 에셋 현황 */}
+          <SectionTitle title="Assets" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600 } }>에셋</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>수량</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>경로</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>제품 이미지 (Day/Night)</TableCell>
+                  <TableCell>40개 (20 x 2)</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/assets/product/</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>무드보드 이미지 (Day/Night)</TableCell>
+                  <TableCell>10개 (5 x 2)</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/assets/brand-mood/</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* 기술 스택 */}
+          <SectionTitle title="Tech Stack" />
+          <TableContainer sx={ { mb: 4 } }>
+            <Table size="small">
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={ { fontWeight: 600, width: 160 } }>React</TableCell>
                   <TableCell sx={ { fontFamily: 'monospace' } }>19.x</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>MUI (Material UI)</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>MUI (Material UI)</TableCell>
                   <TableCell sx={ { fontFamily: 'monospace' } }>7.x</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Vite</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Vite</TableCell>
                   <TableCell sx={ { fontFamily: 'monospace' } }>7.x</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Storybook</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>Storybook</TableCell>
                   <TableCell sx={ { fontFamily: 'monospace' } }>10.x</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
 
-          <SectionTitle title="중요 규칙" />
-
-          <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
-            컴포넌트 작성
-          </Typography>
-          <Box component="ul" sx={ { pl: 2, mb: 3 } }>
-            <li>
-              <Typography variant="body2">모든 UI 컴포넌트는 MUI 기반으로 작성</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">스타일링은 MUI의 <code>sx</code> prop 사용</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">컴포넌트는 독립적이고 재사용 가능하게 설계</Typography>
-            </li>
-          </Box>
-
-          <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
-            스토리 작성
-          </Typography>
-          <Box component="ul" sx={ { pl: 2, mb: 3 } }>
-            <li>
-              <Typography variant="body2">모든 컴포넌트는 Storybook 스토리와 함께 작성</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">디자이너가 이해하기 쉬운 명확한 설명 포함</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">Props 변형을 시각적으로 확인할 수 있도록 구성</Typography>
-            </li>
-          </Box>
-
-          <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
-            디자인 시스템
-          </Typography>
-          <Box component="ul" sx={ { pl: 2, mb: 3 } }>
-            <li>
-              <Typography variant="body2">색상, 타이포그래피는 테마 파일에서 중앙 관리</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">일관된 spacing, elevation, borderRadius 적용</Typography>
-            </li>
-            <li>
-              <Typography variant="body2">Style 섹션에서 디자인 토큰 문서화</Typography>
-            </li>
-          </Box>
-
-          <Typography variant="subtitle2" sx={ { fontWeight: 600, mb: 1 } }>
-            작업 분리 원칙
-          </Typography>
+          {/* 데이터 소스 */}
+          <SectionTitle title="Data Sources" description="콘텐츠 관리 파일" />
           <TableContainer>
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={ { fontWeight: 600 } }>레이어</TableCell>
-                  <TableCell sx={ { fontWeight: 600 } }>설명</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>파일</TableCell>
+                  <TableCell sx={ { fontWeight: 600 } }>내용</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>UI 레이어</TableCell>
-                  <TableCell>순수 프레젠테이션 컴포넌트 (로직 없음)</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/data/content.js</TableCell>
+                  <TableCell>브랜드명, 메뉴, 히어로, 브랜드 가치, 푸터</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>로직 레이어</TableCell>
-                  <TableCell>비즈니스 로직, 상태 관리, API 호출</TableCell>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/data/products.js</TableCell>
+                  <TableCell>20개 제품 데이터 (이름, 설명, 스펙, 옵션)</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/styles/theme.js</TableCell>
+                  <TableCell>4색 팔레트, 타이포그래피, 간격 토큰</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={ { fontFamily: 'monospace', fontSize: 12 } }>src/hooks/useTimeline.jsx</TableCell>
+                  <TableCell>타임라인 상태 (0~1), 시간대 보간</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
-          <Typography variant="caption" color="text.secondary" sx={ { mt: 1, display: 'block' } }>
-            Storybook에서는 UI 레이어만 다룹니다.
-          </Typography>
         </PageContainer>
       </>
     );

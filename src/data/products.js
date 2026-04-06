@@ -54,7 +54,6 @@ export const products = [
     lux: 260,
     kelvin: 3200,
     images: productAssets[1].images,
-    video: productAssets[1].video,
   },
   {
     id: 2,
@@ -67,7 +66,6 @@ export const products = [
     lux: 480,
     kelvin: 4400,
     images: productAssets[2].images,
-    video: productAssets[2].video,
   },
   {
     id: 3,
@@ -80,7 +78,6 @@ export const products = [
     lux: 320,
     kelvin: 3800,
     images: productAssets[3].images,
-    video: productAssets[3].video,
   },
   {
     id: 4,
@@ -93,7 +90,6 @@ export const products = [
     lux: 180,
     kelvin: 2800,
     images: productAssets[4].images,
-    video: productAssets[4].video,
   },
   {
     id: 5,
@@ -106,7 +102,6 @@ export const products = [
     lux: 240,
     kelvin: 3400,
     images: productAssets[5].images,
-    video: productAssets[5].video,
   },
   {
     id: 6,
@@ -119,7 +114,6 @@ export const products = [
     lux: 120,
     kelvin: 2400,
     images: productAssets[6].images,
-    video: productAssets[6].video,
   },
   {
     id: 7,
@@ -132,7 +126,6 @@ export const products = [
     lux: 350,
     kelvin: 3600,
     images: productAssets[7].images,
-    video: productAssets[7].video,
   },
   {
     id: 8,
@@ -145,7 +138,6 @@ export const products = [
     lux: 200,
     kelvin: 3000,
     images: productAssets[8].images,
-    video: productAssets[8].video,
   },
   {
     id: 9,
@@ -158,7 +150,6 @@ export const products = [
     lux: 420,
     kelvin: 4200,
     images: productAssets[9].images,
-    video: productAssets[9].video,
   },
   {
     id: 10,
@@ -171,7 +162,6 @@ export const products = [
     lux: 280,
     kelvin: 3300,
     images: productAssets[10].images,
-    video: productAssets[10].video,
   },
   {
     id: 11,
@@ -184,7 +174,6 @@ export const products = [
     lux: 150,
     kelvin: 2900,
     images: productAssets[11].images,
-    video: productAssets[11].video,
   },
   {
     id: 12,
@@ -197,7 +186,6 @@ export const products = [
     lux: 380,
     kelvin: 3900,
     images: productAssets[12].images,
-    video: productAssets[12].video,
   },
   {
     id: 13,
@@ -210,7 +198,6 @@ export const products = [
     lux: 450,
     kelvin: 4000,
     images: productAssets[13].images,
-    video: productAssets[13].video,
   },
   {
     id: 14,
@@ -223,7 +210,6 @@ export const products = [
     lux: 300,
     kelvin: 3500,
     images: productAssets[14].images,
-    video: productAssets[14].video,
   },
   {
     id: 15,
@@ -236,7 +222,6 @@ export const products = [
     lux: 340,
     kelvin: 3700,
     images: productAssets[15].images,
-    video: productAssets[15].video,
   },
   {
     id: 16,
@@ -249,7 +234,6 @@ export const products = [
     lux: 310,
     kelvin: 3400,
     images: productAssets[16]?.images || [],
-    video: productAssets[16]?.video || null,
   },
   {
     id: 17,
@@ -262,7 +246,6 @@ export const products = [
     lux: 220,
     kelvin: 2700,
     images: productAssets[17]?.images || [],
-    video: productAssets[17]?.video || null,
   },
   {
     id: 18,
@@ -275,7 +258,6 @@ export const products = [
     lux: 360,
     kelvin: 3500,
     images: productAssets[18]?.images || [],
-    video: productAssets[18]?.video || null,
   },
   {
     id: 19,
@@ -288,7 +270,6 @@ export const products = [
     lux: 170,
     kelvin: 3100,
     images: productAssets[19]?.images || [],
-    video: productAssets[19]?.video || null,
   },
   {
     id: 20,
@@ -301,7 +282,6 @@ export const products = [
     lux: 190,
     kelvin: 4100,
     images: productAssets[20]?.images || [],
-    video: productAssets[20]?.video || null,
   },
 ];
 

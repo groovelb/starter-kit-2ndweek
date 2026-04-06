@@ -40,101 +40,26 @@ import product19_1 from './19-1.png';
 import product20 from './20.png';
 import product20_1 from './20-1.png';
 
-// Product Videos
-import video1 from './1-motion.mp4';
-import video2 from './2-motion.mp4';
-import video3 from './3-motion.mp4';
-import video4 from './4-motion.mp4';
-import video5 from './5-motion.mp4';
-import video6 from './6-motion.mp4';
-import video7 from './7-motion.mp4';
-import video8 from './8-motion.mp4';
-import video9 from './9-motion.mp4';
-import video10 from './10-motion.mp4';
-import video12 from './12-motion.mp4';
-import video14 from './14-motion.mp4';
-import video15 from './15-motion.mp4';
-
 // Export organized by product
 export const productAssets = {
-  1: {
-    images: [product1, product1_1],
-    video: video1,
-  },
-  2: {
-    images: [product2, product2_1],
-    video: video2,
-  },
-  3: {
-    images: [product3, product3_1],
-    video: video3,
-  },
-  4: {
-    images: [product4, product4_1],
-    video: video4,
-  },
-  5: {
-    images: [product5, product5_1],
-    video: video5,
-  },
-  6: {
-    images: [product6, product6_1],
-    video: video6,
-  },
-  7: {
-    images: [product7, product7_1],
-    video: video7,
-  },
-  8: {
-    images: [product8, product8_1],
-    video: video8,
-  },
-  9: {
-    images: [product9, product9_1],
-    video: video9,
-  },
-  10: {
-    images: [product10, product10_1],
-    video: video10,
-  },
-  11: {
-    images: [product11, product11_1],
-    video: null,
-  },
-  12: {
-    images: [product12, product12_1],
-    video: video12,
-  },
-  13: {
-    images: [product13, product13_1],
-    video: null,
-  },
-  14: {
-    images: [product14, product14_1],
-    video: video14,
-  },
-  15: {
-    images: [product15, product15_1],
-    video: video15,
-  },
-  16: {
-    images: [product16, product16_1],
-    video: null,
-  },
-  17: {
-    images: [product17, product17_1],
-    video: null,
-  },
-  18: {
-    images: [product18, product18_1],
-    video: null,
-  },
-  19: {
-    images: [product19, product19_1],
-    video: null,
-  },
-  20: {
-    images: [product20, product20_1],
-    video: null,
-  },
+  1: { images: [product1, product1_1] },
+  2: { images: [product2, product2_1] },
+  3: { images: [product3, product3_1] },
+  4: { images: [product4, product4_1] },
+  5: { images: [product5, product5_1] },
+  6: { images: [product6, product6_1] },
+  7: { images: [product7, product7_1] },
+  8: { images: [product8, product8_1] },
+  9: { images: [product9, product9_1] },
+  10: { images: [product10, product10_1] },
+  11: { images: [product11, product11_1] },
+  12: { images: [product12, product12_1] },
+  13: { images: [product13, product13_1] },
+  14: { images: [product14, product14_1] },
+  15: { images: [product15, product15_1] },
+  16: { images: [product16, product16_1] },
+  17: { images: [product17, product17_1] },
+  18: { images: [product18, product18_1] },
+  19: { images: [product19, product19_1] },
+  20: { images: [product20, product20_1] },
 };
