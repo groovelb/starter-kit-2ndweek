@@ -1,0 +1,263 @@
+- generic [ref=e3]:
+  - banner [ref=e6]:
+    - heading "Lumenstate" [level=6] [ref=e7]
+    - button "Open cart" [ref=e8] [cursor=pointer]:
+      - img [ref=e10]
+  - main [ref=e13]:
+    - generic [ref=e15]:
+      - generic [ref=e17]:
+        - generic [ref=e19]:
+          - generic [ref=e21]:
+            - generic [ref=e22]:
+              - img "Lumenstate brand mood - Day" [ref=e23]
+              - img "Lumenstate brand mood - Night" [ref=e24]
+            - generic [ref=e25]:
+              - heading "Lumenstate" [level=1] [ref=e26]
+              - heading "Light defines the space." [level=3] [ref=e27]
+          - generic [ref=e29]:
+            - img "Arch light in gallery space - Day" [ref=e30]
+            - img "Arch light in gallery space - Night" [ref=e31]
+        - generic [ref=e34]:
+          - generic [ref=e38]:
+            - img [ref=e39]
+            - generic [ref=e42]:
+              - heading "Immanence" [level=5] [ref=e43]
+              - paragraph [ref=e44]: Light quietly residing within the space.
+            - paragraph [ref=e45]: 조명이 건축과 하나가 되어 은은하고 눈부심 없는 빛을 전합니다. 공간의 표면과 시선을 해치지 않으면서, 드러내지 않는 존재감과 방해 없는 정밀함을 구현합니다.
+          - generic [ref=e49]:
+            - img [ref=e50]
+            - generic [ref=e55]:
+              - heading "Continuity" [level=5] [ref=e56]
+              - paragraph [ref=e57]: Seamless & natural day to night flow.
+            - paragraph [ref=e58]: 밝기와 색온도가 하루의 흐름을 따라 한낮의 선명함에서 저녁의 온기로 부드럽게 이어집니다. 급격한 변화나 깜빡임 없이, 오직 안정적이고 편안한 빛만을 선사합니다.
+          - generic [ref=e62]:
+            - img [ref=e63]
+            - generic [ref=e65]:
+              - heading "Flexibility" [level=5] [ref=e66]
+              - paragraph [ref=e67]: Auto by default, precise on demand.
+            - paragraph [ref=e68]: 자동화가 일상의 조명을 관리하고, 필요할 때는 즉시 조도와 색온도를 정밀하게 제어할 수 있습니다. 최소한의 센서와 효율적인 기본 설정으로 공간의 맥락을 존중합니다.
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Product Showcase" [level=4] [ref=e73]
+          - paragraph [ref=e74]: Explore brightness and color temperature changes throughout the day
+        - generic [ref=e76]:
+          - tablist "product type filter" [ref=e82]:
+            - tab "All" [selected] [ref=e83] [cursor=pointer]: All
+            - tab "Ceiling" [ref=e85] [cursor=pointer]
+            - tab "Stand" [ref=e86] [cursor=pointer]
+            - tab "Wall" [ref=e87] [cursor=pointer]
+            - tab "Desk" [ref=e88] [cursor=pointer]
+          - generic [ref=e92]:
+            - generic [ref=e94] [cursor=pointer]:
+              - generic [ref=e96]:
+                - img "Lumen Desk Pro - Day" [ref=e97]
+                - img "Lumen Desk Pro - Night" [ref=e98]
+              - generic [ref=e99]:
+                - generic [ref=e101]: Ceiling
+                - generic [ref=e102]:
+                  - heading "Lumen Desk Pro" [level=6] [ref=e103]
+                  - paragraph [ref=e104]: 260lx · 3200K
+            - generic [ref=e106] [cursor=pointer]:
+              - generic [ref=e108]:
+                - img "Lumen Ceiling - Day" [ref=e109]
+                - img "Lumen Ceiling - Night" [ref=e110]
+              - generic [ref=e111]:
+                - generic [ref=e113]: Stand
+                - generic [ref=e114]:
+                  - heading "Lumen Ceiling" [level=6] [ref=e115]
+                  - paragraph [ref=e116]: 480lx · 4400K
+            - generic [ref=e118] [cursor=pointer]:
+              - generic [ref=e120]:
+                - img "Lumen Floor - Day" [ref=e121]
+                - img "Lumen Floor - Night" [ref=e122]
+              - generic [ref=e123]:
+                - generic [ref=e125]: Wall
+                - generic [ref=e126]:
+                  - heading "Lumen Floor" [level=6] [ref=e127]
+                  - paragraph [ref=e128]: 320lx · 3800K
+            - generic [ref=e130] [cursor=pointer]:
+              - generic [ref=e132]:
+                - img "Lumen Wall - Day" [ref=e133]
+                - img "Lumen Wall - Night" [ref=e134]
+              - generic [ref=e135]:
+                - generic [ref=e137]: Wall
+                - generic [ref=e138]:
+                  - heading "Lumen Wall" [level=6] [ref=e139]
+                  - paragraph [ref=e140]: 180lx · 2800K
+            - generic [ref=e142] [cursor=pointer]:
+              - generic [ref=e144]:
+                - img "Lumen Table - Day" [ref=e145]
+                - img "Lumen Table - Night" [ref=e146]
+              - generic [ref=e147]:
+                - generic [ref=e149]: Wall
+                - generic [ref=e150]:
+                  - heading "Lumen Table" [level=6] [ref=e151]
+                  - paragraph [ref=e152]: 240lx · 3400K
+            - generic [ref=e154] [cursor=pointer]:
+              - generic [ref=e156]:
+                - img "Lumen Ambient - Day" [ref=e157]
+                - img "Lumen Ambient - Night" [ref=e158]
+              - generic [ref=e159]:
+                - generic [ref=e161]: Stand
+                - generic [ref=e162]:
+                  - heading "Lumen Ambient" [level=6] [ref=e163]
+                  - paragraph [ref=e164]: 120lx · 2400K
+            - generic [ref=e166] [cursor=pointer]:
+              - generic [ref=e168]:
+                - img "Lumen Arc - Day" [ref=e169]
+                - img "Lumen Arc - Night" [ref=e170]
+              - generic [ref=e171]:
+                - generic [ref=e173]: Wall
+                - generic [ref=e174]:
+                  - heading "Lumen Arc" [level=6] [ref=e175]
+                  - paragraph [ref=e176]: 350lx · 3600K
+            - generic [ref=e178] [cursor=pointer]:
+              - generic [ref=e180]:
+                - img "Lumen Sphere - Day" [ref=e181]
+                - img "Lumen Sphere - Night" [ref=e182]
+              - generic [ref=e183]:
+                - generic [ref=e185]: Wall
+                - generic [ref=e186]:
+                  - heading "Lumen Sphere" [level=6] [ref=e187]
+                  - paragraph [ref=e188]: 200lx · 3000K
+            - generic [ref=e190] [cursor=pointer]:
+              - generic [ref=e192]:
+                - img "Lumen Linear - Day" [ref=e193]
+                - img "Lumen Linear - Night" [ref=e194]
+              - generic [ref=e195]:
+                - generic [ref=e197]: Wall
+                - generic [ref=e198]:
+                  - heading "Lumen Linear" [level=6] [ref=e199]
+                  - paragraph [ref=e200]: 420lx · 4200K
+            - generic [ref=e202] [cursor=pointer]:
+              - generic [ref=e204]:
+                - img "Lumen Pendant - Day" [ref=e205]
+                - img "Lumen Pendant - Night" [ref=e206]
+              - generic [ref=e207]:
+                - generic [ref=e209]: Stand
+                - generic [ref=e210]:
+                  - heading "Lumen Pendant" [level=6] [ref=e211]
+                  - paragraph [ref=e212]: 280lx · 3300K
+            - generic [ref=e214] [cursor=pointer]:
+              - generic [ref=e216]:
+                - img "Lumen Mini - Day" [ref=e217]
+                - img "Lumen Mini - Night" [ref=e218]
+              - generic [ref=e219]:
+                - generic [ref=e221]: Wall
+                - generic [ref=e222]:
+                  - heading "Lumen Mini" [level=6] [ref=e223]
+                  - paragraph [ref=e224]: 150lx · 2900K
+            - generic [ref=e226] [cursor=pointer]:
+              - generic [ref=e228]:
+                - img "Lumen Studio - Day" [ref=e229]
+                - img "Lumen Studio - Night" [ref=e230]
+              - generic [ref=e231]:
+                - generic [ref=e233]: Ceiling
+                - generic [ref=e234]:
+                  - heading "Lumen Studio" [level=6] [ref=e235]
+                  - paragraph [ref=e236]: 380lx · 3900K
+            - generic [ref=e238] [cursor=pointer]:
+              - generic [ref=e240]:
+                - img "Lumen Spot - Day" [ref=e241]
+                - img "Lumen Spot - Night" [ref=e242]
+              - generic [ref=e243]:
+                - generic [ref=e245]: Stand
+                - generic [ref=e246]:
+                  - heading "Lumen Spot" [level=6] [ref=e247]
+                  - paragraph [ref=e248]: 450lx · 4000K
+            - generic [ref=e250] [cursor=pointer]:
+              - generic [ref=e252]:
+                - img "Lumen Flex - Day" [ref=e253]
+                - img "Lumen Flex - Night" [ref=e254]
+              - generic [ref=e255]:
+                - generic [ref=e257]: Wall
+                - generic [ref=e258]:
+                  - heading "Lumen Flex" [level=6] [ref=e259]
+                  - paragraph [ref=e260]: 300lx · 3500K
+            - generic [ref=e262] [cursor=pointer]:
+              - generic [ref=e264]:
+                - img "Lumen Ring - Day" [ref=e265]
+                - img "Lumen Ring - Night" [ref=e266]
+              - generic [ref=e267]:
+                - generic [ref=e269]: Desk
+                - generic [ref=e270]:
+                  - heading "Lumen Ring" [level=6] [ref=e271]
+                  - paragraph [ref=e272]: 340lx · 3700K
+            - generic [ref=e274] [cursor=pointer]:
+              - generic [ref=e276]:
+                - img "Lumen Cube - Day" [ref=e277]
+                - img "Lumen Cube - Night" [ref=e278]
+              - generic [ref=e279]:
+                - generic [ref=e281]: Ceiling
+                - generic [ref=e282]:
+                  - heading "Lumen Cube" [level=6] [ref=e283]
+                  - paragraph [ref=e284]: 310lx · 3400K
+            - generic [ref=e286] [cursor=pointer]:
+              - generic [ref=e288]:
+                - img "Lumen Dome - Day" [ref=e289]
+                - img "Lumen Dome - Night" [ref=e290]
+              - generic [ref=e291]:
+                - generic [ref=e293]: Desk
+                - generic [ref=e294]:
+                  - heading "Lumen Dome" [level=6] [ref=e295]
+                  - paragraph [ref=e296]: 220lx · 2700K
+            - generic [ref=e298] [cursor=pointer]:
+              - generic [ref=e300]:
+                - img "Lumen Capsule - Day" [ref=e301]
+                - img "Lumen Capsule - Night" [ref=e302]
+              - generic [ref=e303]:
+                - generic [ref=e305]: Stand
+                - generic [ref=e306]:
+                  - heading "Lumen Capsule" [level=6] [ref=e307]
+                  - paragraph [ref=e308]: 360lx · 3500K
+            - generic [ref=e310] [cursor=pointer]:
+              - generic [ref=e312]:
+                - img "Lumen Stack - Day" [ref=e313]
+                - img "Lumen Stack - Night" [ref=e314]
+              - generic [ref=e315]:
+                - generic [ref=e317]: Wall
+                - generic [ref=e318]:
+                  - heading "Lumen Stack" [level=6] [ref=e319]
+                  - paragraph [ref=e320]: 170lx · 3100K
+            - generic [ref=e322] [cursor=pointer]:
+              - generic [ref=e324]:
+                - img "Lumen Prism - Day" [ref=e325]
+                - img "Lumen Prism - Night" [ref=e326]
+              - generic [ref=e327]:
+                - generic [ref=e329]: Desk
+                - generic [ref=e330]:
+                  - heading "Lumen Prism" [level=6] [ref=e331]
+                  - paragraph [ref=e332]: 190lx · 4100K
+  - contentinfo [ref=e334]:
+    - generic [ref=e335]:
+      - generic [ref=e336]:
+        - generic [ref=e337]: Newsletter
+        - generic [ref=e338]:
+          - textbox "Enter your email" [ref=e340]
+          - button [disabled]:
+            - img
+      - generic [ref=e341]:
+        - generic [ref=e342]:
+          - paragraph [ref=e343]: Light defines the space.
+          - heading "Lumenstate" [level=6] [ref=e344]
+        - generic [ref=e345]:
+          - generic [ref=e346]: Follow Us
+          - generic [ref=e347]:
+            - button [ref=e348] [cursor=pointer]:
+              - img [ref=e349]
+            - button [ref=e352] [cursor=pointer]:
+              - img [ref=e353]
+    - generic [ref=e355]: © 2025 Lumenstate. All rights reserved.
+  - generic [ref=e357]:
+    - button "12pm" [ref=e358] [cursor=pointer]:
+      - img [ref=e359]
+      - paragraph [ref=e365]: 12pm
+    - button "4pm" [ref=e366] [cursor=pointer]:
+      - img [ref=e367]
+      - paragraph [ref=e372]: 4pm
+    - button "8pm" [ref=e373] [cursor=pointer]:
+      - img [ref=e374]
+      - paragraph [ref=e376]: 8pm
+    - button "12am" [ref=e377] [cursor=pointer]:
+      - img [ref=e378]
+      - paragraph [ref=e380]: 12am

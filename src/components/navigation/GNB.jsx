@@ -60,6 +60,7 @@ const GNB = forwardRef(function GNB({
     px: { xs: 2, sm: 3, md: 4 },
     borderBottom: hasBorder ? '1px solid' : 'none',
     borderColor: 'divider',
+    backgroundColor: 'background.default',
     ...sx,
   };
 

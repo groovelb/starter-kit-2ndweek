@@ -15,7 +15,7 @@ import { BrandValueSection } from './BrandValueSection';
  */
 const TopSection = () => {
   return (
-    <LineGrid borderEnd>
+    <LineGrid borderEnd sx={{ position: 'relative', zIndex: 1 }}>
       <HeroSection />
       <BrandValueSection />
     </LineGrid>

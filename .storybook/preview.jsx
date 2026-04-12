@@ -6,6 +6,11 @@ import theme from '../src/styles/themes/theme.js';
 import { TimelineProvider } from '../src/hooks/useTimeline';
 import { CartProvider } from '../src/context/CartContext';
 
+// Dark Reader 확장 차단 (Storybook은 index.html <head>를 공유하지 않으므로 JS로 삽입)
+const darkreaderLock = document.createElement('meta');
+darkreaderLock.name = 'darkreader-lock';
+document.head.appendChild(darkreaderLock);
+
 // Tiempos Headline 로컬 폰트 로드
 import tiemposHeadline from '../src/assets/font/test-tiempos-headline-vf-roman.woff2';
 
@@ -52,7 +57,7 @@ const preview = {
           <CssBaseline />
           <CartProvider>
             <TimelineProvider initialTimeline={0}>
-              <div style={ { width: '100%', paddingTop: '40px' } }>
+              <div data-mui-color-scheme="light" style={ { width: '100%', paddingTop: '40px' } }>
                 { Story(context) }
               </div>
             </TimelineProvider>
