@@ -1,7 +1,8 @@
-import { forwardRef, useState, useMemo } from 'react';
+import { forwardRef, useState } from 'react';
 import { CenteredAsideLayout } from '../components/layout/CenteredAsideLayout';
 import { ProductFilter } from '../components/navigation/ProductFilter';
 import { ProductGrid } from './ProductGrid';
+import { useFilterTransition } from '../hooks/useFilterTransition';
 
 /**
  * 시각적 상수 (ProductGallery 전용)
@@ -53,13 +54,8 @@ const ProductGallery = forwardRef(function ProductGallery({
 }, ref) {
   const [filter, setFilter] = useState(defaultFilter);
 
-  // 필터링된 제품 목록
-  const filteredProducts = useMemo(() => {
-    if (filter === 'all') {
-      return products;
-    }
-    return products.filter((product) => product.type === filter);
-  }, [products, filter]);
+  // 필터 전환 애니메이션 훅
+  const { displayList, registerRef } = useFilterTransition(products, filter);
 
   return (
     <CenteredAsideLayout
@@ -78,7 +74,8 @@ const ProductGallery = forwardRef(function ProductGallery({
       {...props}
     >
       <ProductGrid
-        products={filteredProducts}
+        displayList={displayList}
+        registerRef={registerRef}
         timeline={timeline}
         onProductClick={onProductClick}
         selectedProductId={selectedProductId}
