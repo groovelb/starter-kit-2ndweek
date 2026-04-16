@@ -45,6 +45,7 @@ const ProductGrid = forwardRef(function ProductGrid({
   products = [],
   displayList,
   registerRef,
+  containerRef,
   timeline = 0,
   onProductClick,
   selectedProductId,
@@ -61,7 +62,7 @@ const ProductGrid = forwardRef(function ProductGrid({
   }
 
   return (
-    <Box ref={ref} sx={sx} {...props}>
+    <Box ref={containerRef || ref} sx={sx} {...props}>
       <Grid container spacing={GRID.SPACING} rowSpacing={8}>
         {items.map(({ product, itemPhase }) => (
           <Grid key={product.id} size={GRID.SIZE}>

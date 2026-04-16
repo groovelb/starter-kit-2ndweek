@@ -1,5 +1,6 @@
 import { PageContainer } from '../components/container/PageContainer';
 import { TopSection } from '../sections/TopSection';
+import { ElevationSection } from '../sections/ElevationSection';
 import { ProductShowcase } from '../sections/ProductShowcase';
 
 /**
@@ -19,10 +20,13 @@ import { ProductShowcase } from '../sections/ProductShowcase';
  */
 function LandingPage({ sx }) {
   return (
-    <PageContainer sx={sx}>
+    <>
       <TopSection />
-      <ProductShowcase />
-    </PageContainer>
+      <ElevationSection />
+      <PageContainer sx={sx}>
+        <ProductShowcase />
+      </PageContainer>
+    </>
   );
 }
 

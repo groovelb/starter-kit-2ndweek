@@ -55,7 +55,7 @@ const ProductGallery = forwardRef(function ProductGallery({
   const [filter, setFilter] = useState(defaultFilter);
 
   // 필터 전환 애니메이션 훅
-  const { displayList, registerRef } = useFilterTransition(products, filter);
+  const { displayList, registerRef, containerRef } = useFilterTransition(products, filter);
 
   return (
     <CenteredAsideLayout
@@ -76,6 +76,7 @@ const ProductGallery = forwardRef(function ProductGallery({
       <ProductGrid
         displayList={displayList}
         registerRef={registerRef}
+        containerRef={containerRef}
         timeline={timeline}
         onProductClick={onProductClick}
         selectedProductId={selectedProductId}

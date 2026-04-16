@@ -4,12 +4,14 @@ import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react
  * 필터 전환 애니메이션 타이밍 상수
  */
 const FILTER_TRANSITION = {
-  fadeOut: 300,
-  reflow: 400,
-  fadeIn: 300,
+  fadeOut: 600,
+  reflow: 1200,
+  flipStep: 600,
+  fadeIn: 600,
+  heightTransition: 500,
   easing: {
-    fade: 'ease-out',
-    flip: 'cubic-bezier(0.37, 0, 0.63, 1)',
+    fade: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+    flip: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
   },
   blur: '8px',
   scale: 0.95,
@@ -30,22 +32,13 @@ function getFilteredProducts(allProducts, filter) {
  *
  * 동작 방식:
  * 1. 필터 변경 감지 → 이전/이후 제품 비교 → exiting/staying/entering 분류
- * 2. Phase 1 (fadeOut): 퇴장 아이템 blur + fade out (300ms)
- * 3. Phase 2 (reflow): DOM 교체 + FLIP 위치 애니메이션 (400ms)
- * 4. Phase 3 (fadeIn): 입장 아이템 blur + fade in (300ms)
- *
- * FLIP 기법:
- * - First: fadeOut 종료 시 잔류 아이템 위치 캡처
- * - Last: DOM 교체 후 useLayoutEffect에서 새 위치 캡처
- * - Invert: 위치 차이만큼 transform 즉시 적용 (깜빡임 방지)
- * - Play: rAF에서 transform: translate(0,0) 전환 → 부드러운 이동
+ * 2. Phase 1 (fadeOut): 퇴장 아이템 blur + fade out
+ * 3. Phase 2 (reflow): DOM 교체 + FLIP L자형 위치 애니메이션
+ * 4. Phase 3 (fadeIn): 입장 아이템 blur + fade in
  *
  * @param {Array} allProducts - 전체 제품 배열 [Required]
  * @param {string} filter - 현재 필터 값 ('all' | product type) [Required]
- * @returns {{ displayList: Array<{product, itemPhase}>, phase: string, registerRef: function, isAnimating: boolean }}
- *
- * Example usage:
- * const { displayList, phase, registerRef } = useFilterTransition(products, filter);
+ * @returns {{ displayList, phase, registerRef, isAnimating }}
  */
 export function useFilterTransition(allProducts, filter) {
   const [displayList, setDisplayList] = useState(() =>
@@ -61,10 +54,11 @@ export function useFilterTransition(allProducts, filter) {
   const firstRectsRef = useRef(new Map());
   const stayingIdsRef = useRef(new Set());
   const timeoutsRef = useRef([]);
+  const containerRef = useRef(null);
+  const oldHeightRef = useRef(0);
 
   /**
    * DOM 참조 등록 콜백
-   * AnimatedGridItem에서 마운트/언마운트 시 호출
    */
   const registerRef = useCallback((productId, element) => {
     if (element) {
@@ -84,6 +78,12 @@ export function useFilterTransition(allProducts, filter) {
       el.style.transition = '';
       el.style.transform = '';
     });
+    const c = containerRef.current;
+    if (c) {
+      c.style.height = '';
+      c.style.overflow = '';
+      c.style.transition = '';
+    }
   }, []);
 
   /**
@@ -110,17 +110,11 @@ export function useFilterTransition(allProducts, filter) {
 
   /**
    * 필터 변경 감지 및 애니메이션 시작
-   *
-   * 애니메이션 오케스트레이션은 명령적(imperative) 특성상
-   * effect 내에서 동기적 setState가 필요하다.
-   * - 초기 displayList 설정: 즉시 퇴장/입장 아이템 표시를 위해 동기적 호출
-   * - 후속 phase 전환: setTimeout 콜백 내에서 비동기 호출
    */
   useEffect(() => {
     const prevFilter = prevFilterRef.current;
     if (prevFilter === filter) return;
 
-    // 진행 중인 애니메이션 취소
     cancelAnimation();
 
     const prevItems = getFilteredProducts(allProducts, prevFilter);
@@ -137,10 +131,57 @@ export function useFilterTransition(allProducts, filter) {
 
     const hasExiting = exitingIds.size > 0;
     const hasEntering = enteringIds.size > 0;
+    const hasStaying = stayingIds.size > 0;
+    const reflowDelay = hasStaying ? FILTER_TRANSITION.reflow : 50;
+
+    // 애니메이션 시작 전 컨테이너 높이를 현재 값으로 고정
+    const container = containerRef.current;
+    if (container) {
+      oldHeightRef.current = container.offsetHeight;
+      container.style.transition = 'none';
+      container.style.height = `${container.offsetHeight}px`;
+      container.style.overflow = 'hidden';
+    }
 
     /**
-     * FLIP First 위치 캡처
+     * 애니메이션 완료 → 컨테이너 높이를 old → new로 transition 후 auto 복원
+     *
+     * overflow: hidden 유지한 채 height=0/scrollHeight로 자연 높이 측정.
+     * 동기 DOM 조작 사이에 paint 없으므로 시각적 불연속 없음.
      */
+    const transitionHeight = () => {
+      const c = containerRef.current;
+      if (!c) return;
+      const oldHeight = oldHeightRef.current;
+
+      // overflow hidden 유지한 채 자연 높이 측정
+      // height:0 → scrollHeight = 콘텐츠 자연 높이, 동기 처리로 paint 발생 안함
+      c.style.height = '0';
+      const newHeight = c.scrollHeight;
+      c.style.height = `${oldHeight}px`;
+
+      // 높이 변화 없으면 바로 정리
+      if (Math.abs(newHeight - oldHeight) < 1) {
+        c.style.height = '';
+        c.style.overflow = '';
+        c.style.transition = '';
+        return;
+      }
+
+      // overflow hidden 유지 → old → new height transition → 완료 후 전부 해제
+      requestAnimationFrame(() => {
+        c.style.transition = `height ${FILTER_TRANSITION.heightTransition}ms ${FILTER_TRANSITION.easing.fade}`;
+        c.style.height = `${newHeight}px`;
+
+        const cleanId = setTimeout(() => {
+          c.style.height = '';
+          c.style.overflow = '';
+          c.style.transition = '';
+        }, FILTER_TRANSITION.heightTransition);
+        timeoutsRef.current.push(cleanId);
+      });
+    };
+
     const captureFirstRects = () => {
       const rects = new Map();
       stayingIds.forEach((id) => {
@@ -150,9 +191,6 @@ export function useFilterTransition(allProducts, filter) {
       firstRectsRef.current = rects;
     };
 
-    /**
-     * Phase 2 → Phase 3 전환
-     */
     const startFadeIn = () => {
       cleanupFlipStyles();
 
@@ -170,18 +208,17 @@ export function useFilterTransition(allProducts, filter) {
           setDisplayList(
             nextItems.map((product) => ({ product, itemPhase: 'stable' }))
           );
+          transitionHeight();
         }, FILTER_TRANSITION.fadeIn);
       } else {
         setPhase('idle');
         setDisplayList(
           nextItems.map((product) => ({ product, itemPhase: 'stable' }))
         );
+        transitionHeight();
       }
     };
 
-    /**
-     * Phase 2: REFLOW (DOM 교체 + FLIP)
-     */
     const startReflow = () => {
       captureFirstRects();
 
@@ -193,13 +230,11 @@ export function useFilterTransition(allProducts, filter) {
         }))
       );
 
-      addTimeout(startFadeIn, FILTER_TRANSITION.reflow);
+      addTimeout(startFadeIn, reflowDelay);
     };
 
-    // --- 애니메이션 시퀀스 시작 ---
-    /* eslint-disable react-hooks/set-state-in-effect -- 애니메이션 오케스트레이션: 필터 전환의 초기 phase/displayList를 즉시 설정해야 시각적 지연 없이 fade out 시작 가능 */
+    /* eslint-disable react-hooks/set-state-in-effect -- 애니메이션 오케스트레이션: 초기 phase/displayList 즉시 설정 필요 */
     if (hasExiting) {
-      // Phase 1: FADE_OUT
       setPhase('fadeOut');
       setDisplayList(
         prevItems.map((product) => ({
@@ -207,13 +242,10 @@ export function useFilterTransition(allProducts, filter) {
           itemPhase: exitingIds.has(product.id) ? 'exiting' : 'stable',
         }))
       );
-
       addTimeout(startReflow, FILTER_TRANSITION.fadeOut);
     } else if (hasEntering) {
-      // 퇴장 없음 → Phase 1 스킵, 바로 REFLOW
       startReflow();
     } else {
-      // 변화 없음 (방어 코드)
       setPhase('idle');
       setDisplayList(
         nextItems.map((product) => ({ product, itemPhase: 'stable' }))
@@ -222,7 +254,9 @@ export function useFilterTransition(allProducts, filter) {
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [filter, allProducts, cancelAnimation, addTimeout, cleanupFlipStyles]);
 
-  // --- FLIP: reflow 단계에서 위치 보간 ---
+  /**
+   * FLIP: reflow 단계에서 L자형 위치 보간
+   */
   useLayoutEffect(() => {
     if (phase !== 'reflow') return;
 
@@ -230,6 +264,9 @@ export function useFilterTransition(allProducts, filter) {
     const stayingIds = stayingIdsRef.current;
 
     if (firstRects.size === 0 || stayingIds.size === 0) return;
+
+    const stepMs = FILTER_TRANSITION.flipStep;
+    const easing = FILTER_TRANSITION.easing.flip;
 
     stayingIds.forEach((id) => {
       const el = elementMapRef.current.get(id);
@@ -241,18 +278,34 @@ export function useFilterTransition(allProducts, filter) {
       const deltaX = firstRect.left - lastRect.left;
       const deltaY = firstRect.top - lastRect.top;
 
-      // 위치 변화가 미미하면 스킵
-      if (Math.abs(deltaX) < 1 && Math.abs(deltaY) < 1) return;
+      const hasX = Math.abs(deltaX) >= 1;
+      const hasY = Math.abs(deltaY) >= 1;
 
-      // Invert: 이전 위치로 즉시 이동 (깜빡임 방지)
+      if (!hasX && !hasY) return;
+
+      // Invert
       el.style.transition = 'none';
       el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
-      // Play: 새 위치로 부드럽게 이동
+      // Play
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          el.style.transition = `transform ${FILTER_TRANSITION.reflow}ms ${FILTER_TRANSITION.easing.flip}`;
-          el.style.transform = 'translate(0, 0)';
+          if (hasX && hasY) {
+            el.style.transition = `transform ${stepMs}ms ${easing}`;
+            el.style.transform = `translate(0, ${deltaY}px)`;
+
+            const stepId = setTimeout(() => {
+              el.style.transition = `transform ${stepMs}ms ${easing}`;
+              el.style.transform = 'translate(0, 0)';
+            }, stepMs);
+            timeoutsRef.current.push(stepId);
+          } else if (hasX) {
+            el.style.transition = `transform ${stepMs}ms ${easing}`;
+            el.style.transform = `translate(0, ${deltaY}px)`;
+          } else {
+            el.style.transition = `transform ${stepMs}ms ${easing}`;
+            el.style.transform = 'translate(0, 0)';
+          }
         });
       });
     });
@@ -269,6 +322,7 @@ export function useFilterTransition(allProducts, filter) {
     displayList,
     phase,
     registerRef,
+    containerRef,
     isAnimating: phase !== 'idle',
   };
 }

@@ -587,17 +587,17 @@ function parseArgs() {
 
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
-    case '--ids':
-      options.ids = args[++i].split(',').map(Number);
-      break;
-    case '--mode':
-      options.mode = args[++i];
-      break;
-    case '--dry-run':
-      options.dryRun = true;
-      break;
-    case '--help':
-      console.log(`
+      case '--ids':
+        options.ids = args[++i].split(',').map(Number);
+        break;
+      case '--mode':
+        options.mode = args[++i];
+        break;
+      case '--dry-run':
+        options.dryRun = true;
+        break;
+      case '--help':
+        console.log(`
 Lumenstate Product Image Generator
 
 Workflow:
@@ -618,7 +618,7 @@ Examples:
   --ids 1,2 --mode day     Generate only day images for products 1, 2
   --mode night             Generate night images using existing day images as reference
 `);
-      process.exit(0);
+        process.exit(0);
     }
   }
 

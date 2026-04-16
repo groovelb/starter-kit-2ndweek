@@ -1,9 +1,10 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useCallback, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CustomCard } from '../card/CustomCard';
 import { TimeBlendImage } from '../media/TimeBlendImage';
+import { useSharedTransition } from '../../contexts/SharedTransitionContext';
 
 /**
  * ProductCard 컴포넌트
@@ -46,6 +47,8 @@ const ProductCard = forwardRef(function ProductCard({
   sx,
   ...props
 }, ref) {
+  const { activeId, isAnimating, startTransition } = useSharedTransition();
+  const imageRef = useRef(null);
   const { title, type, lux, kelvin, images } = product;
 
   /**
@@ -62,6 +65,17 @@ const ProductCard = forwardRef(function ProductCard({
       nightImage: images[1] || images[0] || null,
     };
   }, [images]);
+
+  /**
+   * 클릭 핸들러: 이미지 rect 캡처 → shared transition 시작 → navigate
+   */
+  const handleClick = useCallback(() => {
+    const rect = imageRef.current?.getBoundingClientRect();
+    if (rect && dayImage) {
+      startTransition(product.id, rect, { day: dayImage, night: nightImage }, timeline);
+    }
+    if (onClick) onClick();
+  }, [onClick, product.id, dayImage, nightImage, timeline, startTransition]);
 
   /**
    * 타입 태그 라벨
@@ -99,16 +113,28 @@ const ProductCard = forwardRef(function ProductCard({
       );
     }
 
+    // 오버레이가 이 카드의 이미지를 대체 중이면 투명 처리
+    const isOverlayActive = activeId === product.id && isAnimating;
+
     return (
-      <TimeBlendImage
-        dayImage={ dayImage }
-        nightImage={ nightImage }
-        timeline={ timeline }
-        alt={ title }
-        aspectRatio="auto"
-        objectFit="cover"
-        sx={ { width: '100%', height: '100%' } }
-      />
+      <Box
+        ref={imageRef}
+        sx={{
+          width: '100%',
+          height: '100%',
+          opacity: isOverlayActive ? 0 : 1,
+        }}
+      >
+        <TimeBlendImage
+          dayImage={ dayImage }
+          nightImage={ nightImage }
+          timeline={ timeline }
+          alt={ title }
+          aspectRatio="auto"
+          objectFit="cover"
+          sx={ { width: '100%', height: '100%' } }
+        />
+      </Box>
     );
   };
 
@@ -122,7 +148,7 @@ const ProductCard = forwardRef(function ProductCard({
       contentPadding="none"
       variant="ghost"
       isInteractive
-      onClick={ onClick }
+      onClick={ handleClick }
       hoverMediaScale={ hoverMediaScale }
       { ...props }
     >
